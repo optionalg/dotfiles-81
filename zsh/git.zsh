@@ -13,25 +13,20 @@ type git 2>&1 > /dev/null && {
     gc() {
         git clone "$@" || return 1
 
-        test ! -z "$2" && {
+        test -z "$2" && {
             CLONED="$(printf '%s\n' "$@" | rev | cut -d'/' -f 1 | rev)"
-            printf '%s\n' "$CLONED" | grep -q ".git" && {
-                CLONED="$(printf '%s\n' "$CLONED" | rev | cut -d'.' -f 2- | rev)"
-            }
         } || {
             CLONED="$2"
         }
 
-        # test -d "$PWD/$CLONED" && cd "$PWD/$CLONED"
+        test -d "$PWD/$CLONED" && cd "$PWD/$CLONED"
 
-        echo $CLONED
-
-        # test -d "$CLONED/.hooks" && {
-        #     printf '%s\n' "Deploy hooks? [Y/n]: "; while read -r confirm; do
-        #         confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
-        #         test "$confirm" = "n" && break || hooks
-        #     done
-        # }
+        test -d "./.hooks" && {
+            printf '%s' "Deploy hooks? [Y/n]: "; while read -r confirm; do
+                confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
+                test "$confirm" = "n" && break || {deployhooks; break;}
+            done
+        }
 
         unset -v CLONED
     }
@@ -106,7 +101,7 @@ type git 2>&1 > /dev/null && {
                 ln -sv "$TOPDIR" "$GITDIR"
             }
 
-            unset TOPDIR GITDIR
+            unset -v TOPDIR GITDIR
         } || {
             printf '%s\n' "You're not inside a git directory!"
             return 1
@@ -129,7 +124,7 @@ type git 2>&1 > /dev/null && {
                 printf '%s\n' "Custom hooks directory already exists!"
             }
 
-            unset TOPDIR GITDIR
+            unset -v TOPDIR GITDIR
         } || {
             printf '%s\n' "You're not inside a git directory!"
             return 1
