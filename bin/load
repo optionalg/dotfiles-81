@@ -2,22 +2,19 @@
 #
 # wildefyr - 2016 (c) wtfpl
 # link load with extra tweaks for wmutils
-# with thanks to z3bra for the idea
 
 URL="$1"
 
+# conversion layer to get URL to the raw pastes
 rawp() {
     case "$URL" in
-        *paste.lisp.org/*)
-            URL="$(echo $URL)/raw"
-            ;;
-        *pastebin.com/*)
-            URL="http://pastebin.com/raw/$(echo $URL | cut -d/ -f 4)"
-            ;;
-        *pbin.in/*)
+        "*pbin.in/*")
             URL="http://pbin.in/raw/$(echo $URL | cut -d/ -f 4)"
             ;;
-        *paste.list.org/*)
+        "*pastebin.com/*")
+            URL="http://pastebin.com/raw/$(echo $URL | cut -d/ -f 4)"
+            ;;
+        "*paste.list.org/*")
             URL="http://paste.lisp.org/display/$(echo $URL | cut -d/ -f 4)/raw"
             ;;
     esac
@@ -39,34 +36,42 @@ printf '%s\n' "$URL" | xsel -pi
 printf '%s\n' "$URL" | xsel -si
 printf '%s\n' "$URL" | xsel -bi
 
+pkill xsel
+
 case "$URL" in
-    *.gifv|*.webm)
+    "*.gifv"|"*.webm")
         exec mpv "$URL" --really-quiet --loop-file &
         ;;
-    *.jp*g|*.png|*.webm|*.gif|*gfycat.com/*)
+    "*.jp*g"|"*.png"|"*.webm"|"*.gif"|"*gfycat.com/*")
         mediad "$URL"
         ;;
-    *imgur.com/a/?????*)
+    "*imgur.com/a/?????*")
         openBrowser
         ;;
-    *imgur.com/???????*)
+    "*imgur.com/???????*")
         URL=$(printf '%s\n' "${URL}.png")
         mediad "$URL"
         ;;
-    *.mkv|*.mp4|*.ogv|*youtube.com/watch*|*youtu.be/*|*.googlevideo.com/videoplayback*)
+    "*.mkv"|"*.mp4"|"*.ogv"|"*youtu.be/*"|"*youtube.com/watch*"|\
+    "*.googlevideo.com/videoplayback*")
         exec mpv "$URL" --really-quiet &
         ;;
-    *twitch.tv/*)
-        livestreamer "$URL" source -Q
+    "*twitch.tv/*")
+        type livestreamer 2>&1 > /dev/null && {
+            livestreamer "$URL" source -Q
+        } || {
+            mpv "$URL"
+        }
         ;;
-    gopher://*)
+    "gopher://*")
         urxvt -e cgo "$URL"
         ;;
-    *paste.lisp.org/*|*pastebin.com/raw*|*pbin.in/*)
-        rawp
+    "*.txt"|"*ix.io/*"|"*p.iotek.org/*"|"*sprunge.us/*"|"*bpaste.net/*"|\
+    "*pastebin.com/raw*"|"*pbin.in/raw*")
         urxvt -name "paste" -e zsh -i -c "curl -s '$URL' | $EDITOR -"
         ;;
-    *.txt|*ix.io/*|*p.iotek.org/*|*sprunge.us/*|*bpaste.net/*|*pastebin.com*|*pbin.in/raw*)
+    "*paste.lisp.org/*"|"*pastebin.com/*"|"*pbin.in/*")
+        rawp
         urxvt -name "paste" -e zsh -i -c "curl -s '$URL' | $EDITOR -"
         ;;
     *)

@@ -1,13 +1,9 @@
 # sys
 alias s="sudo"
 alias se="sudo -e"
-alias hn="hostname"
-alias dlog="dmesg | tail -n 30 | ccze -A"
-alias disks="df -h | grep \"/dev/\" | sort -h | ccze -A"
 alias sys="watch -c -n 1 -p \"df -h | grep \"/dev/\" | sort -h; echo; free -h; \
 echo; ps xgf\""
 
-alias psusr="ps xgf"
 alias motd="cat /etc/motd"
 alias issue="cat /etc/issue"
 
@@ -43,7 +39,6 @@ alias sza="sz && sz * | sort -hr"
 alias szt="t -h --du --sort=size"
 
 alias findfile="find . -maxdepth 1 -exec file {} \;"
-alias findexec="find . -maxdepth 1 -type f -executable"
 
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"

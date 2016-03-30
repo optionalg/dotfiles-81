@@ -16,7 +16,9 @@ chpwd() {
     test -z "$(ls -1)" && {
         printf '%s\n' "${f5}Directory is empty!${R}"
     } || {
-        ls --color=auto -F -N }
+        ls --color=auto -F -N
+    }
+
     printf '\n'
 
     # set window title to path name
@@ -34,10 +36,39 @@ zshrc() {
     cd $RWD
 }
 
+dlog() {
+    type ccze 2>&1 > /dev/null && {
+        dmesg | tail -n 30 | ccze -A
+    } || {
+        dmesg | tail -n 30
+    }
+}
+
+disks() {
+    type ccze 2>&1 > /dev/null && {
+        df -h | grep \"/dev/\" | sort -h | ccze -A
+    } || {
+        df -h | grep \"/dev/\" | sort -h
+    }
+}
+
+psusr() {
+    ps xgf "$@" | sed '1d'
+}
+
+
 pdf() {
     mupdf "$@" &!
 }
 
 mps() {
     mpsyt userpl wildefyri "$@"
+}
+
+findexec() {
+    find . -maxdepth 1 -type f -executable | sort
+}
+
+editexec() {
+    $EDITOR $(findexec)
 }

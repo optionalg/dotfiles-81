@@ -39,6 +39,14 @@ type git 2>&1 > /dev/null && {
         }
     }
 
+    ggrep() {
+        type ccze 2>&1 > /dev/null && {
+            git grep "$@" | tac - | ccze -A
+        } || {
+            git grep "$@" | tac -
+        }
+    }
+
     gph() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
             printf '\n%s\n\n' "$(wild)"

@@ -20,7 +20,6 @@ EXECPATHS="\
 /opt/sbin
 $DOTS/bin
 $HOME/.fzf/bin
-/builds/fyre
 /builds/go/bin
 /usr/local/bin"
 
