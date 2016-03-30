@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# wildefyr - 2015 (c) wtfpl
+# change graphics provider based on kernel version
+
+if [[ $(uname -r) == *4.3.0* ]]; then
+    sed -i 's/nvidia/modesetting/' /etc/X11/xorg.conf.d/20-nvidia.conf
+else
+    sed -i 's/modesetting/nvidia/' /etc/X11/xorg.conf.d/20-nvidia.conf
+fi

@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# wildefyr - 2015 (c) wtfpl
+# sick console menu
+
+. ~/.zsh/environment.zsh
+
+while :; do
+    $BIN/sysinfo
+    printf '%s'"\033[0;36m>> \033[0;37m"; read -r action
+    clear
+    case "$action" in
+        e|exit)     exit                         ;;
+        x|xinit)    xinit                        ;;
+        z|zsh)      zsh                          ;;
+        s|ssh)      con                          ;;
+        r|reboot)   power -r                     ;;
+        p|poweroff) power -p                     ;;
+        d|dtach)    dtach -A /tmp/irc -z weechat ;;
+        m|muxserv)  tmux attach || tmux new      ;;
+    esac
+done

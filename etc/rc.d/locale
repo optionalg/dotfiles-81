@@ -1,0 +1,18 @@
+#
+# /etc/rc.d/locale: set locale on boot
+#
+
+case $1 in
+	start)
+        LANG="en_US.UTF-8"
+		;;
+	restart)
+        LANG="en_US.UTF-8"
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart]"
+		;;
+esac
+
+# End of file
+

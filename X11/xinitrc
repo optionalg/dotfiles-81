@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# environment
+xsetroot -name background
+xsetroot -cursor_name left_ptr
+
+xset +fp ~/.fonts
+xset fp rehash
+xset -dpms
+
+bgc
+bar
+xrdb -load ~/.Xresources
+
+keys
+sxhkd -f 50 &
+
+exec runfyre

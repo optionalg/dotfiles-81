@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# set colours for framebuffer
+
+test "$TERM" = "linux" && {
+    echo -en "\e]P014161A"
+    echo -en "\e]P814161A"
+    echo -en "\e]P14B1A2C"
+    echo -en "\e]P94B1A2C"
+    echo -en "\e]P22E8B57"
+    echo -en "\e]PA2E8B57"
+    echo -en "\e]P3A74D0D"
+    echo -en "\e]PBA74D0D"
+    echo -en "\e]P41F4153"
+    echo -en "\e]PC1F4153"
+    echo -en "\e]P5B23450"
+    echo -en "\e]PDB23450"
+    echo -en "\e]P6737373"
+    echo -en "\e]PE737373"
+    echo -en "\e]P7D7D7D7"
+    echo -en "\e]PFD7D7D7"
+}

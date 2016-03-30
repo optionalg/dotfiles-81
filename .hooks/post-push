@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. ~/.zsh/environment.zsh
+
+MINIMAL="$HOME/.minimal-dotfiles"
+
+find $MINIMAL -maxdepth 1 -type d -mtime +1 -exec rm -rf {} \;
+rsync -arq $DOTS/bin $DOTS/git $DOTS/vim $DOTS/zsh $DOTS/tmuxinator $MINIMAL
+
+cd "$MINIMAL"
+git add . && git commit -m "$(date +%D): latest"
+git push || exit 130
