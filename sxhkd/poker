@@ -95,7 +95,7 @@ mod1 + z
 button8
     xte 'keydown Control_L' 'key w' 'keyup Control_L'
 button9
-    xte 'keydown Control_L' 'keydownShift_L' 'key t' 'keyupShift_L' \
+    xte 'keydown Control_L' 'keydown Shift_L' 'key t' 'keyup Shift_L' \
         'keyup Control_L'
 
 # mpv

@@ -8,13 +8,14 @@ DOTFILEDIR=${dotfiledir:-$HOME/.dotfiles}
 
 usage() {
     cat << EOF
-Usage $(basename $0) <core|nvim|xorg|all>
+Usage $(basename $0) <core|nvim|xorg|crux|all>
 EOF
 
     test -z $1 || exit $1
 }
 
 core() {
+    test ! -d ~/.vim && mkdir -p $HOME/.vim
     ln $OPTIONS $DOTFILEDIR/vim/vimrc $HOME/.vim/vimrc
     ln $OPTIONS $DOTFILEDIR/vim/colors $HOME/.vim/colors
     ln $OPTIONS $DOTFILEDIR/vim/vimpagerrc $HOME/.vim/vimpagerrc
@@ -25,10 +26,11 @@ core() {
     ln $OPTIONS $DOTFILEDIR/tmuxinator $HOME/.tmuxinator
     ln $OPTIONS $DOTFILEDIR/tmuxinator/tmux.conf $HOME/.tmux.conf
     ln $OPTIONS $DOTFILEDIR/git/gitconfig $HOME/.gitconfig
+
 }
 
 nvim() {
-    test ! -d ~/.config/nvim && mkdir $HOME/.config/nvim
+    test ! -d ~/.config/nvim && mkdir -p $HOME/.config/nvim
     ln $OPTIONS $DOTFILEDIR/vim/vimrc $HOME/.config/nvim/init.vim
     ln $OPTIONS $DOTFILEDIR/vim/colors $HOME/.config/nvim/colors
     ln $OPTIONS $HOME/.vim/autoload $HOME/.config/nvim/autoload
@@ -51,12 +53,24 @@ xorg() {
     ln $OPTIONS $DOTFILEDIR/sxiv $HOME/.config/sxiv
     ln $OPTIONS $DOTFILEDIR/youtube-dl $HOME/.config/youtube-dl
     ln $OPTIONS $DOTFILEDIR/bindings $HOME/.bindings
+
+    ln $OPTIONS $DOTFILEDIR/alsa/asoundrc $HOME/.asoundrc
 }
 
+crux() {
+    type crux 2>&1 > /dev/null && {
+        sudo cp $DOTFILEDIR/etc/pkgmk.conf /etc/pkgmk.conf
+        sudo cp $DOTFILEDIR/etc/prt-get.conf /etc/prt-get.conf
+        sudo cp $DOTFILEDIR/etc/ports/* /etc/ports/
+
+        sudo cp $DOTFILEDIR/etc/grub.cfg /boot/grub/grub.cfg
+    }
+}
 all() {
     core
     nvim
     xorg
+    crux
 }
 
 case $1 in
@@ -64,5 +78,6 @@ case $1 in
     c|core) core    ;;
     n|nvim) nvim    ;;
     x|xorg) xorg    ;;
+    C|crux) crux    ;;
     *)      usage 0 ;;
 esac

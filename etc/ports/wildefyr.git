@@ -1,5 +1,5 @@
 # collection wildefyr, https://github.com/wildefyr/wild-crux-ports
 
 NAME=wildefyr
-URL=https://github.com/wildefyr/wild-crux-ports
+URL=git@github.com:wildefyr/wild-crux-ports.git
 BRANCH=master

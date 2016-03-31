@@ -118,4 +118,13 @@ type crux 2>&1 > /dev/null && {
     fuckthisfuckthatfuckeverything() {
         sudo prt-get update $(prt-get listinst) -fr
     }
+
+    buildkernal() {
+        test -d "./arch" && {
+            make
+            modinstall
+            instkern
+            s depmod -a
+        }
+    }
 }
