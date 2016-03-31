@@ -13,17 +13,17 @@ mod1 + Tab
 mod4 + Tab
     focus next
 mod1 + {h,j,k,l}
-    closest {h,j,k,l}
+    closest {--left,--down,--up,--right}
 mod4 + {h,j,k,l}
-    snap {h,j,k,l}
+    snap {--left,--down,--up,--right}
 mod1 + shift + {h,j,k,l}
-    move {left,down,up,right}
+    move {--left,--down,--up,--right}
 mod4 + shift + {h,j,k,l}
-    move {left,down,up,right}
+    move {--left,--down,--up,--right}
 
 # resize window
 mod4 + {w,a,s,d}
-    resize {su,sl,gd,gr}
+    resize {--shrinkup,--shrinkleft,--growdown,--growright}
 
 # window stacking order
 mod1 + u
@@ -35,7 +35,7 @@ mod1 + y
 
 # manual window management
 mod1 + g
-    snap md
+    snap --middle
 mod1 + {q,w,e,r,a,s}
     position {lft,ext,rht,full,res,vid}
 mod1 + f
@@ -61,16 +61,11 @@ mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
 
 # terminals
 mod1 + Return
-    urxvt -cd "$HOME"
+    urxvtc -cd "$HOME"
 mod2 + Return
     pather
 mod1 + d
     drun
-
-Print
-   shot
-shift + Print
-   shot; ioup $HOME/shot.png | xsel -i; xsel -o | xsel -bi; rm $HOME/shot.png
 
 # it's a killin' time!
 mod1 + shift + q
@@ -90,7 +85,7 @@ button2
 mod1 + !button3
     wrs -a %i %i $(pfw)
 mod1 + z
-    mouse toggle
+    mouse --toggle
 
 # mpv
 mod1 + space
@@ -120,7 +115,7 @@ mod2 + Down
 mod2 + q
     mpvc -x -0.05 -q
 mod2 + w
-    mpvc -x 0.05 -q
+    mpvc -x +0.05 -q
 mod2 + e
     mpvc -X 1.00 -q
 
@@ -128,7 +123,7 @@ mod2 + e
 mod2 + o
     mpvc -v -5 -q
 mod2 + p
-    mpvc -v 5 -q
+    mpvc -v +5 -q
 
 # chrbook function keys
 {F6,F7}

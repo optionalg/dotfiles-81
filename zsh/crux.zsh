@@ -86,16 +86,23 @@ type crux 2>&1 > /dev/null && {
 
     prtupgrade() {
         s ports -u
+
         prt-get diff
 
-        printf '\n%s' "Upgrade Now? [Y/n]: "; while read -r confirm; do
-            confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
-            test "$confirm" = "n" && return 0 || break
-        done
+        test ! -z "$(prt-get quickdiff)" && {
+            printf '\n%s' "Upgrade Now? [Y/n]: "; while read -r confirm; do
+                confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
+                test "$confirm" = "n" && return 0 || break
+            done
+        }
 
         s prt-get sysup
 
         unset -v confirm
+    }
+
+    prtrebuild() {
+        prtupdate $(prt-get quickdep "$1")
     }
 
     rebuildcore() {

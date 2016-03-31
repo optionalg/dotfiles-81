@@ -33,7 +33,18 @@ zshrc() {
 
     . ~/.zshrc
 
-    cd $RWD
+    test "$PWD" != "$RWD" && cd $RWD
+
+    unset -v RWD
+}
+
+out() {
+    PASTE="/tmp/paste"
+    test -f "$PASTE" && {
+        cat "$PASTE"
+    }
+
+    unset -v PASTE
 }
 
 dlog() {
@@ -70,5 +81,15 @@ findexec() {
 }
 
 editexec() {
-    $EDITOR $(findexec)
+    $EDITOR $(findexec) "$@"
+}
+
+findfile() {
+    type ccze 2>&1 > /dev/null && {
+        file $(find . -maxdepth 1) | sed '1d' | cut -c 3- | \
+        grep -v ".git" | sort -k2 | ccze -A
+    } || {
+        file $(find . -maxdepth 1) | sed '1d' | cut -c 3- | \
+        grep -v ".git" | sort -k2
+    }
 }
