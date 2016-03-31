@@ -4,11 +4,11 @@ type git 2>&1 > /dev/null && {
     alias gb="git branch"
     alias gr="git remote"
     alias gco="git cm"
-    alias gcc="git cached"
     alias gck="git checkout"
     alias gpl="git pull"
     alias gplr="git pull --rebase"
     alias gpop="git stash pop"
+    alias gcache="git cached"
 
     gc() {
         git clone "$@" || return 1

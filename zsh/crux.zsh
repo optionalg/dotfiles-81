@@ -85,7 +85,7 @@ type crux 2>&1 > /dev/null && {
     }
 
     prtupgrade() {
-        s ports -u
+        s ports -u || return 1
 
         prt-get diff
 
@@ -93,12 +93,15 @@ type crux 2>&1 > /dev/null && {
             printf '\n%s' "Upgrade Now? [Y/n]: "; while read -r confirm; do
                 confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
                 test "$confirm" = "n" && return 0 || break
+                unset -v confirm
             done
         }
 
-        s prt-get sysup
+        # set permissions to current user
+        s chown $(echo $USER):users -R $PORTS/* || return 1
 
-        unset -v confirm
+        # upgrade packages marked
+        s prt-get sysup || return 1
     }
 
     prtrebuild() {
