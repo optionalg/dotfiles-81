@@ -27,9 +27,9 @@ mod4 + {w,a,s,d}
 
 # window stacking order
 mod1 + u
-    chwso -l $(pfw); closest h
+    chwso -l $(pfw); closest --left
 mod1 + i
-    chwso -l $(pfw); closest l
+    chwso -l $(pfw); closest --right
 mod1 + y
     hover $(pfw)
 

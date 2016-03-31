@@ -40,10 +40,7 @@ zshrc() {
 
 out() {
     PASTE="/tmp/paste"
-    test -f "$PASTE" && {
-        cat "$PASTE"
-    }
-
+    test -f "$PASTE" && cat "$PASTE"
     unset -v PASTE
 }
 
@@ -57,14 +54,18 @@ dlog() {
 
 disks() {
     type ccze 2>&1 > /dev/null && {
-        df -h | grep \"/dev/\" | sort -h | ccze -A
+        df -h | grep "/dev/" | sort -h | ccze -A
     } || {
-        df -h | grep \"/dev/\" | sort -h
+        df -h | grep "/dev/" | sort -h
     }
 }
 
 psusr() {
-    ps xgf "$@" | sed '1d'
+    type ccze 2>&1 > /dev/null && {
+        ps xgf "$@" | sed '1d; s/--type.*//' | ccze -A
+    } || {
+        ps xgf "$@" | sed '1d; s/--type.*//'
+    }
 }
 
 

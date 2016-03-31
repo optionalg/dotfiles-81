@@ -3,7 +3,7 @@ alias s="sudo"
 alias se="sudo -e"
 
 alias sys="watch -n 1 -p \"df -h | grep '/dev/' | sort -h && printf '\n' && \
-free -h && printf '\n' && ps xgf\""
+free -h && printf '\n' && ps xgf | sed '1d; s/--type.*//'\""
 
 # permissions
 alias chmox="chmod +x"
@@ -21,15 +21,26 @@ alias mmv="noglob zmv -W"
 alias rsync="rsync -arvp --progress -h"
 
 alias l="ls"
-alias la="ls -a"
-alias ll="ls -lh"
-alias lla="ls -lha"
-alias lls="ls -lhs"
-alias llt="ls -lht"
-alias llx="ls -lhX"
-alias llsa="ls -lhsa"
-alias llta="ls -lhta"
-alias llxa="ls -lhXa"
+
+type ccze 2>&1 > /dev/null && {
+    alias ll="ls -lh | ccze -A"
+    alias lla="ls -lha | ccze -A"
+    alias lls="ls -lhs | ccze -A"
+    alias llt="ls -lht | ccze -A"
+    alias llx="ls -lhX | ccze -A"
+    alias llsa="ls -lhsa | ccze -A"
+    alias llta="ls -lhta | ccze -A"
+    alias llxa="ls -lhXa | ccze -A"
+} || {
+    alias ll="ls -lh"
+    alias lla="ls -lha"
+    alias lls="ls -lhs"
+    alias llt="ls -lht"
+    alias llx="ls -lhX"
+    alias llsa="ls -lhsa"
+    alias llta="ls -lhta"
+    alias llxa="ls -lhXa"
+}
 
 alias sz="du -hs"
 alias t="clear; sz; tree"

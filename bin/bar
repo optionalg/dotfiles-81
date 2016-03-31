@@ -33,6 +33,7 @@ barh=$((25))
 bar_bg='#66D7D7D7'
 
 backbar $barx $bary $barw $barh $bar_bg &
+sleep 0.1
 
 barh=$((barh - BW))
 bar_bg='#03070B'

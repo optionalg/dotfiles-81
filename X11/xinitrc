@@ -1,7 +1,11 @@
 #!/bin/sh
 
+xsetroot -name background
+xsetroot -cursor_name left_ptr
+
 xset +fp ~/.fonts
 xset fp rehash
+xset -dpms
 
 bgc
 bar
