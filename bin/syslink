@@ -59,11 +59,8 @@ xorg() {
 
 crux() {
     type crux 2>&1 > /dev/null && {
-        sudo cp $DOTFILEDIR/etc/pkgmk.conf /etc/pkgmk.conf
-        sudo cp $DOTFILEDIR/etc/prt-get.conf /etc/prt-get.conf
         sudo cp $DOTFILEDIR/etc/ports/* /etc/ports/
-
-        sudo cp $DOTFILEDIR/etc/grub.cfg /boot/grub/grub.cfg
+        sudo cp $DOTFILEDIR/etc/pkgmk.conf /etc/pkgmk.conf
     }
 }
 all() {

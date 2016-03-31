@@ -12,12 +12,19 @@ B='[1m'; R='[0m'; I='[7m'
 USER="$USER"
 HOST="$(hostname)"
 
-test "$HOST" = "fyr-crux" && {
+type crux 2>&1 > /dev/null && {
     SYS="$(crux)"
     PACK="$(pkginfo -i | wc -l)"
 } || {
-    SYS="DEBIAN version $(cat /etc/debian_version)"
-    PACK=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
+    # test systemd distros
+    type hostnamectl 2>&1 > /dev/null && {
+        OS=$(hostnamectl | grep "Operating System:")
+
+        printf '%s\n' "$OS" | grep -q "Debian" && {
+            SYS="DEBIAN version $(cat /etc/debian_version)"
+            PACK=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
+        }
+    }
 }
 
 KERN="$(uname -sr)"
