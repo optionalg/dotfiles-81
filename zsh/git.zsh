@@ -1,14 +1,15 @@
 type git 2>&1 > /dev/null && {
-    alias gs="git stat"
+
+    # general
     alias ga="git add"
     alias gb="git branch"
     alias gr="git remote"
-    alias gco="git cm"
+    alias gs="git status -sb"
+    alias gco="git commit -m"
     alias gck="git checkout"
     alias gpl="git pull"
     alias gplr="git pull --rebase"
     alias gpop="git stash pop"
-    alias gcache="git cached"
 
     gc() {
         git clone "$@" || return 1
@@ -31,6 +32,9 @@ type git 2>&1 > /dev/null && {
         unset -v CLONED
     }
 
+    # diffs and shit
+    alias gcache="git cached"
+
     gd() {
         type cliff 2>&1 > /dev/null && {
             git diff "$@" | cat - | cliff
@@ -47,6 +51,7 @@ type git 2>&1 > /dev/null && {
         }
     }
 
+    # pushing
     gph() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
             printf '\n%s\n\n' "$(wild)"
@@ -59,6 +64,7 @@ type git 2>&1 > /dev/null && {
         unset -v POSTPUSH
     }
 
+    # stashes
     stashed() {
         type ccze 2>&1 > /dev/null && {
             git stashed "$@" | tac - | ccze -A
@@ -67,7 +73,7 @@ type git 2>&1 > /dev/null && {
         }
     }
 
-    paststash() {
+    prevstash() {
         type ccze 2>&1 > /dev/null && {
             git stash show | cat - | ccze -A
         } || {
@@ -75,6 +81,7 @@ type git 2>&1 > /dev/null && {
         }
     }
 
+    # history
     gg() {
         type ccze 2>&1 > /dev/null && {
             git graph "$@" | tac - | sed 's_/_|_g; s_\\_|_g' | ccze -A
@@ -99,6 +106,29 @@ type git 2>&1 > /dev/null && {
         }
     }
 
+    # remotes
+    setremote() {
+        test -z "$(git remote)" && {
+            git remote add origin "$@"
+        } || {
+            get remote set-url origin "$@"
+        }
+    }
+
+    addremote() {
+        test -z "$(git remote)" && {
+            git remote add origin "$1"
+        } || {
+            test $# -lt 2 && {
+                printf '%s\n' "Specify remote name!"
+                return 1
+            }
+
+            get remote add "$2" "$1"
+        }
+    }
+
+    # hooks
     deployhooks() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
             TOPDIR="$(git rev-parse --show-toplevel)/.hooks"
