@@ -5,13 +5,13 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " auto install plug if not found
-if empty(glob('~/.vim/autoload/plug.vim'))
+if empty(glob('$HOME/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('$HOME/.vim/plugged')
 Plug 'junegunn/vim-easy-align'                          " Align Text
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'                                 " fuzzyFile
@@ -160,8 +160,8 @@ nnoremap <C-k> <C-b>
 nmap <Leader><Space> %
 
 " manipulating text in normal mode
-map <C-h> i<C-h><Esc>
-nnoremap <Tab> i<Tab><Esc>l
+map <C-h> i<C-h><ESC>
+nnoremap <Tab> i<Tab><ESC>l
 nnoremap <CR> i<CR><ESC>
 
 " formatting options
@@ -179,6 +179,10 @@ nnoremap ` '
 nnoremap ' `
 nnoremap # *
 nnoremap * #
+
+" I actually like C-a and C-e from emacs, sue me
+imap <C-a> <esc>0i
+imap <C-e> <esc>$i<right>
 
 " clean whitespace
 nmap <Leader>z mz:%s/\s\+$<CR>'z:w<CR>:noh<CR>

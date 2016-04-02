@@ -8,5 +8,6 @@ test -z "$1" && {
     exit 1
 }
 
-sh -x "$@" 2> /tmp/shtrace
-$EDITOR /tmp/shtrace
+sh -x "$@" 2> $PWD/.shtrace
+$EDITOR $PWD/.shtrace
+rm $PWD/.shtrace

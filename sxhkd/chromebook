@@ -30,7 +30,7 @@ mod1 + u
     chwso -l $(pfw); closest --left
 mod1 + i
     chwso -l $(pfw); closest --right
-mod1 + y
+mod1 + p
     hover $(pfw)
 
 # manual window management

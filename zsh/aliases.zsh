@@ -57,6 +57,7 @@ alias ixpaste="curl -F \"f:1=<-\" ix.io | xsel -i; xsel -o | xsel -ib"
 alias d="transmission-remote-cli"
 alias yt="youtube-dl -x -o \"%(title)s.%(ext)s\""
 
+alias hn="hostname"
 alias externalip="curl -s icanhazip.com"
 alias internalip="ifconfig | grep \"inet\" | cut -d\t -f 2 | cut -d\  -f 2 | \
 cut -d: -f 2 | grep -v \"127.0.0.1\" | grep -v \"\n\""

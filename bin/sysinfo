@@ -1,7 +1,23 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) CC
 # a fairly nice info script
+
+getSystem() {
+    type crux 2>&1 > /dev/null && {
+        SYS="$(crux)"
+        PACK="$(pkginfo -i | wc -l)"
+    }
+
+    type hostnamectl 2>&1 > /dev/null && {
+        OS=$(hostnamectl | grep "Operating System:")
+
+        printf '%s\n' "$OS" | grep -q "Debian\|Ubuntu" && {
+            SYS="DEBIAN version $(cat /etc/debian_version)"
+            PACK=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
+        }
+    }
+}
 
 f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
 f4='[34m'; f5='[35m'; f6='[36m'; f7='[37m'
@@ -12,20 +28,7 @@ B='[1m'; R='[0m'; I='[7m'
 USER="$USER"
 HOST="$(hostname)"
 
-type crux 2>&1 > /dev/null && {
-    SYS="$(crux)"
-    PACK="$(pkginfo -i | wc -l)"
-} || {
-    # test systemd distros
-    type hostnamectl 2>&1 > /dev/null && {
-        OS=$(hostnamectl | grep "Operating System:")
-
-        printf '%s\n' "$OS" | grep -q "Debian" && {
-            SYS="DEBIAN version $(cat /etc/debian_version)"
-            PACK=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
-        }
-    }
-}
+getSystem
 
 KERN="$(uname -sr)"
 TIME="$(uptime -p | sed s:"up "::)"
@@ -45,10 +48,6 @@ $f7$B$I$b6█$I$b0 $KERN - $TIME $R
 $f7$B$I$b6█$I$b0 $SYS - $PACK Packages $R
 EOF
 
-test ! -z "$M" && {
-    cat << MUSIC
-$f7$B$I$b6█$I$b0 $M $R
-MUSIC
-}
+test ! -z "$M" && printf '%s\n' "$f7$B$I$b6█$I$b0 $M $R"
 
 printf '\n'
