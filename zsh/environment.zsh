@@ -35,7 +35,7 @@ export GOPATH="/builds/go"
 export ruby="/usr/bin/ruby"
 
 # misc.
-export XDG_CONFIG_HOME="/home/wildefyr/.config"
+export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_RUNTIME_DIR="/tmp/runtime-wildefyr"
 
 export DL="$HOME/files/downloads"

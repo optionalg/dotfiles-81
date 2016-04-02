@@ -21,6 +21,7 @@ alias mmv="noglob zmv -W"
 alias rsync="rsync -arvp --progress -h"
 
 alias l="ls"
+alias la="ls -a"
 
 type ccze 2>&1 > /dev/null && {
     alias ll="ls -lh | ccze -A"
@@ -47,6 +48,7 @@ alias t="clear; sz; tree"
 alias sza="sz && sz * | sort -hr"
 alias szt="t -h --du --sort=size"
 
+alias hot="$EDITOR $DOTS/sxhkd/*"
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 

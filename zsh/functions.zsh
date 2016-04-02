@@ -38,6 +38,12 @@ zshrc() {
     unset -v RWD
 }
 
+updatedots() {
+    RWD=$PWD
+    cd $DOTS
+    git pull --rebase && cd $RWD
+}
+
 out() {
     PASTE="/tmp/paste"
     test -f "$PASTE" && cat "$PASTE"
