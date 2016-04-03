@@ -1,15 +1,9 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
-# I'm lazy okay? 
+# wildefyr - 2016 (c) CC
+# I'm lazy okay?
 
-ip="192.168.1.221"
-mac="50:e5:49:3e:19:67"
+IP="192.168.1.221"
+MAC="50:e5:49:3e:19:67"
 
-test "$(hostname)" = "wildefyr-chromebook" && {
-    cmd="wakeonlan"
-} || {
-    cmd="wol"
-}
-
-${cmd} -i ${ip} ${mac}
+wol -i ${IP} ${MAC}

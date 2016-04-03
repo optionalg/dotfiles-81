@@ -1,21 +1,12 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) CC
 # wrapper script around xscreenshot and ff2png
 
-fnmatch() {
-    case "$2" in
-        $1) return 0 ;;
-        *)  printf '%s\n' "Please enter a valid window id."; exit 1 ;;
-    esac
+IMG=${IMG:-./shot}
+
+test $# -gt 0 && {
+    wattr "$1" && {xscreenshot "$1" | ff2png > "${IMG}.png"; exit 0; }
 }
 
-img=${img:-./shot}
-
-test ! -z $1 && {
-    fnmatch '0x*' "$1" && {
-        xscreenshot "$1" | ff2png > "${img}.png"
-    }
-} || {
-    xscreenshot | ff2png > "${img}.png"
-}
+xscreenshot | ff2png > "${IMG}.png"
