@@ -1,4 +1,6 @@
 DOTS="$HOME/.dotfiles"
+alias hot="$EDITOR $DOTS/sxhkd/*"
+
 LOCALE="$HOME/.zsh/locale.sh"
 test -f "$LOCALE" && . $LOCALE
 
@@ -21,7 +23,9 @@ EXECPATHS="\
 $DOTS/bin
 $HOME/.fzf/bin
 /builds/go/bin
-/usr/local/bin"
+/usr/local/bin
+/usr/lib/ccache\
+"
 
 printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
     test -d "$EXECPATH" && export PATH="$PATH:$EXECPATH"
@@ -29,8 +33,12 @@ done
 
 unset EXECPATH
 
+# compiling
 export CC="/usr/bin/gcc"
 export CXX="/usr/bin/g++"
+export CCACHE_DIR="/var/cache/ccache"
+export CCACHE_COMPILERCHECK="%compiler% -dumpversion; crux"
+
 export GOPATH="/builds/go"
 export ruby="/usr/bin/ruby"
 
@@ -38,11 +46,11 @@ export ruby="/usr/bin/ruby"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_RUNTIME_DIR="/tmp/runtime-wildefyr"
 
-export DL="$HOME/files/downloads"
-export MUS="$HOME/files/music"
-export VID="/media/storage/videos"
-export IMG="/media/storage/pictures"
 export BIN="$DOTS/bin"
+export DWN="$HOME/files/downloads"
+export MUS="$HOME/files/music"
+export IMG="$HOME/files/pictures"
+export VID="/media/storage/videos"
 
 export IMGVIEW="mpv --really-quiet --input-unix-socket=/tmp/imagesocket --loop-file"
 export VIDPLAY="mpv --really-quiet --input-unix-socket=/tmp/mpvsocket"
@@ -82,13 +90,8 @@ type nvim 2>&1 > /dev/null && {
     }
 }
 
-type vimpager 2>&1 > /dev/null && {
-    export PAGER="vimpager"
-    export MANPAGER="vimpager"
-} || {
-    export PAGER="less"
-    export MANPAGER="less"
-}
+export PAGER="less"
+export MANPAGER="less"
 
 alias vi="$EDITOR"
 alias vim="$EDITOR"

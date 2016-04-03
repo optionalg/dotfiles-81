@@ -38,6 +38,17 @@ zshrc() {
     unset -v RWD
 }
 
+vimrc() {
+    RWD=$PWD
+
+    cd ~/.vim
+    $EDITOR ~/.vim/vimrc
+
+    test "$PWD" != "$RWD" && cd $RWD
+
+    unset -v RWD
+}
+
 updatedots() {
     RWD=$PWD
     cd $DOTS
@@ -48,6 +59,14 @@ out() {
     PASTE="/tmp/paste"
     test -f "$PASTE" && cat "$PASTE"
     unset -v PASTE
+}
+
+mem() {
+    type ccze 2>&1 > /dev/null && {
+        free -ht | ccze -A
+    } || {
+        free -ht
+    }
 }
 
 dlog() {

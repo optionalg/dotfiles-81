@@ -9,9 +9,9 @@ mod1 + shift + r
 
 # movement scripts
 mod1 + Tab
-    focus prev
+    focus --prev
 mod4 + Tab
-    focus next
+    focus --next
 mod1 + {h,j,k,l}
     closest {--left,--down,--up,--right}
 mod4 + {h,j,k,l}
@@ -64,8 +64,12 @@ mod1 + Return
     urxvtc -cd "$HOME"
 mod2 + Return
     pather
+
+# programs
 mod1 + d
     drun
+mod2 + b
+    urxvtc -name "ssh" -e zsh -c "con"
 
 # it's a killin' time!
 mod1 + shift + q
@@ -83,7 +87,7 @@ mod1 + @button1
 button2
     focus
 mod1 + !button3
-    wrs -a %i %i $(pfw)
+    focus; wrs -a %i %i $(pfw)
 mod1 + z
     mouse --toggle
 

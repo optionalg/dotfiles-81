@@ -48,7 +48,6 @@ alias t="clear; sz; tree"
 alias sza="sz && sz * | sort -hr"
 alias szt="t -h --du --sort=size"
 
-alias hot="$EDITOR $DOTS/sxhkd/*"
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
@@ -60,9 +59,8 @@ alias d="transmission-remote-cli"
 alias yt="youtube-dl -x -o \"%(title)s.%(ext)s\""
 
 alias hn="hostname"
-alias externalip="curl -s icanhazip.com"
-alias internalip="ifconfig | grep \"inet\" | cut -d\t -f 2 | cut -d\  -f 2 | \
-cut -d: -f 2 | grep -v \"127.0.0.1\" | grep -v \"\n\""
+alias external="curl -s icanhazip.com"
+alias internal="ip a | grep -w \"inet\" | awk '/192/ {print \$2}' | cut -d'/' -f 1"
 
 # dtach / tmux
 alias irc="dtach -A /tmp/irc -z weechat"

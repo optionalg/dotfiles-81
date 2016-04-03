@@ -152,7 +152,7 @@ type git 2>&1 > /dev/null && {
             GITDIR="$(git rev-parse --git-dir)/hooks"
 
             test ! -d "$TOPDIR" && {
-                rm -rf "$GITDIR/*.samples"
+                rm -rf $GITDIR/*.samples
                 cp -rf "$GITDIR" "$TOPDIR"
                 rm -rf "$GITDIR"
                 ln -sv "$TOPDIR" "$GITDIR"

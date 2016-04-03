@@ -3,7 +3,9 @@
 # wildefyr - 2016 (c) wtfpl
 # link load with extra tweaks for wmutils
 
-URL="$1"
+. fyrerc
+
+URL=$@
 
 # conversion layer to get URL to the raw pastes
 rawp() {
@@ -21,8 +23,11 @@ rawp() {
 }
 
 openBrowser() {
-    test ! -z "$(wid chrome)" && {
+    # chrome appears to have automatic focus on new tab
+    test ! -z $(wid chrome) && {
+        setborder inactive $PFW
         google-chrome-stable --new-tab "$URL" 2> /dev/null
+        setborder active $(wid chrome)
     } || {
         windows -s 2
         google-chrome-stable --new-tab "$URL" 2> /dev/null
@@ -74,3 +79,5 @@ case "$URL" in
         openBrowser
         ;;
 esac
+
+pkill xsel

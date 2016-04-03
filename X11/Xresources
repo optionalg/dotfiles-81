@@ -23,7 +23,7 @@ Urxvt.saveLines      : 16384
 URxvt.scrollBar      : 0
 
 /* Blinking cursor */
-URxvt.cursorBlink     : 1
+URxvt.cursorBlink     : 0
 Urxvt.cursorUnderline : 0
 URxvt.pointerBlank    : 1
 

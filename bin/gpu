@@ -29,12 +29,12 @@ gputemp() {
 }
 
 powerdraw() {
-    nvidia-smi -q -d POWER | awk '/Power Draw/ {print $4,$5}'
+    nvidia-smi -q -d POWER | awk '/Power Draw/ {print $4,$5}' | tr -d ' '
 }
 
 main() {
     type nvidia-smi 2>&1 > /dev/null || {
-        printf '%s\n' "nvidia-smi is not installed on your $$PATH."
+        printf '%s\n' "nvidia-smi is not installed on your \$PATH."
         exit 1
     }
 

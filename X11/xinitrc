@@ -7,7 +7,6 @@ xset +fp ~/.fonts
 xset fp rehash
 xset -dpms
 
-bgc
 bar
 keys
 sxhkd -f 50 &
