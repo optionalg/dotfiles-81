@@ -80,5 +80,5 @@ alias metal="toilet -f term -w 200 -t --metal"
 alias gibberish="metal < /dev/urandom"
 alias snake="terminibbles -d 3 -q"
 alias matrix="cmatrix -ab -u 1"
-alias engage="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
+alias makeitso="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
 gain +4 synth whitenoise lowpass -1 100 lowpass -1 100 lowpass -1 100 gain +2"
