@@ -33,8 +33,6 @@ type git 2>&1 > /dev/null && {
     }
 
     # diffs and shit
-    alias gcache="git cached"
-
     gd() {
         type cliff 2>&1 > /dev/null && {
             git diff "$@" | cat - | cliff
@@ -51,7 +49,12 @@ type git 2>&1 > /dev/null && {
         }
     }
 
-    # pushing
+    # staging and pushing
+    unstage() {
+        git reset --soft HEAD~
+        reset HEAD --
+    }
+
     gph() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
             printf '\n%s\n\n' "$(wild)"
@@ -107,7 +110,7 @@ type git 2>&1 > /dev/null && {
     }
 
     # remotes
-    setremote() {
+    setorigin() {
         test -z "$(git remote)" && {
             git remote add origin "$@"
         } || {
@@ -124,7 +127,17 @@ type git 2>&1 > /dev/null && {
                 return 1
             }
 
-            get remote add "$2" "$1"
+            git remote add "$2" "$1"
+        }
+    }
+
+    delremote() {
+        test -z "$(git remote)" && {
+            return 1
+        } || {
+            test ! -z "$@" && {
+                git remote remove "$1"
+            }
         }
     }
 

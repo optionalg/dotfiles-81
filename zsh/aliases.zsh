@@ -67,6 +67,8 @@ alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
 alias mux="tmux attach || tmux new"
 
+alias lesscolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
+
 # misc.
 alias motd="cat /etc/motd"
 alias issue="cat /etc/issue"

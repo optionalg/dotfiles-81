@@ -1,16 +1,17 @@
 #!/bin/sh
 
+xset s off
+xset -dpms
+xset +fp ~/.fonts
+xset r rate 330 30
 xsetroot -name background
 xsetroot -cursor_name left_ptr
-
-xset +fp ~/.fonts
-xset fp rehash
-xset -dpms
 
 bar
 keys
 sxhkd -f 50 &
 urxvtd -q -o -f &
-xrdb -load ~/.Xresources
+
+test -f ~/.Xresources && xrdb -load ~/.Xresources
 
 exec runfyre

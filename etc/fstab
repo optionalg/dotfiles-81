@@ -1,0 +1,18 @@
+# <file system>                           <dir>             <type>  <options>                                       <dump> <pass>
+
+# /dev/sda1
+UUID=7ae614a2-95e3-45ae-98a9-3820b8110676 /media/extra      btrfs   rw,noatime,compress=lzo,ssd,discard,space_cache 0 0
+# /dev/sdb2
+UUID= /                 btrfs   rw,noatime,compress=lzo,ssd,discard,space_cache 0 0
+# /dev/sdb3
+UUID= none              swap    defaults                                        0 0
+# /dev/sdb4
+UUID= /home             btrfs   rw,noatime,compress=lzo,ssd,discard,space_cache 0 0
+
+# /dev/sdc1
+UUID=b966032a-9c96-4622-b737-8c9f0ad77d77 /media/storage    ext4    rw,relatime,data=ordered                        0 1
+
+# other
+devpts                                    /dev/pts          devpts  noexec,nosuid,gid=tty,mode=0620                 0 0
+shm                                       /dev/shm          tmpfs   defaults                                        0 0
+tmp                                       /tmp              tmpfs   defaults                                        0 0
