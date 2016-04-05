@@ -6,7 +6,7 @@
 # creates a port template
 
 ARGS="$@"
-DEFAULT="wild-crux-ports"
+DEFAULT="wildefyr"
 PACKAGER="wildefyr, me at wildefyr dot net"
 PORTSDIR=${PORTSDIR:-/usr/ports}
 

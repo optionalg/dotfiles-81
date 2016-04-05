@@ -23,6 +23,8 @@ chpwd() {
 
     # set window title to path name
     print -Pn "\e]0;%~\a"
+
+    unset -v f0 41 f2 f3 f4 f5 f6 f7 R
 }
 
 zshrc() {
@@ -39,14 +41,13 @@ zshrc() {
 }
 
 vimrc() {
-    RWD=$PWD
-
-    cd ~/.vim
     $EDITOR ~/.vim/vimrc
+}
 
-    test "$PWD" != "$RWD" && cd $RWD
-
-    unset -v RWD
+:h() {
+    test ! -z "$1" && {
+        $EDITOR +"help $1" +only +'map q ZQ'
+    }
 }
 
 updatedots() {

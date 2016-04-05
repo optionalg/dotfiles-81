@@ -63,6 +63,7 @@ test "$0" = "zsh" && {
     alias -s txt="$EDITOR"
     alias -s html="$EDITOR"
 
+    alias -s ff="lel"
     alias -s gif="$IMGVIEW"
     alias -s png="$IMGVIEW"
     alias -s jpg="$IMGVIEW"

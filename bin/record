@@ -51,21 +51,21 @@ record() {
             printf '%s' "Recording with microphone: "
             ffmpeg -f alsa -i hw:0 -c:a aac \
             -f x11grab -s ${RESOLUTION} -framerate ${FRAMERATE} -i ${AREA} \
-            -c:v libx264rgb -pixel_format rgb24 \
-            -threads 4 -qp 0 -preset ultrafast -y -loglevel error "${RECPATH}"
+            -c:v libx264rgb -threads 4 -qp 0 -preset ultrafast -y -loglevel \
+            error "${RECPATH}"
             ;;
         "audio")
             printf '%s' "Recording with audio: "
             ffmpeg -f alsa -i hw:1 -c:a aac \
             -f x11grab -s ${RESOLUTION} -framerate ${FRAMERATE} -i ${AREA} \
-            -c:v libx264rgb -pixel_format rgb24 \
-            -threads 4 -qp 0 -preset ultrafast -y -loglevel error "${RECPATH}"
+            -c:v libx264rgb -threads 4 -qp 0 -preset ultrafast -y -loglevel \
+            error "${RECPATH}"
             ;;
         *)
             printf '%s' "Recording: "
             ffmpeg -f x11grab -s ${RESOLUTION} -framerate ${FRAMERATE} -i \
-            ${AREA} -c:v libx264rgb -pixel_format rgb24 \
-            -threads 4 -qp 0 -preset ultrafast -y -loglevel error "${RECPATH}"
+            ${AREA} -c:v libx264rgb -threads 4 -qp 0 -preset ultrafast -y \
+            -loglevel error "${RECPATH}"
             ;;
     esac
 }
@@ -89,7 +89,7 @@ encode() {
             ;;
         "h264")
             # using crf 15 because there's no fucking difference
-            ffmpeg -i "${RECPATH}" -acodec copy -c:v libx264rgb \
+            ffmpeg -i "${RECPATH}" -acodec copy -c:v libx264 \
             -crf 15 -b:v 20M -preset veryslow -threads 4 \
             -y -loglevel error "${RECPATH}".mp4 || return 1
             ;;

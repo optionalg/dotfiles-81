@@ -6,6 +6,9 @@ URxvt.modifier : mod3
 URxvt.font     : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1
 URxvt.boldFont : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1
 
+/* miniwi */
+/* -FontForge-miniwi-Regular-R-Normal--8-80-75-75-C-40-ISO10646-1 */
+
 /* Transparency */
 URxvt.transparent : False
 Urxvt.depth       : 32

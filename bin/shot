@@ -8,8 +8,5 @@ SHOT=${SHOT:-./shot}
 test $# -eq 0 && {
     xscreenshot | ff2png > "${SHOT}.png"
 } || {
-    wattr "$1" && {
-        xscreenshot "$1" | ff2png > "${SHOT}.png"
-        exit 0
-    }
+    wattr "$1" && xscreenshot "$1" | ff2png > "${SHOT}.png" || exit 1
 }

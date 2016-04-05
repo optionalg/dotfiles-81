@@ -13,13 +13,32 @@ type crux 2>&1 > /dev/null && {
     alias prtdiff="prt-get diff"
     alias prtread="prt-get readme"
     alias prtlist="prt-get listinst"
-    alias prtsrch="prt-get dsearch"
+    alias prtsrch="prt-get search"
+    alias prtdsrch="prt-get dsearch"
     alias prtfsrch="prt-get fsearch"
     alias prtcache="prt-get cache"
     alias prtcount="prt-get listinst | wc -l"
 
     prtgo() {
         prtpath "$1" && cd $(prtpath "$1")
+    }
+
+    prtcp() {
+        test $(prt-get search "$1" | wc -l) -eq 1 && {
+            USRPORTS="$PORTS/wildefyr"
+            PORTPATH="$(prt-get info "$1" | awk '/Path:/ {print $2}')"
+
+            test ! -d "$USRPORTS/$1" && {
+                cp "$PORTPATH/$1" "$USRPORTS/wildefyr"
+                prt-get cache
+                prt-get edit "$1"
+            }
+
+            unset -v USRPORTS PORTPATH
+        } || {
+            printf '%s\n' "Search term gives too many results."
+            return 1
+        }
     }
 
     prtcat() {

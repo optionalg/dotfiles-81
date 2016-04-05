@@ -114,7 +114,7 @@ type git 2>&1 > /dev/null && {
         test -z "$(git remote)" && {
             git remote add origin "$@"
         } || {
-            get remote set-url origin "$@"
+            git remote set-url origin "$@"
         }
     }
 

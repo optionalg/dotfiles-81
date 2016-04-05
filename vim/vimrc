@@ -36,9 +36,6 @@ endif
 
 call plug#end()
 
-" call here so plugins can use it
-filetype plugin indent on
-
     " vim-plug
 nmap <Leader>Vu :PlugUpdate<CR>
 nmap <Leader>Vi :PlugUpgrade<CR>
@@ -97,9 +94,6 @@ nmap sw ysiw
 nmap sW ysiW
 nmap sap ysap
 nmap sip ysip
-
-    " vim-commentary
-autocmd FileType muttrc setlocal commentstring=#\ %s
 
     " syntastic
 nmap <Leader>e :Errors<CR>
@@ -277,6 +271,9 @@ set showmatch
 
 set lazyredraw
 
+" use marker folding by default
+set foldmethod=marker
+
     " General Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -315,10 +312,14 @@ set tw=80
 set ts=4 sw=4 sts=4
 set smarttab expandtab
 
+" turn filetype subsystem on
+filetype plugin indent on
+
 " disable annoying comment on newline
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " custom indent options
+autocmd FileType md set spell
 autocmd FileType txt setlocal tw=0 spell noexpandtab wrap linebreak
 autocmd FileType css setlocal ts=4 sw=4 sts=4
 autocmd FileType html setlocal ts=2 sw=2 sts=2
@@ -382,8 +383,8 @@ if has('nvim')
     let g:deoplete#enable_smart_case = 1
     let g:deoplete#enable_ignore_case = 0
     let g:deoplete#auto_complete_start_length = 1
-    inoremap <expr><C-h>
-    \ deoplete#mappings#smart_close_popup()."\<C-h>"
+    " inoremap <expr><C-h>
+    " \ deoplete#mappings#smart_close_popup()."\<C-h>"
 
     " sync neovim instances using viminfo
     augroup nvimrc_aucmd
@@ -512,4 +513,3 @@ endfunction
 command! -nargs=1 -complete=help H call FullScreenHelp(<f-args>)
 cabbrev help H
 cabbrev h H
-
