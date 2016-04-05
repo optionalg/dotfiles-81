@@ -6,7 +6,18 @@
 CACHE="$HOME/.cache/drun"
 
 . fyrerc
-. ~/.zsh/environment.zsh
+
+for configuration in \
+    ~/.zsh/fyre.zsh \
+    ~/.zsh/aliases.zsh \
+    ~/.zsh/environment.zsh
+do
+    . $configuration
+done
+
+unset configuration
+
+alias | cut -d'=' -f 1 > $CACHE
 
 printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
     find "$EXECPATH" -maxdepth 1 -type f -executable | rev | \
@@ -15,8 +26,6 @@ printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
         cut -d'/' -f 1 | rev >> $CACHE
 done
 
-unset $EXECPATH
-
 barx=$((0))
 bary=$((0))
 barw=$((SW))
@@ -24,8 +33,6 @@ barh=$((25 - BW))
 
 bar_font=$(awk '/.font/ {print $3}' < ~/.Xresources)
 
-cat $CACHE | sort | uniq -u | dmenu -f -x $barx -y $bary -w $barw -h $barh -l 0 \
+sort -u < $CACHE | dmenu -f -x $barx -y $bary -w $barw -h $barh -l 0 \
     -fn $bar_font -nf '#D7D7D7' -sf '#B23450' -nb '#03070B' -sb '#03070B' | \
     ${SHELL:-"/bin/zsh"}
-
-rm -f $CACHE

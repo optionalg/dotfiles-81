@@ -57,7 +57,7 @@ type git 2>&1 > /dev/null && {
 
     gph() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
-            printf '\n%s\n\n' "$(wild)"
+            printf '\n%s\n\n' "$(fyr)"
             git push "$@" && {
                 POSTPUSH="$(git rev-parse --show-toplevel)/.git/hooks/post-push"
                 test -f "$POSTPUSH" 2>&1 > /dev/null && $POSTPUSH

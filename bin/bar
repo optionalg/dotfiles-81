@@ -30,7 +30,7 @@ barx=$((0))
 bary=$((0))
 barw=$((SW))
 barh=$((25))
-bar_bg='#66D7D7D7'
+bar_bg='#D7D7D7'
 
 backbar $barx $bary $barw $barh $bar_bg &
 sleep 0.1

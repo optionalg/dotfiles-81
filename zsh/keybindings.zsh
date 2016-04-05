@@ -12,8 +12,11 @@ widget-vicmd() {
 }
 
 # history expansion
-for W in up-line-or-history down-line-or-history \
-    history-beginning-search-backward history-beginning-search-forward
+for W in \
+    up-line-or-history  \
+    down-line-or-history \
+    history-beginning-search-forward \
+    history-beginning-search-backward
 do
     zle -N ${W}-vicmd widget-vicmd
 done
@@ -64,6 +67,6 @@ killFzf() { killfzf; zle redisplay; }
 zle -N killFzf
 bindboth "^y" killFzf
 
-clearTree() { clear; sz; t -h; zle redisplay; }
-zle -N clearTree
-bindboth "^o" clearTree
+goHome() { clear; cd $HOME; zle redisplay; }
+zle -N goHome
+bindboth "^o" goHome

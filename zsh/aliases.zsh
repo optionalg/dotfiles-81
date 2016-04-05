@@ -67,7 +67,8 @@ alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
 alias mux="tmux attach || tmux new"
 
-alias lesscolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
+alias nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
+alias lesscolor="nocolor | $PAGER"
 
 # misc.
 alias motd="cat /etc/motd"
@@ -82,3 +83,6 @@ alias snake="terminibbles -d 3 -q"
 alias matrix="cmatrix -ab -u 1"
 alias makeitso="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
 gain +4 synth whitenoise lowpass -1 100 lowpass -1 100 lowpass -1 100 gain +2"
+
+alias winesteam="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam wine \
+~/.wine-steam/drive_c/Program Files/Steam/Steam.exe"

@@ -2,8 +2,10 @@ type crux 2>&1 > /dev/null && {
     export PORTS="/usr/ports"
 
     alias prtrem="s prt-get remove"
+    alias prtlock="s prt-get lock"
     alias prtinst="s prt-get install"
     alias prtinsd="s prt-get depinst"
+    alias prtunlock="s prt-get unlock"
     alias prtupdate="s prt-get update"
 
     alias prtls="prt-get ls"
@@ -12,12 +14,13 @@ type crux 2>&1 > /dev/null && {
     alias prtinfo="prt-get info"
     alias prtdiff="prt-get diff"
     alias prtread="prt-get readme"
+    alias prtsrch="prt-get dsearch"
     alias prtlist="prt-get listinst"
-    alias prtsrch="prt-get search"
-    alias prtdsrch="prt-get dsearch"
-    alias prtfsrch="prt-get fsearch"
+    alias prtorph="prt-get listorphans"
     alias prtcache="prt-get cache"
+    alias prtfsrch="prt-get fsearch"
     alias prtcount="prt-get listinst | wc -l"
+    alias prtlocked="prt-get listlocked"
 
     prtgo() {
         prtpath "$1" && cd $(prtpath "$1")
