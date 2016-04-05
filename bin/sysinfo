@@ -2,6 +2,17 @@
 #
 # wildefyr - 2016 (c) CC
 # a fairly nice info script
+# thanks sshbio, xero, z3bra for providing some of the code
+
+FULL=${FULL-█}
+EMPTY=${EMPTY-█}
+BATTERY=/sys/class/power_supply/BAT1
+
+f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
+f4='[34m'; f5='[35m'; f6='[36m'; f7='[37m'
+b0='[40m'; b1='[41m'; b2='[42m'; b4='[44m'
+b4='[44m'; b5='[45m'; b6='[46m'; b7='[47m'
+B='[1m'; R='[0m'; I='[7m'
 
 getSystem() {
     type crux 2>&1 > /dev/null && {
@@ -19,35 +30,104 @@ getSystem() {
     }
 }
 
-f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
-f4='[34m'; f5='[35m'; f6='[36m'; f7='[37m'
-b0='[40m'; b1='[41m'; b2='[42m'; b4='[44m'
-b4='[44m'; b5='[45m'; b6='[46m'; b7='[47m'
-B='[1m'; R='[0m'; I='[7m'
+getVars() {
+    USER="$USER"
+    HOST="$(hostname)"
+    KERN="$(uname -sr)"
+    TIME="$(uptime -p)"
+    pgrep mpv 2>&1 > /dev/null && test -S "/tmp/mpvsocket" && \
+        MPV="$(mpvc -f '%artist% - %title%')"
+}
 
-USER="$USER"
-HOST="$(hostname)"
+workOutLineSize() {
+    LINE1=$(printf '%s\n' "  $USER@$HOST" | wc -m)
+    LINE2=$(printf '%s\n' "  $KERN - $TIME" | wc -m)
+    LINE3=$(printf '%s\n' "  $SYS - $PACK Packages" | wc -m)
+    LINE4=$(printf '%s\n' "  $MPV" | wc -m)
+
+    # find longest
+    SIZE=${SIZE-0}
+    for i in $LINE1 $LINE2 $LINE3 $LINE4; do
+        test $i -gt $SIZE && SIZE=$i
+    done
+
+    SIZE=$((SIZE + 1))
+
+    # get the extra characters each line needs
+    LINE1EXTRA=$(printf '%*s' "$((SIZE - LINE1))" | sed 's/ / /')
+    LINE2EXTRA=$(printf '%*s' "$((SIZE - LINE2))" | sed 's/ / /')
+    LINE3EXTRA=$(printf '%*s' "$((SIZE - LINE3))" | sed 's/ / /')
+    LINE4EXTRA=$(printf '%*s' "$((SIZE - LINE4))" | sed 's/ / /')
+}
+
+draw() {
+    perc=$1
+    size=$2
+
+    inc=$(( perc * size / 100 ))
+
+    for v in $(seq 0 $((size - 1))); do
+        test $v -le $inc && {
+            out="${out}${FULL}"
+        } || {
+            out="${f7}${out}${R}${f0}${EMPTY}${R}"
+        }
+    done
+
+    printf '%s' "$out"
+}
+
+ram() {
+    ram="$(free | awk '/Mem:/ {print int($3/$2 * 100.0)}')"
+    printf "${f6}RAM: ${R}%-2s %s" "$(draw $ram $SIZE)"
+}
+
+cpu() {
+    cpu="$(grep 'cpu ' /proc/stat | \
+        awk '{cpu=($2+$4)*100/($2+$4+$5)} END {print cpu}')"
+    cpu=$(printf "%.0f" $cpu)
+
+    printf "${f6}CPU: ${R}%-2s %s" "$(draw $cpu $SIZE)"
+}
+
+temperature() {
+    temp="$(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))"
+    printf "${f6}TMP: ${R}%s %s" "$(draw $temp $SIZE)"
+}
+
+battery() {
+    b_full=$(sed '1q' $battery/*_full)
+    b_now=$(sed '1q' $battery/*_now)
+    charge=$(printf '%s' "$((100 * $b_now / $b_full))")
+
+    printf "${f6}BAT: ${R}%s\n" "$(draw $charge $SIZE)"
+}
 
 getSystem
+getVars
 
-KERN="$(uname -sr)"
-TIME="$(uptime -p | sed s:"up "::)"
-
-ps ux | grep -v grep | grep "mpv" -q && {
-    M="$(mpvc -f '%artist% - %title%')"
-}
+workOutLineSize
 
 clear=$(tput sgr0)
 clear
 
-cat << EOF
-$(wild)
-$R
-$f7$B$I$b6█$I$b0 $USER@$HOST $I$b7 $R
-$f7$B$I$b6█$I$b0 $KERN - $TIME $R
-$f7$B$I$b6█$I$b0 $SYS - $PACK Packages $R
-EOF
+fyr
 
-test ! -z "$M" && printf '%s\n' "$f7$B$I$b6█$I$b0 $M $R"
+printf '\n'
+printf '%s\n' "$f7$B$I$b5█$I$b0 $USER@$HOST $LINE1EXTRA$R"
+printf '%s\n' "$f7$B$I$b5█$I$b0 $SYS - $PACK Packages $LINE3EXTRA$R"
+printf '%s\n' "$f7$B$I$b5█$I$b0 $KERN - $TIME $LINE2EXTRA$R"
+
+test ! -z "$MPV" && printf '%s\n' "$f7$B$I$b5█$I$b0 $MPV $LINE4EXTRA$R"
+
+printf '\n'
+
+SIZE=$((SIZE - 5))
+
+printf '%s\n' "$(ram)"
+printf '%s\n' "$(cpu)"
+printf '%s\n' "$(temperature)"
+
+test -d "$battery" && printf '%s\n' "$(battery)"
 
 printf '\n'
