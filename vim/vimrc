@@ -159,6 +159,7 @@ nmap <C-s> :silent w! !sudo tee % > /dev/null<CR>
 nnoremap <C-j> <C-f>
 nnoremap <C-k> <C-b>
 nmap <Leader><Space> %
+vmap <Leader><Space> %
 
 " manipulating text in normal mode
 map <C-h> i<C-h><ESC>
@@ -320,14 +321,8 @@ filetype plugin indent on
 " disable annoying comment on newline
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" custom indent options
-autocmd FileType md set spell
-autocmd FileType txt setlocal tw=0 spell noexpandtab wrap linebreak
-autocmd FileType css setlocal ts=4 sw=4 sts=4
-autocmd FileType html setlocal ts=2 sw=2 sts=2
-autocmd FileType ruby setlocal ts=2 sw=2 sts=2
-autocmd FileType python setlocal ts=4 sw=4 sts=4
-autocmd FileType c setlocal ts=8 sw=8 sts=8 noexpandtab " kernel style
+" create buffer mark on last buffer left
+autocmd BufLeave * normal! ma
 
 " create marks based on filetype
 autocmd BufLeave *.sh,*.zsh         normal! mS
@@ -337,13 +332,22 @@ autocmd BufLeave *.js               normal! mJ
 autocmd BufLeave *.php              normal! mP
 autocmd BufLeave vimrc,*.vim        normal! mV
 
+" custom indent options
+autocmd FileType md     set spell
+autocmd FileType txt    setlocal tw=0 spell noexpandtab wrap linebreak
+autocmd FileType css    setlocal ts=4 sw=4 sts=4
+autocmd FileType html   setlocal ts=2 sw=2 sts=2
+autocmd FileType ruby   setlocal ts=2 sw=2 sts=2
+autocmd FileType python setlocal ts=4 sw=4 sts=4
+autocmd FileType c      setlocal ts=8 sw=8 sts=8 noexpandtab " kernel style
+
 " misc
-autocmd BufNewFile,BufRead *fstab setlocal filetype=fstab tw=0
-autocmd BufNewFile,BufRead *Pkgfile setlocal filetype=sh noet
+autocmd BufNewFile,BufRead *fstab      setlocal filetype=fstab tw=0
+autocmd BufNewFile,BufRead *Pkgfile    setlocal filetype=sh noet
 autocmd BufNewFile,BufRead *.gitconfig setlocal filetype=gitconfig noet
-" fuck you zsh
-autocmd BufNewFile,BufRead *.zsh setlocal filetype=sh
-autocmd BufNewFile,BufRead *.zprofile setlocal filetype=sh
+" fuck zsh
+autocmd BufNewFile,BufRead *.zsh       setlocal filetype=sh
+autocmd BufNewFile,BufRead *.zprofile  setlocal filetype=sh
 
 set history=1000
 

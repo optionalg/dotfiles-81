@@ -35,6 +35,10 @@ RPROMPT="%{$fg[cyan]%} %n@%m %{$reset_color%}"
 # auto completion
 autoload -U compinit; compinit -D
 
+# auto prediction
+# autoload predict-on
+# predict-on
+
 # superglobs
 setopt extendedglob
 unsetopt caseglob

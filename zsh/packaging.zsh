@@ -2,8 +2,8 @@
 type hostnamectl 2>&1 > /dev/null && {
     OS=$(hostnamectl | grep "Operating System:")
 
-    # debian
-    printf '%s\n' "$OS" | grep -q "Debian" && {
+    # debian / ubuntu
+    printf '%s\n' "$OS" | grep -q "Debian\|Ubuntu" && {
         alias aptins="s apt-get install"
         alias aptrem="s apt-get remove"
         alias aptupdate="s apt-get update"
@@ -11,6 +11,13 @@ type hostnamectl 2>&1 > /dev/null && {
         alias aptclean="s apt-get autoremove"
         alias aptsrch="apt-cache search"
         alias aptinfo="apt-cache showpkg"
+    }
+
+    # arch
+    printf '%s\n' "$OS" | grep -q "Arch Linux" && {
+        alias pacins="s pacman -S"
+        alias pacsrch="pacman -Ss"
+        alias pacupgrade="s pacman -Syu"
     }
 }
 
@@ -56,4 +63,3 @@ type make 2>&1 > /dev/null && {
     alias menuconfig="make menuconfig"
     alias modinstall="s make modules_install"
 }
-

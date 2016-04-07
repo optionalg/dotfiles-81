@@ -1,5 +1,6 @@
 type crux 2>&1 > /dev/null && {
     export PORTS="/usr/ports"
+    export SOURCES="$(grep "PKGMK_SOURCE_DIR" /etc/pkgmk.conf | cut -d'"' -f 2)"
 
     alias prtrem="s prt-get remove"
     alias prtlock="s prt-get lock"
@@ -104,6 +105,26 @@ type crux 2>&1 > /dev/null && {
         }
 
         unset -v deptree dependent
+    }
+
+    # cd into git cloned directories
+    prtclone() {
+        test -z "$@" && {
+            printf '%s\n' "Usage: prtclone [pkgname]"
+            return 1
+        }
+
+        prt-get cat $1 | grep -q "version=git" && {
+            test ! -d $SOURCES/$1 && {
+                prt-get isinst $1 && {
+                    prt-get update -fr $1
+                } || {
+                    prt-get install -fr $1
+                }
+            }
+
+            cd $SOURCES/$1
+        }
     }
 
     prtupgrade() {

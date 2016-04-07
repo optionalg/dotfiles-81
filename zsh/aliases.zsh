@@ -82,7 +82,7 @@ alias steamtricks="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winetr
 alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam cfg"
 
 # music
-alias shuffle="find $MUS -type f | sort -R | mpvc 2>&1 > /dev/null"
+alias shuffle="find $MUS -type f | sort -R | mpvc & 2>&1 > /dev/null"
 
 music() {
     find $MUS -type f -iname "*$@*" | mpvc 2>&1 > /dev/null

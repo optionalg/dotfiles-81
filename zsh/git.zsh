@@ -1,15 +1,12 @@
+# shall we play a game
+
 type git 2>&1 > /dev/null && {
 
-    # general
-    alias ga="git add"
-    alias gb="git branch"
-    alias gr="git remote"
-    alias gs="git status -sb"
-    alias gco="git commit -m"
-    alias gck="git checkout"
+    # fetching
+################################################################################
+
     alias gpl="git pull"
-    alias gplr="git pull --rebase"
-    alias gpop="git stash pop"
+    alias rebase="git pull --rebase"
 
     gc() {
         git clone "$@" || return 1
@@ -23,9 +20,13 @@ type git 2>&1 > /dev/null && {
         test -d "$PWD/$CLONED" && cd "$PWD/$CLONED"
 
         test -d "./.hooks" && {
-            printf '%s' "Deploy hooks? [Y/n]: "; while read -r confirm; do
+            printf '%s' "Deploy hooks? [Y/n]: "
+            while read -r confirm; do
                 confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
-                test "$confirm" = "n" && break || {deployhooks; break;}
+                test "$confirm" = "n" && break || {
+                    deployhooks
+                    break
+                }
             done
         }
 
@@ -33,6 +34,8 @@ type git 2>&1 > /dev/null && {
     }
 
     # diffs and shit
+################################################################################
+
     gd() {
         type cliff 2>&1 > /dev/null && {
             git diff "$@" | cat - | cliff
@@ -49,11 +52,20 @@ type git 2>&1 > /dev/null && {
         grep -r "$@" | grep -v "\.git" | sed "s_$@_\[35m$@\[0m_"
     }
 
-    # staging and pushing
+    # staging
+################################################################################
+
+    alias ga="git add"
+    alias gs="git status -sb"
+    alias gco="git commit -m"
+
     unstage() {
         git reset --soft HEAD~
         git reset HEAD --
     }
+
+    # pushing
+################################################################################
 
     gph() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
@@ -67,7 +79,21 @@ type git 2>&1 > /dev/null && {
         unset -v POSTPUSH
     }
 
+    # branches
+################################################################################
+
+    alias gb="git branch"
+
+    gck() {
+        git checkout $(git name-rev --name-only "$@")
+    }
+
     # stashes
+################################################################################
+
+    alias stash="git stash"
+    alias popstash="git stash pop"
+
     stashed() {
         type ccze 2>&1 > /dev/null && {
             git stash list "$@" | tac - | ccze -A
@@ -85,6 +111,8 @@ type git 2>&1 > /dev/null && {
     }
 
     # history
+################################################################################
+
     gg() {
         type ccze 2>&1 > /dev/null && {
             git graph "$@" | tac - | sed 's_/_|_g; s_\\_|_g' | ccze -A
@@ -110,6 +138,10 @@ type git 2>&1 > /dev/null && {
     }
 
     # remotes
+################################################################################
+
+    alias gr="git remote"
+
     setorigin() {
         test -z "$(git remote)" && {
             git remote add origin "$@"
@@ -142,6 +174,8 @@ type git 2>&1 > /dev/null && {
     }
 
     # hooks
+################################################################################
+
     deployhooks() {
         git rev-parse --is-inside-git-dir 2>&1 > /dev/null && {
             TOPDIR="$(git rev-parse --show-toplevel)/.hooks"
