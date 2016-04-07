@@ -16,8 +16,13 @@ type hostnamectl 2>&1 > /dev/null && {
     # arch
     printf '%s\n' "$OS" | grep -q "Arch Linux" && {
         alias pacins="s pacman -S"
-        alias pacsrch="pacman -Ss"
+        alias pacrem="s pacman -Rs"
         alias pacupgrade="s pacman -Syu"
+        alias paclist="pacman -Q"
+        alias pacinfo="pacman -Qi"
+        alias pacsrch="pacman -Ss"
+        alias paccount="pacman -Q | wc -l"
+        alias pacorphans="pacman -Qdt"
     }
 }
 

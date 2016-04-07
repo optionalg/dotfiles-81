@@ -321,9 +321,6 @@ filetype plugin indent on
 " disable annoying comment on newline
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" create buffer mark on last buffer left
-autocmd BufLeave * normal! ma
-
 " create marks based on filetype
 autocmd BufLeave *.sh,*.zsh         normal! mS
 autocmd BufLeave *.css,*.less,*scss normal! mC

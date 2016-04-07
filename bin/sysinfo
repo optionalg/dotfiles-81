@@ -29,6 +29,11 @@ getSystem() {
             SYS="DEBIAN version $(cat /etc/debian_version)"
             PACK=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
         }
+
+        printf '%s\n' "$OS" | grep -q "Arch Linux" && {
+            SYS="$(printf '%s\n' "$OS" | cut -d ':' -f 2 | cut -c 2-)"
+            PACK=$(pacman -Q | wc -l)
+        }
     }
 }
 

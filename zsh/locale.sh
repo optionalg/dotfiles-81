@@ -2,14 +2,11 @@
 
 type crux 2>&1 > /dev/null && {
     LANG="en_US.utf8"
-    LC_CTYPE="en_US.utf8"
 } || {
     LANG="en_US.UTF-8"
-    LC_CTYPE="en_US.UTF-8"
 }
 
 export LANG
-export LC_CTYPE
 
 [ -n "$LC_CTYPE" ]          && export LC_CTYPE
 [ -n "$LC_NUMERIC" ]        && export LC_NUMERIC
