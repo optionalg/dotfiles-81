@@ -134,6 +134,8 @@ imap <C-j> <CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 nnoremap K <nop>
+nnoremap <C-u> <nop>
+
 map <Space> <Leader>
 
 nmap <Leader>c :noh<CR>
@@ -336,7 +338,7 @@ autocmd BufLeave *.php              normal! mP
 autocmd BufLeave vimrc,*.vim        normal! mV
 
 " misc
-autocmd BufNewFile,BufRead *bgc setlocal filetype=sh
+autocmd BufNewFile,BufRead *fstab setlocal filetype=fstab tw=0
 autocmd BufNewFile,BufRead *Pkgfile setlocal filetype=sh noet
 autocmd BufNewFile,BufRead *.gitconfig setlocal filetype=gitconfig noet
 " fuck you zsh
@@ -364,14 +366,11 @@ endif
 
 set noswapfile
 
-" when editing a file, always jump to the last known cursor position
-augroup vimrcEx
-    autocmd!
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \ exe "normal! g`\"" |
-    \ endif
-augroup END
+" always jump to the last known cursor position
+autocmd BufReadPost *
+\ if line("'\"") > 0 && line("'\"") <= line("$") |
+\ exe "normal! g`\"" |
+\ endif
 
 if has('nvim')
     " settings
@@ -383,8 +382,8 @@ if has('nvim')
     let g:deoplete#enable_smart_case = 1
     let g:deoplete#enable_ignore_case = 0
     let g:deoplete#auto_complete_start_length = 1
-    " inoremap <expr><C-h>
-    " \ deoplete#mappings#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-h>
+    \ deoplete#mappings#smart_close_popup()."\<C-h>"
 
     " sync neovim instances using viminfo
     augroup nvimrc_aucmd

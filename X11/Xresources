@@ -1,38 +1,39 @@
+/* colours */
 #include ".colours/fyry"
 
-URxvt.modifier : mod3
+/* basics */
+*.modifier     : mod3
+st.termname    : st
+URxvt.termname : urxvt
 
-/* Font */
-URxvt.font     : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1
-URxvt.boldFont : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1
+/* font */
+*.font     : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1
+*.boldFont : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1
 
-/* miniwi */
-/* -FontForge-miniwi-Regular-R-Normal--8-80-75-75-C-40-ISO10646-1 */
+/* bell */
+*.urgentOnBell : 1
+*.visualBell   : 0
 
-/* Transparency */
-URxvt.transparent : False
-Urxvt.depth       : 32
-URxvt.shading     : 20
+/* padding */
+*.internalBorder : 10
+*.externalBorder : 0
+*.linespace      : 0
+*.saveLines      : 16384
+*.scrollBar      : 0
 
-/* Bell */
-URxvt.urgentOnBell : 1
-URxvt.visualBell   : 0
+/* blinking cursor */
+*.cursorBlink     : 0
+*.cursorUnderline : 0
+*.pointerBlank    : 1
 
-/* Padding */
-URxvt.internalBorder : 10
-URxvt.externalBorder : 0
-URxvt.linespace      : 0
-Urxvt.saveLines      : 16384
-URxvt.scrollBar      : 0
-
-/* Blinking cursor */
-URxvt.cursorBlink     : 0
-Urxvt.cursorUnderline : 0
-URxvt.pointerBlank    : 1
-
-/* Opening urls */
+/* urxvt extensions */
 URxvt.perl-ext-common        : default,clipboard,url-select
 URxvt.keysym.M-e             : perl:url-select:select_next
 URxvt.url-select.launcher    : load
 URxvt.url-select.underline   : true
 URxvt.keysym.M-y             : perl:clipboard:copy
+
+/* transparency */
+URxvt.transparent : False
+Urxvt.depth       : 32
+URxvt.shading     : 20

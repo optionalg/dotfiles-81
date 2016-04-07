@@ -47,10 +47,11 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_RUNTIME_DIR="/tmp/runtime-wildefyr"
 
 export BIN="$DOTS/bin"
+export BUL="$HOME/.builds"
 export DWN="$HOME/files/downloads"
 export MUS="$HOME/files/music"
 export IMG="$HOME/files/pictures"
-export VID="/media/storage/videos"
+export VID="/media/storage/"
 
 export IMGVIEW="mpv --really-quiet --input-unix-socket=/tmp/imagesocket --loop-file"
 export VIDPLAY="mpv --really-quiet --input-unix-socket=/tmp/mpvsocket"
@@ -91,12 +92,14 @@ type nvim 2>&1 > /dev/null && {
     }
 }
 
-export PAGER="less"
-export MANPAGER="less"
-
 alias vi="$EDITOR"
 alias vim="$EDITOR"
 alias more="$PAGER"
 alias emacs="emacs -nw"
+
+export PAGER="less"
+export MANPAGER="less"
+alias  nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
+alias  lesscolor="nocolor | $PAGER"
 
 test -f ~/.iouprc && export IOUP_TOKEN="$(cat ~/.iouprc)"

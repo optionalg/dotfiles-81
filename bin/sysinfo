@@ -4,8 +4,10 @@
 # a fairly nice info script
 # thanks sshbio, xero, z3bra for providing some of the code
 
-FULL=${FULL-█}
-EMPTY=${EMPTY-█}
+FULL=${FULL-▪}
+EMPTY=${EMPTY-▬}
+
+TEMP=/sys/class/thermal/thermal_zone0/temp
 BATTERY=/sys/class/power_supply/BAT1
 
 f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
@@ -63,6 +65,7 @@ workOutLineSize() {
 draw() {
     perc=$1
     size=$2
+    color=$3
 
     inc=$(( perc * size / 100 ))
 
@@ -70,7 +73,7 @@ draw() {
         test $v -le $inc && {
             out="${out}${FULL}"
         } || {
-            out="${f7}${out}${R}${f0}${EMPTY}${R}"
+            out="${color}${out}${R}${f7}${EMPTY}${R}"
         }
     done
 
@@ -79,7 +82,7 @@ draw() {
 
 ram() {
     ram="$(free | awk '/Mem:/ {print int($3/$2 * 100.0)}')"
-    printf "${f6}RAM: ${R}%-2s %s" "$(draw $ram $SIZE)"
+    printf "${f7}RAM:${R} %s" "$(draw $ram $SIZE $f2)"
 }
 
 cpu() {
@@ -87,20 +90,20 @@ cpu() {
         awk '{cpu=($2+$4)*100/($2+$4+$5)} END {print cpu}')"
     cpu=$(printf "%.0f" $cpu)
 
-    printf "${f6}CPU: ${R}%-2s %s" "$(draw $cpu $SIZE)"
+    printf "${f7}CPU:${R} %s" "$(draw $cpu $SIZE $f3)"
 }
 
 temperature() {
-    temp="$(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))"
-    printf "${f6}TMP: ${R}%s %s" "$(draw $temp $SIZE)"
+    temp="$(($(cat $TEMP) / 1000))"
+    printf "${f7}TMP:${R} %s" "$(draw $temp $SIZE $f5)"
 }
 
 battery() {
-    b_full=$(sed '1q' $battery/*_full)
-    b_now=$(sed '1q' $battery/*_now)
+    b_full=$(sed '1q' $BATTERY/*_full)
+    b_now=$(sed '1q' $BATTERY/*_now)
     charge=$(printf '%s' "$((100 * $b_now / $b_full))")
 
-    printf "${f6}BAT: ${R}%s\n" "$(draw $charge $SIZE)"
+    printf "${f7}BAT:${R} %s" "$(draw $charge $SIZE $f4)"
 }
 
 getSystem
@@ -114,6 +117,7 @@ clear
 fyr
 
 printf '\n'
+
 printf '%s\n' "$f7$B$I$b5█$I$b0 $USER@$HOST $LINE1EXTRA$R"
 printf '%s\n' "$f7$B$I$b5█$I$b0 $SYS - $PACK Packages $LINE3EXTRA$R"
 printf '%s\n' "$f7$B$I$b5█$I$b0 $KERN - $TIME $LINE2EXTRA$R"
@@ -126,8 +130,7 @@ SIZE=$((SIZE - 5))
 
 printf '%s\n' "$(ram)"
 printf '%s\n' "$(cpu)"
-printf '%s\n' "$(temperature)"
-
-test -d "$battery" && printf '%s\n' "$(battery)"
+test -f "$TEMP" && printf '%s\n' "$(temperature)"
+test -d "$BATTERY" && printf '%s\n' "$(battery)"
 
 printf '\n'

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+alias xsel="xsel -l /dev/null"
+
 file="$1"
 
 test ! -f "$file" && {

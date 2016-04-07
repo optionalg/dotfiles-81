@@ -3,6 +3,8 @@
 # wildefyr - 2016 (c) wtfpl
 # link load with extra tweaks for wmutils
 
+alias xsel="xsel -l /dev/null"
+
 . fyrerc
 
 URL=$@
@@ -79,5 +81,3 @@ case "$URL" in
         openBrowser
         ;;
 esac
-
-pkill xsel

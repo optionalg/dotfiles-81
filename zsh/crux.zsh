@@ -23,7 +23,7 @@ type crux 2>&1 > /dev/null && {
     alias prtlocked="prt-get listlocked"
 
     prtgo() {
-        prtpath "$1" && cd $(prtpath "$1")
+        prt-get path "$@" && cd $(prtpath "$@")
     }
 
     prtcp() {

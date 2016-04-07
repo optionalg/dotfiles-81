@@ -31,13 +31,13 @@ mod1 + u
 mod1 + i
     chwso -l $(pfw); closest --right
 mod1 + p
-    hover $(pfw)
+    hover
 
 # manual window management
 mod1 + g
     snap --middle
 mod1 + {q,w,e,r,a,s}
-    position {lft,ext,rht,full,res,vid}
+    position {--left,--extend,--right,--fuller,--restore,--video}
 mod1 + f
     fullscreen
 
@@ -64,6 +64,8 @@ mod1 + Return
     urxvtc -cd "$HOME"
 mod2 + Return
     pather
+mod4 + Return
+    st -n "st" -cd "$HOME"
 
 # programs
 mod1 + d

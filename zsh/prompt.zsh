@@ -30,7 +30,7 @@ zle-keymap-select() {
     zle reset-prompt
 }
 
-# RPROMPT="%{$fg[cyan]%} %~ %{$reset_color%}"
+RPROMPT="%{$fg[cyan]%} %n@%m %{$reset_color%}"
 
 # auto completion
 autoload -U compinit; compinit -D

@@ -1,18 +1,28 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) CC
 # produce my bar information
 
 ACTIVE="%{F#D7D7D7}"
 INACTIVE="%{F#737373}"
 whiteSpace=$(printf '%s' " ")
 
-string="$whiteSpace%{l}$(taskbar)"
-string="${string}%{r}${ACTIVE}"
+mpvcinfo=$(mpvc -f "%status% | %title% | #%position%/%playlistlength% | \
+%volume%%" 2> /dev/null)
 
-mpvcinfo=$(mpvc -f "%status% | %title% | #%position%/%playlistlength% | %volume%%" 2> /dev/null)
+globalvolume=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p')
+dateFormat=$(date '+%d %b %T')
+cputemp=$(cpu t)
 
-string="${string}\
+string="${string}%{l}"
+
+string="${string}$(taskbar)"
+
+string="${string}%{c}"
+
+string="${string}%{r}"
+
+string="${string}${whiteSpace}${ACTIVE}\
 %{A1:mpvc toggle:}\
 %{A3:mpvc next:}\
 %{A4:mpvc volume +5:}\
@@ -20,16 +30,10 @@ string="${string}\
 ${mpvcinfo}\
 %{A}%{A}%{A}%{A}"
 
-string="${string}    "
-
-volume=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p')
-dateFormat=$(date '+%d %b %T')
-cputemp=$(cpu t)
-
-string="${string}${ACTIVE}\
+string="${string}${whiteSpace}${ACTIVE}\
 %{A4:amixer -c 0 set Master 2db+ unmute -q:}\
 %{A5:amixer -c 0 set Master 2db- unmute -q:}\
-${cputemp}C | ${volume}% | ${dateFormat}${whiteSpace}${whiteSpace}\
+${globalvolume}% | ${cputemp}C | ${dateFormat}${whiteSpace}${whiteSpace}\
 %{A}%{A}"
 
 printf '%s\n' "${string}"

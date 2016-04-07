@@ -10,16 +10,16 @@ chpwd() {
         links=$(find -maxdepth 1 -type l | wc -l)
         dirts=$(find -maxdepth 1 -type d | sed '1d' | wc -l)
 
-        printf '%s\n' "$f3$files files ${R}&& $f6$dirts directories ${R}&& $f5$links links${R}"
+        printf '%s\n\n' "$f3$files files ${R}&& $f6$dirts directories ${R}&& $f5$links links${R}"
+        return 0
     }
 
     test -z "$(ls -1)" && {
-        printf '%s\n' "${f5}Directory is empty!${R}"
+        printf '%s\n\n' "${f5}Directory is empty!${R}"
     } || {
         ls --color=auto -F -N
+        printf '\n'
     }
-
-    printf '\n'
 
     # set window title to path name
     print -Pn "\e]0;%~\a"
@@ -53,7 +53,7 @@ vimrc() {
 updatedots() {
     RWD=$PWD
     cd $DOTS
-    git pull --rebase && cd $RWD
+    git pull --rebase && {szsh; cd $RWD; }
 }
 
 out() {
@@ -94,7 +94,6 @@ psusr() {
     }
 }
 
-
 pdf() {
     mupdf "$@" &!
 }
@@ -112,11 +111,24 @@ editexec() {
 }
 
 findfile() {
-    type ccze 2>&1 > /dev/null && {
-        file $(find . -maxdepth 1) | sed '1d' | cut -c 3- | \
-        grep -v ".git" | sort -k2 | ccze -A
-    } || {
-        file $(find . -maxdepth 1) | sed '1d' | cut -c 3- | \
-        grep -v ".git" | sort -k2
-    }
+    case "$1" in
+        "-a")
+            type ccze 2>&1 > /dev/null && {
+                file $(find . -maxdepth 1) | sed '1d' | \
+                grep -v "\./\.git" | sort -k2 | ccze -A
+            } || {
+                file $(find . -maxdepth 1) | sed '1d' | \
+                grep -v "\./\.git" | sort -k2
+            }
+            ;;
+        *)
+            type ccze 2>&1 > /dev/null && {
+                file $(find . -maxdepth 1) | sed '1d' | \
+                grep -v "\./\." | sort -k2 | ccze -A
+            } || {
+                file $(find . -maxdepth 1) | sed '1d' | \
+                grep -v "\./\." | sort -k2
+            }
+            ;;
+    esac
 }

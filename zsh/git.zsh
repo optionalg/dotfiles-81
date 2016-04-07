@@ -42,17 +42,17 @@ type git 2>&1 > /dev/null && {
     }
 
     ggrep() {
-        type ccze 2>&1 > /dev/null && {
-            git grep "$@" | tac - | ccze -A
-        } || {
-            git grep "$@" | tac -
-        }
+        git grep "$@" | sed "s_$@_\[35m$@\[0m_"
+    }
+
+    cgrep() {
+        grep -r "$@" | grep -v "\.git" | sed "s_$@_\[35m$@\[0m_"
     }
 
     # staging and pushing
     unstage() {
         git reset --soft HEAD~
-        reset HEAD --
+        git reset HEAD --
     }
 
     gph() {
@@ -70,17 +70,17 @@ type git 2>&1 > /dev/null && {
     # stashes
     stashed() {
         type ccze 2>&1 > /dev/null && {
-            git stashed "$@" | tac - | ccze -A
+            git stash list "$@" | tac - | ccze -A
         } || {
-            git stashed "$@" | tac -
+            git stash list "$@" | tac -
         }
     }
 
     prevstash() {
         type ccze 2>&1 > /dev/null && {
-            git stash show | cat - | ccze -A
+            git stash show | ccze -A
         } || {
-            git stash show | cat -
+            git stash show
         }
     }
 

@@ -23,15 +23,39 @@ alias rsync="rsync -arvp --progress -h"
 alias l="ls"
 alias la="ls -a"
 
+# normal ls colouring generally sucks in listview
 type ccze 2>&1 > /dev/null && {
-    alias ll="ls -lh | ccze -A"
-    alias lla="ls -lha | ccze -A"
-    alias lls="ls -lhs | ccze -A"
-    alias llt="ls -lht | ccze -A"
-    alias llx="ls -lhX | ccze -A"
-    alias llsa="ls -lhsa | ccze -A"
-    alias llta="ls -lhta | ccze -A"
-    alias llxa="ls -lhXa | ccze -A"
+    ll() {
+        ls -lh "$@" | ccze -A
+    }
+
+    lla() {
+        ls -lha "$@" | ccze -A
+    }
+
+    lls() {
+        ls -lhs "$@" | ccze -A
+    }
+
+    llt() {
+        ls -lht "$@" | ccze -A
+    }
+
+    llx() {
+        ls -lhX "$@" | ccze -A
+    }
+
+    llsa() {
+        ls -lhsa "$@" | ccze -A
+    }
+
+    llta() {
+        ls -lhta "$@" | ccze -A
+    }
+
+    llxa() {
+        ls -lhXa "$@" | ccze -A
+    }
 } || {
     alias ll="ls -lh"
     alias lla="ls -lha"
@@ -51,9 +75,22 @@ alias szt="t -h --du --sort=size"
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
+# wine
+alias steamwine="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam wine \
+~/.wine-steam/drive_c/Program\ Files/Steam/Steam.exe"
+alias steamtricks="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winetricks"
+alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam cfg"
+
+# music
+alias shuffle="find $MUS -type f | sort -R | mpvc 2>&1 > /dev/null"
+
+music() {
+    find $MUS -type f -iname "*$@*" | mpvc 2>&1 > /dev/null
+}
+
 # net
 alias iopaste="curl -sLT- https://p.iotek.org | xsel -i; xsel -o | xsel -ib"
-alias ixpaste="curl -F \"f:1=<-\" ix.io | xsel -i; xsel -o | xsel -ib"
+alias ixpaste="curl -sF \"f:1=<-\" ix.io | xsel -i; xsel -o | xsel -ib"
 
 alias d="transmission-remote-cli"
 alias yt="youtube-dl -x -o \"%(title)s.%(ext)s\""
@@ -67,15 +104,12 @@ alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
 alias mux="tmux attach || tmux new"
 
-alias nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
-alias lesscolor="nocolor | $PAGER"
+# fuck xsel
+alias xsel="xsel -l /dev/null"
 
 # misc.
 alias motd="cat /etc/motd"
 alias issue="cat /etc/issue"
-alias unix="curl -L git.io/unix"
-alias taco="curl -L git.io/taco"
-alias tits="curl -L z3bra.org/tits"
 alias happy="toilet -f term -w 200 -t --gay"
 alias metal="toilet -f term -w 200 -t --metal"
 alias gibberish="metal < /dev/urandom"
@@ -84,5 +118,9 @@ alias matrix="cmatrix -ab -u 1"
 alias makeitso="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
 gain +4 synth whitenoise lowpass -1 100 lowpass -1 100 lowpass -1 100 gain +2"
 
-alias winesteam="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam wine \
-~/.wine-steam/drive_c/Program Files/Steam/Steam.exe"
+# ascii art
+alias tits="curl -sL z3bra.org/tits"
+alias unix="printf '%s\n' \"\$(curl -sL git.io/unix)\""
+alias taco="printf '%s\n' \"\$(curl -sL git.io/taco)\""
+alias pizza="printf '%s\n' \"\$(curl -sL git.io/pizza)\""
+alias nixers="curl -sL https://wildefyr.net/media/nixers"

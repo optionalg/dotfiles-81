@@ -17,9 +17,11 @@ backbar() {
 }
 
 runTaskbar() {
-    while true; do
-        barinfo
-        sleep 0.1
+    while :; do
+        pgrep eventually 2>&1 > /dev/null && {
+            barinfo
+            sleep 0.1
+        }
     done
 }
 
@@ -38,7 +40,7 @@ sleep 0.1
 barh=$((barh - BW))
 bar_bg='#03070B'
 bar_fg='#D7D7D7'
-bar_font=$(awk '/.font/ {print $3}' < ~/.Xresources)
+bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources)
 
 runTaskbar | lemonbar -d -g ${barw}x${barh}+${barx}+${bary} -B${bar_bg} \
                       -F${bar_fg} -f${bar_font} -n "mainbar" -a 100 | /bin/sh &
