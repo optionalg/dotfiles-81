@@ -2,9 +2,7 @@
 #include ".colours/fyry"
 
 /* basics */
-*.modifier     : mod3
-st.termname    : st
-URxvt.termname : urxvt
+*.modifier : mod3
 
 /* font */
 *.font     : -benis-lemon-medium-r-normal--10-110-75-75-m-50-ISO10646-1

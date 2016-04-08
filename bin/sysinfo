@@ -87,7 +87,7 @@ draw() {
 
 ram() {
     ram="$(free | awk '/Mem:/ {print int($3/$2 * 100.0)}')"
-    printf "${f7}RAM:${R} %s" "$(draw $ram $SIZE $f2)"
+    printf "${f6}RAM${R} %s" "$(draw $ram $SIZE $f2)"
 }
 
 cpu() {
@@ -95,12 +95,12 @@ cpu() {
         awk '{cpu=($2+$4)*100/($2+$4+$5)} END {print cpu}')"
     cpu=$(printf "%.0f" $cpu)
 
-    printf "${f7}CPU:${R} %s" "$(draw $cpu $SIZE $f3)"
+    printf "${f6}CPU${R} %s" "$(draw $cpu $SIZE $f3)"
 }
 
 temperature() {
     temp="$(($(cat $TEMP) / 1000))"
-    printf "${f7}TMP:${R} %s" "$(draw $temp $SIZE $f5)"
+    printf "${f6}TMP${R} %s" "$(draw $temp $SIZE $f5)"
 }
 
 battery() {
@@ -108,7 +108,7 @@ battery() {
     b_now=$(sed '1q' $BATTERY/*_now)
     charge=$(printf '%s' "$((100 * $b_now / $b_full))")
 
-    printf "${f7}BAT:${R} %s" "$(draw $charge $SIZE $f4)"
+    printf "${f6}BAT${R} %s" "$(draw $charge $SIZE $f4)"
 }
 
 getSystem
@@ -123,15 +123,15 @@ fyr
 
 printf '\n'
 
-printf '%s\n' "$f7$B$I$b5█$I$b0 $USER@$HOST $LINE1EXTRA$R"
-printf '%s\n' "$f7$B$I$b5█$I$b0 $SYS - $PACK Packages $LINE3EXTRA$R"
-printf '%s\n' "$f7$B$I$b5█$I$b0 $KERN - $TIME $LINE2EXTRA$R"
+printf '%s\n' "$f7$B$I$b4█$I$b0 $USER@$HOST $LINE1EXTRA$R"
+printf '%s\n' "$f7$B$I$b4█$I$b0 $SYS - $PACK Packages $LINE3EXTRA$R"
+printf '%s\n' "$f7$B$I$b4█$I$b0 $KERN - $TIME $LINE2EXTRA$R"
 
-test ! -z "$MPV" && printf '%s\n' "$f7$B$I$b5█$I$b0 $MPV $LINE4EXTRA$R"
+test ! -z "$MPV" && printf '%s\n' "$f7$B$I$b4█$I$b0 $MPV $LINE4EXTRA$R"
 
 printf '\n'
 
-SIZE=$((SIZE - 5))
+SIZE=$((SIZE - 4))
 
 printf '%s\n' "$(ram)"
 printf '%s\n' "$(cpu)"
