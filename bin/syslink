@@ -67,7 +67,6 @@ all() {
     core
     nvim
     xorg
-    crux
 }
 
 case $1 in

@@ -56,12 +56,6 @@ updatedots() {
     git pull --rebase && {szsh; cd $RWD; }
 }
 
-out() {
-    PASTE="/tmp/paste"
-    test -f "$PASTE" && cat "$PASTE"
-    unset -v PASTE
-}
-
 mem() {
     type ccze 2>&1 > /dev/null && {
         free -ht | ccze -A
@@ -94,14 +88,45 @@ psusr() {
     }
 }
 
-pdf() {
-    mupdf "$@" &!
+# pasting
+out() {
+    PASTE="/tmp/paste"
+    test -f "$PASTE" && cat "$PASTE"
+    unset -v PASTE
 }
+
+alias xsel="xsel -l /dev/null"
+
+iopaste() {
+    test ! -z $DISPLAY && {
+        curl -sLT- https://p.iotek.org | xsel -i
+        xsel -o | xsel -ib
+    } || {
+        curl -sLT- https://p.iotek.org
+    }
+}
+
+ixpaste() {
+    test ! -z $DISPLAY && {
+        curl -sF "f:1=<-" ix.io | xsel -i
+        xsel -o | xsel -ib
+    } || {
+        curl -sF "f:1=<-" ix.io
+    }
+}
+
+# music
+alias shuffle="find $MUS -type f | sort -R | mpvc & 2>&1 > /dev/null"
 
 mps() {
     mpsyt userpl wildefyri "$@"
 }
 
+music() {
+    find $MUS -type f -iname "*$@*" | mpvc 2>&1 > /dev/null
+}
+
+# find shortcuts
 findexec() {
     find . -maxdepth 1 -type f -executable | sort
 }
@@ -131,4 +156,9 @@ findfile() {
             }
             ;;
     esac
+}
+
+# misc
+pdf() {
+    mupdf "$@" &!
 }

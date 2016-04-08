@@ -71,11 +71,11 @@ case "$URL" in
         ;;
     *.txt|*ix.io/*|*p.iotek.org/*|*sprunge.us/*|*bpaste.net/*|\
     *pastebin.com/raw*|*pbin.in/raw*)
-        urxvt -name "paste" -e zsh -i -c "curl -s '$URL' | $EDITOR -"
+        urxvt -e zsh -i -c "curl -s '$URL' | $EDITOR -"
         ;;
     *paste.lisp.org/*|*pastebin.com/*|*pbin.in/*)
         rawp
-        urxvt -name "paste" -e zsh -i -c "curl -s '$URL' | $EDITOR -"
+        urxvt -e zsh -i -c "curl -s '$URL' | $EDITOR -"
         ;;
     *)
         openBrowser

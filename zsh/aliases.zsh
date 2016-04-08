@@ -81,21 +81,10 @@ alias steamwine="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam wine \
 alias steamtricks="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winetricks"
 alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam cfg"
 
-# music
-alias shuffle="find $MUS -type f | sort -R | mpvc & 2>&1 > /dev/null"
-
-music() {
-    find $MUS -type f -iname "*$@*" | mpvc 2>&1 > /dev/null
-}
-
 # net
-alias iopaste="curl -sLT- https://p.iotek.org | xsel -i; xsel -o | xsel -ib"
-alias ixpaste="curl -sF \"f:1=<-\" ix.io | xsel -i; xsel -o | xsel -ib"
-
-alias d="transmission-remote-cli"
-alias yt="youtube-dl -x -o \"%(title)s.%(ext)s\""
-
 alias hn="hostname"
+alias tn="transmission-remote-cli"
+alias yt="youtube-dl -x -o \"%(title)s.%(ext)s\""
 alias external="curl -s icanhazip.com"
 alias internal="ip a | grep -w \"inet\" | awk '/192/ {print \$2}' | cut -d'/' -f 1"
 
@@ -103,9 +92,6 @@ alias internal="ip a | grep -w \"inet\" | awk '/192/ {print \$2}' | cut -d'/' -f
 alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
 alias mux="tmux attach || tmux new"
-
-# fuck xsel
-alias xsel="xsel -l /dev/null"
 
 # misc.
 alias motd="cat /etc/motd"
