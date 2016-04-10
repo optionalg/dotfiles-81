@@ -26,10 +26,10 @@ printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
         cut -d'/' -f 1 | rev >> $CACHE
 done
 
-barx=$((0))
+barx=$((XGAP + BW))
 bary=$((0))
-barw=$((SW))
-barh=$((25 - BW))
+barw=$((SW - 2*XGAP - 2*BW))
+barh=$((20 - BW))
 
 bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources)
 

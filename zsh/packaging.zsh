@@ -26,6 +26,11 @@ type hostnamectl 2>&1 > /dev/null && {
     }
 }
 
+# nodejs
+type npm 2>&1 > /dev/null && {
+    npmins="s npm install -g"
+}
+
 # fuck pip seriously
 type pip 2>&1 > /dev/null && {
     type crux 2>&1 > /dev/null && alias pip="pip --cert /etc/ssl/cert.pem"

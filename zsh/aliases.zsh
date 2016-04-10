@@ -7,8 +7,7 @@ free -h && printf '\n' && ps xgf | sed '1d; s/--type.*//'\""
 
 # permissions
 alias chmox="chmod +x"
-alias mine="s chown $(echo $USER):users"
-alias all="mine -R *"
+alias mine="s chown $(echo $USER):users" alias all="mine -R *"
 
 # operations
 alias mount="s mount"
@@ -92,6 +91,7 @@ alias internal="ip a | grep -w \"inet\" | awk '/192/ {print \$2}' | cut -d'/' -f
 alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
 alias mux="tmux attach || tmux new"
+alias dzsh="dtach -A /tmp/zsh -z zsh"
 
 # misc.
 alias motd="cat /etc/motd"

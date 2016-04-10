@@ -80,8 +80,8 @@ mod1 + shift + q
 # system
 mod4 + e
     power -l
-mod4 + shift + {q,e,r}
-    power -{p,e,r}
+mod2 + {z,x,c}
+    power -{p,r,e}
 
 # mouse
 mod1 + @button1

@@ -227,7 +227,7 @@ nmap <Leader>'\ awildefyr - 2016 (c)
 nmap <Leader>'} awildefyr, me at wildefyr dot net<ESC>
 
 " transcribing shortcuts
-nmap <Leader>a :.!mpvc -f \%time\%<CR>0i[<ESC>$xa]<ESC>
+nmap <Leader>a :read !mpvc -f \%time\%<CR>0i[<ESC>$xa]<ESC>
 nmap S 1z=
 nmap sn ]s
 nmap sp [s

@@ -28,6 +28,7 @@ while read -r action; do
             } || {
                 sudo poweroff 2>/dev/null
             }
+            exit
             ;;
         r|reboot)
             type hostnamectl 2>&1 > /dev/null && {
@@ -35,6 +36,7 @@ while read -r action; do
             } || {
                 sudo reboot 2>/dev/null
             }
+            exit
             ;;
     esac
 
