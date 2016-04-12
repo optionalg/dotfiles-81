@@ -1,6 +1,13 @@
 #!/bin/sh
 
-xset +fp ~/.fonts
+cd ~/.local/share/fonts
+
+test -f fonts.dir && mkfontdir
+test -f fonts.scale && mkfontscale
+
 xset fp rehash
+
 fc-cache
 fc-cache -fv
+
+fc-scan ./

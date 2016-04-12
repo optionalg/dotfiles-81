@@ -36,12 +36,12 @@ type pip 2>&1 > /dev/null && {
     type crux 2>&1 > /dev/null && alias pip="pip --cert /etc/ssl/cert.pem"
     alias pipins="s pip install"
     alias piprem="s pip uninstall"
-    alias pipupg="s pip install --upgrade"
+    alias pipupdate="s pip install --upgrade"
     alias pipinfo="pip show"
-    alias pipsrch="pip search"
     alias piplist="pip list"
+    alias pipsrch="pip search"
 
-    pipupdate() {
+    pipupgrade() {
         pip list | while read -r line; do
             package=$(printf '%s\n' "$line" | cut -d\  -f 1)
             s pip install --upgrade $package

@@ -1,5 +1,5 @@
-*background  : #263238
-*foreground  : #DEE7F5
+*background  : #111111
+*foreground  : #D7D7D7
 
 ! black
 *color15     : #66666A
@@ -27,4 +27,4 @@
 *color8      : #F7F7F7
 
 *colorUL     : #00BCD4
-*cursorColor : #00BcD4
+*cursorColor : #D7D7D7

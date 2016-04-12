@@ -107,6 +107,15 @@ type crux 2>&1 > /dev/null && {
         unset -v deptree dependent
     }
 
+    prtdup() {
+        test -z "$@" && {
+            printf '%s\n' "Usage: prtdup [pkgname]"
+            return 1
+        }
+
+        find $PORTS -type d -iname "*$@*" | cut -d'/' -f 4-
+    }
+
     # cd into git cloned directories
     prtclone() {
         test -z "$@" && {
@@ -141,7 +150,7 @@ type crux 2>&1 > /dev/null && {
         }
 
         # set permissions to current user
-        s chown $(echo $USER):users -R $PORTS/* || return 1
+        chown $(echo $USER):users -R $PORTS/* || return 1
 
         # upgrade packages marked
         s prt-get sysup || return 1
@@ -170,7 +179,6 @@ type crux 2>&1 > /dev/null && {
             make
             modinstall
             instkern
-            s depmod -a
         }
     }
 }

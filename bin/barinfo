@@ -3,37 +3,50 @@
 # wildefyr - 2016 (c) CC
 # produce my bar information
 
+SIZE=${SIZE-35}
+FULL=${FULL-▪}
+EMPTY=${EMPTY-▬}
 ACTIVE="%{F#D7D7D7}"
 INACTIVE="%{F#737373}"
 whiteSpace=$(printf '%s' " ")
 
-mpvcinfo=$(mpvc -f "%status% | %title% | #%position%/%playlistlength% | \
-%volume%%" 2> /dev/null)
+draw() {
+    perc=$1
+    size=$2
 
-globalvolume=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p')
-dateFormat=$(date '+%d %b %T')
-cputemp=$(cpu t)
+    inc=$((perc * size / 100))
+
+    for v in $(seq 0 $((size - 1))); do
+        test $v -le $inc && {
+            out="${out}${FULL}"
+        } || {
+            out="${out}${EMPTY}"
+        }
+    done
+
+    printf '%s' "$out"
+}
 
 string="${string}%{l}"
 
-string="${string}$(taskbar)"
-
-string="${string}%{c}"
-
-string="${string}%{r}"
-
-string="${string}${whiteSpace}${ACTIVE}\
-%{A1:mpvc toggle:}\
-%{A3:mpvc next:}\
-%{A4:mpvc volume +5:}\
-%{A5:mpvc volume -5:}\
-${mpvcinfo}\
-%{A}%{A}%{A}%{A}"
+globalvolume=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p')
+globalvolume=$(draw $globalvolume $SIZE)
+cputemp=$(cpu t)
+cputemp=$(draw $cputemp $SIZE)
 
 string="${string}${whiteSpace}${ACTIVE}\
 %{A4:amixer -c 0 set Master 2db+ unmute -q:}\
 %{A5:amixer -c 0 set Master 2db- unmute -q:}\
-${globalvolume}% | ${cputemp}C | ${dateFormat}${whiteSpace}${whiteSpace}\
+${globalvolume}  ${cputemp}\
 %{A}%{A}"
+
+string="${string}%{c}"
+
+dateFormat=$(date '+%d %b %T')
+
+string="${string}%{r}"
+
+string="${string}${ACTIVE}\
+${dateFormat}${whiteSpace}${whiteSpace}"
 
 printf '%s\n' "${string}"

@@ -1,4 +1,4 @@
-64
+81
 Overpass-Bold-Italic.ttf -misc-overpass-bold-i-normal--0-0-0-0-p-0-iso10646-1
 Overpass-Bold-Italic.ttf -misc-overpass-bold-i-normal--0-0-0-0-p-0-iso8859-1
 Overpass-Bold-Italic.ttf -misc-overpass-bold-i-normal--0-0-0-0-p-0-iso8859-10
@@ -63,3 +63,20 @@ Overpass-Regular.ttf -misc-overpass-medium-r-normal--0-0-0-0-p-0-iso8859-2
 Overpass-Regular.ttf -misc-overpass-medium-r-normal--0-0-0-0-p-0-iso8859-3
 Overpass-Regular.ttf -misc-overpass-medium-r-normal--0-0-0-0-p-0-iso8859-4
 Overpass-Regular.ttf -misc-overpass-medium-r-normal--0-0-0-0-p-0-iso8859-9
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso10646-1
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-1
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-10
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-15
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-2
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-3
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-4
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-5
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-6
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-7
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-8
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-iso8859-9
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-koi8-e
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-koi8-r
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-koi8-ru
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-koi8-u
+segoeuisl.ttf -microsoft-segoe ui semilight-medium-r-normal--0-0-0-0-p-0-koi8-uni

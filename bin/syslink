@@ -37,7 +37,7 @@ nvim() {
 }
 
 xorg() {
-    ln $OPTIONS $DOTFILEDIR/fonts $HOME/.fonts
+    ln $OPTIONS $DOTFILEDIR/fonts $HOME/.local/share/fonts
     ln $OPTIONS $DOTFILEDIR/X11/xinitrc $HOME/.xinitrc
     ln $OPTIONS $DOTFILEDIR/X11/colours $HOME/.colours
     ln $OPTIONS $DOTFILEDIR/X11/Xresources $HOME/.Xresources

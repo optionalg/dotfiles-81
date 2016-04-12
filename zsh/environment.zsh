@@ -102,4 +102,4 @@ export MANPAGER="less"
 alias  nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
 alias  lesscolor="nocolor | $PAGER"
 
-test -f ~/.iouprc && export IOUP_TOKEN="$(cat ~/.iouprc)"
+test -f ~/.iouprc && export IOUP_TOKEN="$(< ~/.iouprc)"

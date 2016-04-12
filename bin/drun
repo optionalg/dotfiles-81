@@ -26,13 +26,15 @@ printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
         cut -d'/' -f 1 | rev >> $CACHE
 done
 
-barx=$((XGAP + BW))
-bary=$((0))
-barw=$((SW - 2*XGAP - 2*BW))
+
+bar_bg='#D7D7D7'
+bary=$((1060 + BW))
+barw=$((minW))
+barx=$((SW - barw - XGAP - 2*BW))
 barh=$((20 - BW))
 
 bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources)
 
 sort -u < $CACHE | dmenu -f -x $barx -y $bary -w $barw -h $barh -l 0 \
--fn $bar_font -nf '#D7D7D7' -sf '#B23450' -nb '#03070B' -sb '#03070B' | \
+-fn $bar_font -nf '#D7D7D7' -sf '#B23450' -nb '#03070B' -sb '#040404' | \
 ${SHELL:-"/bin/zsh"}

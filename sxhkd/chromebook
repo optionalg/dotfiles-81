@@ -5,8 +5,7 @@
 
 # reload sxhkd
 mod1 + shift + r
-    pkill -USR1 -x sxhkd
-
+    pkill -USR1 -x sxhkd 
 # movement scripts
 mod1 + Tab
     focus --prev
@@ -89,7 +88,7 @@ mod1 + @button1
 button2
     focus
 mod1 + !button3
-    focus; wrs -a %i %i $(pfw)
+    wrs -a %i %i $(pfw)
 mod1 + z
     mouse --toggle
 
