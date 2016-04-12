@@ -34,7 +34,7 @@ globalvolume=$(draw $globalvolume $SIZE)
 cputemp=$(cpu t)
 cputemp=$(draw $cputemp $SIZE)
 
-string="${string}${whiteSpace}${ACTIVE}\
+string="${string}${whiteSpace}${whiteSpace}${ACTIVE}\
 %{A4:amixer -c 0 set Master 2db+ unmute -q:}\
 %{A5:amixer -c 0 set Master 2db- unmute -q:}\
 ${globalvolume}  ${cputemp}\
