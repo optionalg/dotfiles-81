@@ -28,3 +28,6 @@ case $1 in
         }
         ;;
 esac
+
+sxhkd -f 50 &
+xset r rate 330 30

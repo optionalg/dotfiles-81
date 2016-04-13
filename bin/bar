@@ -28,10 +28,10 @@ runTaskbar() {
 . fyrerc
 
 # set bar variables and launch backbar
-bary=$((1060))
 barw=$((minW + 2*BW))
+barh=$((24))
 barx=$((SW - barw - XGAP - BW))
-barh=$((20))
+bary=$((SH - barh))
 bar_bg='#D7D7D7'
 
 backbar $barx $bary $barw $barh $bar_bg &

@@ -22,7 +22,7 @@ mod4 + shift + {h,j,k,l}
 
 # resize window
 mod4 + {w,a,s,d}
-    resize {--shrinkup,--shrinkleft,--growdown,--growright}
+    sizesnap {--shrinkup,--shrinkleft,--growdown,--growright}
 
 # window stacking order
 mod1 + u
@@ -59,12 +59,10 @@ mod2 + shift + {1,2,3,4,5,6,7,8,9,0}
     layouts -s {1,2,3,4,5,6,7,8,9,0}
 
 # terminals
-mod1 + Return
+{mod1, mod2} + Return
     urxvtc -cd "$HOME"
-mod2 + Return
-    pather
 mod4 + Return
-    st -n "st" -cd "$HOME"
+    pather
 
 # programs
 mod1 + d

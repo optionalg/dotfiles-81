@@ -3,7 +3,8 @@ alias s="sudo"
 alias se="sudo -e"
 
 alias sys="watch -n 1 -p \"df -h | grep '/dev/' | sort -h && printf '\n' && \
-free -h && printf '\n' && ps xgf | sed '1d; s/--type.*//'\""
+free -h && printf '\n' && ps xgf | sed '1d; s/--type.*//' | \
+grep -v 'watch\|ps\|sed' \""
 
 # permissions
 alias chmox="chmod +x"
@@ -66,10 +67,13 @@ type ccze 2>&1 > /dev/null && {
     alias llxa="ls -lhXa"
 }
 
+alias t="tree"
+alias ta="tree -a"
+alias td="tree -dl"
+
 alias sz="du -hs"
-alias t="clear; sz; tree"
-alias sza="sz && sz * | sort -hr"
-alias szt="t -h --du --sort=size"
+alias sza="clear; sz && sz * | sort -hr"
+alias szt="clear; sz && t -h --du --sort=size"
 
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"

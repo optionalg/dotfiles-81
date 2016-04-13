@@ -3,13 +3,11 @@
 xset s off
 xset -dpms
 xset +fp ~/.fonts
-xset r rate 330 30
 xsetroot -name background
 xsetroot -cursor_name left_ptr
 
 bar
 keys
-sxhkd -f 50 &
 urxvtd -q -o -f &
 
 test -f ~/.Xresources && xrdb -load ~/.Xresources

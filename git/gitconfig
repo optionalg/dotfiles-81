@@ -4,7 +4,7 @@
 	email = me@wildefyr.net
 	name = Laurence Willetts
 [push]
-	default = matching
+	default = current
 [color]
 	ui = auto
 [alias]

@@ -5,8 +5,8 @@
 *.modifier : mod3
 
 /* font */
-*.font        : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*
-*.boldFont    : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*
+*.font     : -benis-lemon-medium-r-normal--10-110-75-75-m-50-iso10646-1
+*.boldFont : -benis-lemon-medium-r-normal--10-110-75-75-m-50-iso10646-1
 
 /* bell */
 *.urgentOnBell : 1

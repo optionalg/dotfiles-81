@@ -83,8 +83,9 @@ type git 2>&1 > /dev/null && {
 ################################################################################
 
     alias gb="git branch"
+    alias gck="git checkout"
 
-    gck() {
+    checkout() {
         git checkout $(git name-rev --name-only "$@")
     }
 

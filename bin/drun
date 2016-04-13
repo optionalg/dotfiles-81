@@ -28,10 +28,10 @@ done
 
 
 bar_bg='#D7D7D7'
-bary=$((1060 + BW))
 barw=$((minW))
+barh=$((24 - BW))
 barx=$((SW - barw - XGAP - 2*BW))
-barh=$((20 - BW))
+bary=$((SH - barh))
 
 bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources)
 

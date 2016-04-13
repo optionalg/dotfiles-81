@@ -10,6 +10,7 @@ type crux 2>&1 > /dev/null && {
     alias prtupdate="s prt-get update"
 
     alias prtls="prt-get ls"
+    alias prtcur="prt-get list"
     alias prtedit="prt-get edit"
     alias prtpath="prt-get path"
     alias prtinfo="prt-get info"
@@ -59,9 +60,15 @@ type crux 2>&1 > /dev/null && {
             return 1
         }
 
+        type vimcat 2>&1 > /dev/null && {
+            CATCMD="vimcat"
+        } || {
+            CATCMD="cat"
+        }
+
         test -z "$2" && {
             test -f "${packagePath}/Pkgfile" && {
-                vimcat "${packagePath}/Pkgfile"
+                $CATCMD "${packagePath}/Pkgfile"
             } || {
                 printf '%s\n' "Pkgfile does not exist!"
                 return 1
@@ -70,23 +77,21 @@ type crux 2>&1 > /dev/null && {
             shift
             for file in "$@"; do
                 test -f "${packagePath}/${file}" && {
-                    vimcat "${packagePath}/${file}"
+                    $CATCMD "${packagePath}/${file}"
                 } || {
                     continue
                 }
             done
         }
 
-        unset -v package
+        unset -v CATCMD package
     }
 
-    prtdep() {
+    prtdeps() {
         test -z "$@" && {
             printf '%s\n' "Usage: prtdep [pkgname]"
             return 1
         }
-
-        prt-get info "$@"
 
         deptree="$(prt-get deptree "$@" | sed '1d')"
         test ! -z "$deptree" && {
@@ -107,13 +112,24 @@ type crux 2>&1 > /dev/null && {
         unset -v deptree dependent
     }
 
-    prtdup() {
+    prtduplicated() {
         test -z "$@" && {
-            printf '%s\n' "Usage: prtdup [pkgname]"
+            printf '%s\n' "Usage: prtduplicated [pkgname]"
             return 1
         }
 
-        find $PORTS -type d -iname "*$@*" | cut -d'/' -f 4-
+        duplicated=$(find $PORTS -mindepth 2 -maxdepth 2 -type d -iname "$@" | \
+            cut -d'/' -f 4- | grep -v "\.git" | grep -v "^$" | sort)
+
+        test ! -z $duplicated && {
+            test $(printf '%s\n' "$duplicated" | wc -l) -ne 1 && {
+                printf '%s\n' "$duplicated"
+            } || {
+                return 2
+            }
+        } || {
+            return 1
+        }
     }
 
     # cd into git cloned directories
@@ -136,10 +152,34 @@ type crux 2>&1 > /dev/null && {
         }
     }
 
+    prtrebuild() {
+        prt-get update $(prt-get quickdep "$1")
+    }
+
+    prtrepobuild() {
+        test -z "$@" && {
+            printf '%s\n' "Usage: prtrepobuild [repo name]"
+            return 1
+        }
+
+        "$portdirectory"=$(find $PORTS -maxdepth 1 -type d -name "$@")
+
+        test ! -z "$portdirectory" && {
+            cd "$portdirectory"
+            find -type d -exec prt-get update -fr {} \;
+        } || {
+            return 2
+        }
+    }
+
     prtupgrade() {
         s ports -u || return 1
 
+        printf '\n'
         prt-get diff
+        printf '\n%s\n' "The following packages are currently locked:"
+        prt-get listlocked
+        printf '\n'
 
         test ! -z "$(prt-get quickdiff)" && {
             printf '\n%s' "Upgrade Now? [Y/n]: "; while read -r confirm; do
@@ -147,38 +187,19 @@ type crux 2>&1 > /dev/null && {
                 test "$confirm" = "n" && return 0 || break
                 unset -v confirm
             done
+        } || {
+            return 2
         }
 
+        printf '\n'
+
         # set permissions to current user
-        chown $(echo $USER):users -R $PORTS/* || return 1
+        ME=$(echo $USER)
+        s chown ${ME}:users -R $PORTS/* || return 1
 
         # upgrade packages marked
         s prt-get sysup || return 1
-    }
 
-    prtrebuild() {
-        prtupdate $(prt-get quickdep "$1")
-    }
-
-    rebuildcore() {
-        cd $PORTS/core
-        ls -1 | while read -r port; do
-            port=$(printf '%s\n' "$port" | rev | cut -d'/' -f 2 | rev)
-            prtupdate -fr $port
-        done
-
-        unset -v port
-    }
-
-    fuckthisfuckthatfuckeverything() {
-        sudo prt-get update $(prt-get listinst) -fr
-    }
-
-    buildkernal() {
-        test -d "./arch" && {
-            make
-            modinstall
-            instkern
-        }
+        unset -v ME
     }
 }

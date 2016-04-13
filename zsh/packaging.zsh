@@ -49,16 +49,32 @@ type pip 2>&1 > /dev/null && {
 
         unset $package
     }
-
 }
 
 # ruby
 type ruby 2>&1 > /dev/null && {
     alias gemins="s gem install"
     alias gemrem="s gem uninstall"
-    alias gemupgrade="s gem update"
-    alias gemlist="gem list"
     alias gemclean="s gem cleanup"
+    alias gemupgrade="s gem update"
+
+    alias gemcur="gem list"
+    alias gemlist="gem list --local"
+}
+
+# manual
+type make 2>&1 > /dev/null && {
+    alias makefile="$EDITOR Makefile"
+    alias menuconfig="make menuconfig"
+    alias modinstall="s make modules_install"
+
+    buildkernal() {
+        test -d "./arch" && {
+            make
+            modinstall
+            instkern
+        }
+    }
 }
 
 # fzf
@@ -67,9 +83,3 @@ type fzf 2>&1 > /dev/null && {
     . "$HOME/.fzf/shell/key-bindings.zsh"
 }
 
-# manual
-type make 2>&1 > /dev/null && {
-    alias makefile="$EDITOR Makefile"
-    alias menuconfig="make menuconfig"
-    alias modinstall="s make modules_install"
-}
