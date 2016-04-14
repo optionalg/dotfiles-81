@@ -12,7 +12,7 @@ backbar() {
 
     while :; do
         printf '\n'
-        sleep 100d
+        sleep 10m
     done | lemonbar -d -g ${barw}x${barh}+${barx}+${bary} -B${bar_bg} -n "backbar"
 }
 

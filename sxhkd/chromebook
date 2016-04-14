@@ -5,7 +5,8 @@
 
 # reload sxhkd
 mod1 + shift + r
-    pkill -USR1 -x sxhkd 
+    pkill -USR1 -x sxhkd
+
 # movement scripts
 mod1 + Tab
     focus --prev

@@ -42,8 +42,12 @@ xorg() {
     ln $OPTIONS $DOTFILEDIR/X11/colours $HOME/.colours
     ln $OPTIONS $DOTFILEDIR/X11/Xresources $HOME/.Xresources
 
+    ln $OPTIONS $DOTFILEDIR/fyre/config $HOME/.config/fyre/config
+    ln $OPTIONS $DOTFILEDIR/synergy/synergy.conf $HOME/.synergy.conf
+
     test ! -d ~/.config/sxhkd && mkdir $HOME/.config/sxhkd
-    test "$(hostname)" = "fyr-chromebook" && {
+
+    test "$(hostname)" = "feotus" && {
         ln $OPTIONS $DOTFILEDIR/sxhkd/chromebook $HOME/.config/sxhkd/sxhkdrc
     } || {
         ln $OPTIONS $DOTFILEDIR/sxhkd/poker $HOME/.config/sxhkd/sxhkdrc
@@ -51,10 +55,9 @@ xorg() {
 
     ln $OPTIONS $DOTFILEDIR/mpv $HOME/.config/mpv
     ln $OPTIONS $DOTFILEDIR/sxiv $HOME/.config/sxiv
-    ln $OPTIONS $DOTFILEDIR/youtube-dl $HOME/.config/youtube-dl
     ln $OPTIONS $DOTFILEDIR/bindings $HOME/.bindings
-
     ln $OPTIONS $DOTFILEDIR/alsa/asoundrc $HOME/.asoundrc
+    ln $OPTIONS $DOTFILEDIR/youtube-dl $HOME/.config/youtube-dl
 }
 
 crux() {

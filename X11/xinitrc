@@ -12,4 +12,10 @@ urxvtd -q -o -f &
 
 test -f ~/.Xresources && xrdb -load ~/.Xresources
 
+test $(hostname) = "flame" && {
+    synergys
+} || {
+    synergyc flame
+}
+
 exec runfyre

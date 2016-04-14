@@ -95,7 +95,7 @@ type crux 2>&1 > /dev/null && {
 
         deptree="$(prt-get deptree "$@" | sed '1d')"
         test ! -z "$deptree" && {
-            printf '\n%s\n' "Package dependency tree:"
+            printf '%s\n' "Package dependency tree:"
             prt-get deptree "$@" | sed '1d'
         } || {
             printf '\n%s' "$@ does not have any dependencies!"
@@ -153,7 +153,7 @@ type crux 2>&1 > /dev/null && {
     }
 
     prtrebuild() {
-        prt-get update $(prt-get quickdep "$1")
+        s prt-get update $(prt-get quickdep "$@")
     }
 
     prtrepobuild() {

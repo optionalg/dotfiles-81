@@ -29,5 +29,7 @@ case $1 in
         ;;
 esac
 
+pgrep sxhkd 2>&1 > /dev/null && pkill sxhkd
 sxhkd -f 50 &
+
 xset r rate 330 30

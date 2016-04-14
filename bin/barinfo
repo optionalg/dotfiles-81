@@ -3,7 +3,7 @@
 # wildefyr - 2016 (c) CC
 # produce my bar information
 
-SIZE=${SIZE-35}
+SIZE=${SIZE-30}
 FULL=${FULL-▪}
 EMPTY=${EMPTY-▬}
 ACTIVE="%{F#D7D7D7}"
@@ -29,7 +29,7 @@ draw() {
 
 string="${string}%{l}"
 
-globalvolume=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p')
+globalvolume=$(amixer get Master 2> /dev/null | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p')
 globalvolume=$(draw $globalvolume $SIZE)
 cputemp=$(cpu t)
 cputemp=$(draw $cputemp $SIZE)
