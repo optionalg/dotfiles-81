@@ -3,7 +3,14 @@
 # wildefyr - 2016 (c) CC
 # produce my bar information
 
-SIZE=${SIZE-30}
+. fyrerc
+
+test $SW -ge 1920 && {
+    SIZE=${SIZE-35}
+} || {
+    SIZE=${SIZE-30}
+}
+
 FULL=${FULL-▪}
 EMPTY=${EMPTY-▬}
 ACTIVE="%{F#D7D7D7}"
@@ -40,11 +47,9 @@ string="${string}${whiteSpace}${whiteSpace}${ACTIVE}\
 ${globalvolume}  ${cputemp}\
 %{A}%{A}"
 
-string="${string}%{c}"
+string="${string}%{r}"
 
 dateFormat=$(date '+%d %b %T')
-
-string="${string}%{r}"
 
 string="${string}${ACTIVE}\
 ${dateFormat}${whiteSpace}${whiteSpace}"

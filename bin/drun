@@ -5,19 +5,14 @@
 
 CACHE="$HOME/.cache/drun"
 
-. fyrerc
-
 for configuration in \
-    ~/.zsh/fyre.zsh \
-    ~/.zsh/aliases.zsh \
-    ~/.zsh/environment.zsh
+    ~/.zsh/environment.zsh \
+    ~/.zsh/fyre.zsh
 do
     . $configuration
 done
 
 unset configuration
-
-alias | cut -d'=' -f 1 > $CACHE
 
 printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
     find "$EXECPATH" -maxdepth 1 -type f -executable | rev | \
@@ -26,6 +21,7 @@ printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
         cut -d'/' -f 1 | rev >> $CACHE
 done
 
+. fyrerc
 
 bar_bg='#D7D7D7'
 barw=$((minW))

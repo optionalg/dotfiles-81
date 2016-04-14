@@ -23,9 +23,7 @@ EXECPATHS="\
 $DOTS/bin
 $HOME/.fzf/bin
 /builds/go/bin
-/usr/local/bin
-/usr/lib/ccache\
-"
+/usr/local/bin"
 
 printf '%s\n' "$EXECPATHS" | while read -r EXECPATH; do
     test -d "$EXECPATH" && export PATH="$PATH:$EXECPATH"

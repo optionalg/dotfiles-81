@@ -2,11 +2,10 @@
 
 xset s off
 xset -dpms
-xset +fp ~/.fonts
+xset +fp ~/.local/share/fonts
 xsetroot -name background
 xsetroot -cursor_name left_ptr
 
-bar
 keys
 urxvtd -q -o -f &
 
@@ -15,7 +14,7 @@ test -f ~/.Xresources && xrdb -load ~/.Xresources
 test $(hostname) = "flame" && {
     synergys
 } || {
-    synergyc flame
+    synergyc 2>&1 > /dev/null || synergyc flame
 }
 
 exec runfyre

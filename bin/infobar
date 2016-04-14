@@ -1,25 +1,12 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
-# my bar
-
-backbar() {
-    barx=$1
-    bary=$2
-    barw=$3
-    barh=$4
-    bar_bg=$5
-
-    while :; do
-        printf '\n'
-        sleep 10m
-    done | lemonbar -d -g ${barw}x${barh}+${barx}+${bary} -B${bar_bg} -n "backbar"
-}
+# wildefyr - 2016 (c) CC
+# launch infobar
 
 runTaskbar() {
     while :; do
         pgrep eventually 2>&1 > /dev/null && {
-            barinfo
+            infobardata
             sleep 0.1
         }
     done
@@ -46,4 +33,4 @@ bar_fg='#D7D7D7'
 bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources)
 
 runTaskbar | lemonbar -d -g ${barw}x${barh}+${barx}+${bary} -B${bar_bg} \
-                      -F${bar_fg} -f${bar_font} -n "mainbar" -a 100 | /bin/sh &
+                      -F${bar_fg} -f${bar_font} -n "infobar" -a 15 | /bin/sh &

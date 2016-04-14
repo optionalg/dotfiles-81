@@ -2,12 +2,12 @@
 
 cd ~/.local/share/fonts
 
-test -f fonts.dir && mkfontdir
-test -f fonts.scale && mkfontscale
+test -f fonts.dir && rm -f fonts.dir
+test -f fonts.scale && rm -f fonts.scale
 
-xset fp rehash
-
+mkfontdir
+mkfontscale
 fc-cache
 fc-cache -fv
-
-fc-scan ./
+xset +fp $PWD
+xset fp rehash
