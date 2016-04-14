@@ -42,15 +42,16 @@ xorg() {
     ln $OPTIONS $DOTFILEDIR/X11/colours $HOME/.colours
     ln $OPTIONS $DOTFILEDIR/X11/Xresources $HOME/.Xresources
 
-    ln $OPTIONS $DOTFILEDIR/fyre/config $HOME/.config/fyre/config
     ln $OPTIONS $DOTFILEDIR/synergy/synergy.conf $HOME/.synergy.conf
 
     test ! -d ~/.config/sxhkd && mkdir $HOME/.config/sxhkd
 
     test "$(hostname)" = "feotus" && {
         ln $OPTIONS $DOTFILEDIR/sxhkd/chromebook $HOME/.config/sxhkd/sxhkdrc
+        ln $OPTIONS $DOTFILEDIR/fyre/chromebook $HOME/.config/fyre/config
     } || {
         ln $OPTIONS $DOTFILEDIR/sxhkd/poker $HOME/.config/sxhkd/sxhkdrc
+        ln $OPTIONS $DOTFILEDIR/fyre/config $HOME/.config/fyre/config
     }
 
     ln $OPTIONS $DOTFILEDIR/mpv $HOME/.config/mpv
