@@ -3,13 +3,11 @@
 # wildefyr - 2016 (c) CC
 # sick console menu
 
-. ~/.zsh/environment.zsh
-
 W='[37m'; R='[0m'
 
 prompt() {
-    $BIN/sysinfo
-    printf '%s'"${f7}>> ${R}"
+    ~/.dotfiles/bin/sysinfo
+    printf '%s'"${W}>> ${R}"
 }
 
 prompt

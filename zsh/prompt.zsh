@@ -32,12 +32,6 @@ zle-keymap-select() {
 
 RPROMPT="%{$fg[cyan]%} %n@%m %{$reset_color%}"
 
-# auto completion
-autoload -U compinit; compinit -D
-
-# auto prediction
-# autoload predict-on
-# predict-on
 
 # superglobs
 setopt extendedglob
@@ -53,3 +47,9 @@ test -x "$(whence -p dircolors)" && {
 
 # load reporting
 REPORTTIME=60
+
+# fonts
+alias lemon="printf '\e]710;%s\007' \"-benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*\""
+alias edges="printf '\e]710;%s\007' \"-artwiz-edges-*-*-*-*-*-*-*-*-*-*-*-*\""
+alias anorexia="printf '\e]710;%s\007' \"-artwiz-anorexia-*-*-*-*-*-*-*-*-*-*-*-*\""
+alias cure="printf '\e]710;%s\007' \"-artwiz-cure-*-*-*-*-*-*-*-*-*-*-*-*\""

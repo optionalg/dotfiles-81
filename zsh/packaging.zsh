@@ -82,4 +82,3 @@ type fzf 2>&1 > /dev/null && {
     . "$HOME/.fzf/shell/completion.zsh"
     . "$HOME/.fzf/shell/key-bindings.zsh"
 }
-

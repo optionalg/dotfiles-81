@@ -48,7 +48,7 @@ type crux 2>&1 > /dev/null && {
 
     prtcat() {
         test -z $1 && {
-            printf '%s\n' "Usage: prtcat [pkgname] <file>"
+            printf '%s\n' "Usage: prtcat [package] <file>"
             return 1
         }
 
@@ -89,22 +89,24 @@ type crux 2>&1 > /dev/null && {
 
     prtdeps() {
         test -z "$@" && {
-            printf '%s\n' "Usage: prtdep [pkgname]"
+            printf '%s\n' "Usage: prtdeps [package]"
             return 1
         }
+
+        prt-get info "$@" 2>&1 > /dev/null || return 1
 
         deptree="$(prt-get deptree "$@" | sed '1d')"
         test ! -z "$deptree" && {
             printf '%s\n' "Package dependency tree:"
             prt-get deptree "$@" | sed '1d'
         } || {
-            printf '\n%s' "$@ does not have any dependencies!"
+            printf '%s\n' "$@ does not have any dependencies!"
         }
 
-        dependent="$(prt-get dependent "$@")"
-        test ! -z "$dependent" && {
-            printf '\n%s\n' "Packages dependent:"
-            printf '%s\n' "$dependent"
+        dependents="$(prt-get dependent "$@")"
+        test ! -z "$dependents" && {
+            printf '\n%s\n' "Packages dependinging on ${@}:"
+            printf '%s\n' "$dependents"
         } || {
             printf '\n%s\n' "$@ has no packages dependent on it!"
         }
@@ -112,9 +114,9 @@ type crux 2>&1 > /dev/null && {
         unset -v deptree dependent
     }
 
-    prtduplicated() {
+    prtdups() {
         test -z "$@" && {
-            printf '%s\n' "Usage: prtduplicated [pkgname]"
+            printf '%s\n' "Usage: prtdups [package]"
             return 1
         }
 
@@ -128,27 +130,30 @@ type crux 2>&1 > /dev/null && {
                 return 2
             }
         } || {
+            printf '%s\n' "Package '$@' not found"
             return 1
         }
     }
 
-    # cd into git cloned directories
-    prtclone() {
+    # cd into a source directory for a git package
+    prtsource() {
         test -z "$@" && {
-            printf '%s\n' "Usage: prtclone [pkgname]"
+            printf '%s\n' "Usage: prtsource [package]"
             return 1
         }
 
-        prt-get cat $1 | grep -q "version=git" && {
-            test ! -d $SOURCES/$1 && {
-                prt-get isinst $1 && {
-                    prt-get update -fr $1
+        prt-get cat "$1" | grep -q "version=git" && {
+            test ! -d "$SOURCES/$1" && {
+                prt-get isinst "$1" && {
+                    prt-get update -fr "$1"
                 } || {
-                    prt-get install -fr $1
+                    prt-get install -fr "$1"
                 }
             }
 
-            cd $SOURCES/$1
+            cd "$SOURCES/$1"
+        } || {
+            printf '%s\n' "$1 is not a git package."
         }
     }
 
@@ -158,17 +163,18 @@ type crux 2>&1 > /dev/null && {
 
     prtrepobuild() {
         test -z "$@" && {
-            printf '%s\n' "Usage: prtrepobuild [repo name]"
+            printf '%s\n' "Usage: prtrepobuild [repo]"
             return 1
         }
 
-        "$portdirectory"=$(find $PORTS -maxdepth 1 -type d -name "$@")
+        portdirectory="$(find $PORTS -maxdepth 1 -type d -name "$@")"
 
         test ! -z "$portdirectory" && {
             cd "$portdirectory"
             find -type d -exec prt-get update -fr {} \;
         } || {
-            return 2
+            printf '%s\n' "Port '$@' not found"
+            return 1
         }
     }
 
@@ -177,9 +183,12 @@ type crux 2>&1 > /dev/null && {
 
         printf '\n'
         prt-get diff
-        printf '\n%s\n' "The following packages are currently locked:"
-        prt-get listlocked
-        printf '\n'
+
+        locked=$(prt-get listlocked)
+        test "$locked" != "Failed to opne lock data file" && {
+            printf '\n%s' "The following packages are currently locked:"
+            printf '\n%s\n\n' "$locked"
+        }
 
         test ! -z "$(prt-get quickdiff)" && {
             printf '\n%s' "Upgrade Now? [Y/n]: "; while read -r confirm; do

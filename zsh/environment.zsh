@@ -34,11 +34,7 @@ unset EXECPATH
 # compiling
 export CC="/usr/bin/gcc"
 export CXX="/usr/bin/g++"
-export CCACHE_DIR="/var/cache/ccache"
-export CCACHE_COMPILERCHECK="%compiler% -dumpversion crux"
-
 export GOPATH="/builds/go"
-export ruby="/usr/bin/ruby"
 
 # misc.
 export XDG_CONFIG_HOME="$HOME/.config"

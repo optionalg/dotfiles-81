@@ -1,0 +1,10 @@
+#compdef prtcat
+
+type crux 2>&1 > /dev/null && {
+    _arguments "1: :($(prt-get list))"
+
+    port=$(prt-get info $words[2] 2> /dev/null | awk '/Path:/ {print $2}')
+    completion=$(ls $port/$words[2] -A -1 2> /dev/null)
+
+    _arguments "2: :($completion)"
+}

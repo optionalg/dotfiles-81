@@ -8,18 +8,17 @@ SHOT=${SHOT:-./shot}
 test $# -eq 0 && {
     xscreenshot | ff2png > "${SHOT}.png"
 } || {
-    wattr "$1" && {
-        xscreenshot "$1" | ff2png > "${SHOT}.png" || exit 1
-    } || {
-        case "$1" in
-            up)
-                alias xsel="xsel -l /dev/null"
+    case "$1" in
+        0x*)
+            wattr "$1" && xscreenshot "$1" | ff2png > "${SHOT}.png"
+            ;;
+        up)
+            alias xsel="xsel -l /dev/null"
 
-                xscreenshot | ff2png > "${SHOT}.png"
-                ioup $HOME/shot.png | xsel -i
-                xsel -o | xsel -bi
-                rm $HOME/shot.png
-                ;;
-        esac
-    }
+            xscreenshot | ff2png > "${SHOT}.png"
+            ioup $HOME/shot.png | xsel -i
+            xsel -o | xsel -bi
+            rm $HOME/shot.png
+            ;;
+    esac
 }

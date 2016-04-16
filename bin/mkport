@@ -7,7 +7,7 @@
 
 ARGS="$@"
 DEFAULT="wildefyr"
-PACKAGER="wildefyr, me at wildefyr dot net"
+MAINTAINER="wildefyr, me at wildefyr dot net"
 PORTSDIR=${PORTSDIR:-/usr/ports}
 
 usage() {
@@ -35,27 +35,9 @@ createPort() {
         cd $PORTSDIR/$directory
         test -d $name && {
             test -f $name/Pkgfile && {
-                # test for vimcat for colour output
-                type vimcat 2>&1 > /dev/null && {
-                    vimcat $PORTSDIR/$directory/$name/Pkgfile
-                } || {
-                    cat $PORTSDIR/$directory/$name/Pkgfile
-                }
-
-                printf '%s' "Edit Pkgfile? [Y/n]: "; read -r edit
-                test "$edit" = "n" && {
-                    printf '%s' "Delete Port? [N/y]: "; read -r delete
-                    test "$delete" = "y" && {
-                        sudo rm -r $PORTSDIR/$directory/$name
-                    } || {
-                        printf '%s\n' "Exiting..."
-                    }
-                    exit
-                } || {
-                    prt-get edit $name
-                    buildVerify
-                    exit
-                }
+                prt-get edit $name
+                buildVerify
+                exit
             }
         } || {
             rm -rf $name
@@ -119,14 +101,12 @@ getPortInfo() {
             continue
         }
         test -z "$(echo "$description" | grep -o "^[A-Z]")" && {
-            color "Descriptions should start with a capital letter."
-            printf '%s' "Description: "
-            continue
+            description=$(printf '%s' "$description" | sed 's_^\(.\)_\U\1_')
+            break
         }
         test -z "$(echo "$description" | grep -o "\.$")" && {
-            color "Descriptions should end with a period."
-            printf '%s' "Description: "
-            continue
+            description=$(printf '%s' "${description}.")
+            break
         }
         break
     done
@@ -157,21 +137,7 @@ getPortInfo() {
     done
 
     test "$version" = "git" && deps="  git $deps" || deps="  $deps"
-
-    printf '%s' "Include 6c37 header? [Y/n]: "; read -r sixcthreeseven
-    test "$sixcthreeseven" != "n" && {
-        maintainer="yes"
-    }
-}
-
-maintainerHeader() {
-    test "$maintainer" = "yes" && {
-        test "$version" = "git" && {
-            printf '%s' "# Maintainer:  6c37 Team, https://github.com/6c37/crux-ports-git/issues"
-        } || {
-            printf '%s' "# Maintainer:  6c37 Team, https://github.com/6c37/crux-ports/issues"
-        }
-    }
+    test -z "$deps" && deps=""
 }
 
 cdpkg() {
@@ -199,8 +165,7 @@ createPkgfile() {
     cat > "Pkgfile" << EOTEMPLATE
 # Description: $description
 # URL:         $url
-# Packager:    $PACKAGER
-$(maintainerHeader)
+# Maintainer:  $MAINTAINER
 # Depends on:$deps
 
 name=$name

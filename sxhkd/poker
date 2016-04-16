@@ -91,10 +91,9 @@ mod1 + !button3
 mod1 + z
     mouse --toggle
 button8
-    xte 'keydown Control_L' 'key w' 'keyup Control_L'
+    xdotool key ctrl+w
 button9
-    xte 'keydown Control_L' 'keydown Shift_L' 'key t' 'keyup Shift_L' \
-        'keyup Control_L'
+    xdotool key ctrl+shift+t
 
 # mpv
 mod1 + space
@@ -140,7 +139,7 @@ XF86AudioMute
     amixer -c 0 set Master togglemute
 
 Print
-   shot
+    shot
 shift + Print
     shot up
 
