@@ -26,7 +26,6 @@ Plug 'beloglazov/vim-online-thesaurus'                  " thesaurus
 Plug 'rbgrouleff/bclose.vim'                            " close buffers
 Plug 'rstacruz/vim-closer'                              " autocomplete brackets
 Plug 'wellle/targets.vim'                               " more text objects
-Plug 'matze/vim-move'                                   " visual move
 Plug 'Wildefyr/vim-fat-finger'                          " autocorrect
 Plug 'benekastah/neomake'                               " async make
 Plug 'baskerville/vim-sxhkdrc'                          " baskerbae
@@ -122,9 +121,6 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
     " vim-online-thesaurus
 let g:online_thesaurus_map_keys = 0
 nnoremap zT :OnlineThesaurusCurrentWord<CR>
-
-    " vim-move
-let g:move_key_modifier = 'C'
 
     " vimpager
 let g:vimpager_use_gvim = 0

@@ -45,7 +45,6 @@ export BUL="$HOME/.builds"
 export DWN="$HOME/files/downloads"
 export MUS="$HOME/files/music"
 export IMG="$HOME/files/pictures"
-export VID="/media/storage/"
 
 export IMGVIEW="mpv --really-quiet --input-unix-socket=/tmp/imagesocket --loop-file"
 export VIDPLAY="mpv --really-quiet --input-unix-socket=/tmp/mpvsocket"

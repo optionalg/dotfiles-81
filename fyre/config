@@ -1,45 +1,24 @@
 #!/bin/sh
-#
-# configuration variables for fyre
-# place in $HOME/.config/fyre/config by default
 
-# set border colours for windows
 ACTIVE="D7D7D7"
-WARNING="B23450" # not currently used anywhere
+WARNING="B23450"
 INACTIVE="040404"
 
-# border width of windows in pixels
 BW=1
-
-# grid based snapping
 ROWS=4
 COLS=4
-
-# to get a pixel perfect gaps,
-# these variables need to be divisible by the values of ROWS and COLS
 IGAP=12
 VGAP=12
 TGAP=12
 XGAP=12
 BGAP=36
 
-# mouse automatically gets moved to the middle of the window
-MOUSE="true"
-
-# moving over windows automatically focuses them
+MOUSE="false"
 SLOPPY="false"
 
-# set to workspaces or groups -- not finished yet so it defaults to groups
 WORKFLOW="groups"
-
-# default terminal to launch
 TERMINAL="urxvtc"
 
-# set path to your background - omit if you don't want fyre to manage your wall
-WALL="$HOME/files/pictures/backs/fuji.jpg"
-
-# set integer factor to blur background by if wall program uses it
 BLUR=0
-
-# call your background program with arguments if WALL is used
+WALL="$HOME/files/pictures/backs/fuji.jpg"
 BACK="hsetroot -fill $WALL -gamma 0.5"

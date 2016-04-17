@@ -139,20 +139,28 @@ findfile() {
     case "$1" in
         "-a")
             type ccze 2>&1 > /dev/null && {
-                file $(find . -maxdepth 1) | sed '1d' | \
-                grep -v "\./\.git" | sort -k2 | ccze -A
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\.git" | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file" | ccze -A
+                done
             } || {
-                file $(find . -maxdepth 1) | sed '1d' | \
-                grep -v "\./\.git" | sort -k2
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\.git" | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file"
+                done
             }
             ;;
         *)
             type ccze 2>&1 > /dev/null && {
-                file $(find . -maxdepth 1) | sed '1d' | \
-                grep -v "\./\." | sort -k2 | ccze -A
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\." | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file" | ccze -A
+                done
             } || {
-                file $(find . -maxdepth 1) | sed '1d' | \
-                grep -v "\./\." | sort -k2
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\." | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file"
+                done
             }
             ;;
     esac

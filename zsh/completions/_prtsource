@@ -1,5 +1,3 @@
 #compdef prtsource
 
-type crux 2>&1 > /dev/null && {
-    _arguments "1: :($(prt-get listinst))"
-}
+_arguments "1: :($(prt-get listinst))"

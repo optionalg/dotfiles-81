@@ -4,7 +4,7 @@ alias se="sudo -e"
 
 alias sys="watch -n 1 -p \"df -h | grep '/dev/' | sort -h && printf '\n' && \
 free -h && printf '\n' && ps xgf | sed '1d; s/--type.*//' | \
-grep -v 'watch\|ps\|sed' \""
+grep -wv 'watch\|ps\|sed' \""
 
 # permissions
 alias chmox="chmod +x"
@@ -21,7 +21,7 @@ alias mmv="noglob zmv -W"
 alias rsync="rsync -arvp --progress -h"
 
 alias l="ls"
-alias la="ls -a"
+alias la="ls -A"
 
 # normal ls colouring generally sucks in listview
 type ccze 2>&1 > /dev/null && {
@@ -30,7 +30,7 @@ type ccze 2>&1 > /dev/null && {
     }
 
     lla() {
-        ls -lha "$@" | ccze -A
+        ls -lhA "$@" | ccze -A
     }
 
     lls() {
@@ -46,25 +46,25 @@ type ccze 2>&1 > /dev/null && {
     }
 
     llsa() {
-        ls -lhsa "$@" | ccze -A
+        ls -lhsA "$@" | ccze -A
     }
 
     llta() {
-        ls -lhta "$@" | ccze -A
+        ls -lhtA "$@" | ccze -A
     }
 
     llxa() {
-        ls -lhXa "$@" | ccze -A
+        ls -lhXA "$@" | ccze -A
     }
 } || {
     alias ll="ls -lh"
-    alias lla="ls -lha"
+    alias lla="ls -lhA"
     alias lls="ls -lhs"
     alias llt="ls -lht"
     alias llx="ls -lhX"
-    alias llsa="ls -lhsa"
-    alias llta="ls -lhta"
-    alias llxa="ls -lhXa"
+    alias llsa="ls -lhsA"
+    alias llta="ls -lhtA"
+    alias llxa="ls -lhXA"
 }
 
 alias t="tree"
@@ -78,11 +78,21 @@ alias szt="clear; sz && t -h --du --sort=size"
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
-# wine
+# games
+alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winecfg"
+alias steamtricks="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winetricks"
 alias steamwine="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam wine \
 ~/.wine-steam/drive_c/Program\ Files/Steam/Steam.exe"
-alias steamtricks="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winetricks"
-alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam cfg"
+
+alias ftl="RWD=$PWD; cd $HOME/games/FTL && ./FTL 2>&1 > /dev/null &!; cd $RWD"
+alias rayman='env WINEPREFIX="/home/fyr/.wine-rayman" wine \
+C:\\\\windows\\\\command\\\\start.exe /Unix \
+/home/fyr/.wine-rayman/dosdevices/c:/users/Public/Desktop/Rayman\ Forever.lnk'
+
+eliteforce() {
+    cd /home/fyr/.wine-eliteforce/drive_c/Program\ Files/Raven/Star\ Trek\ Voyager\ Elite\ Force/
+    WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-eliteforce wine ./stvoy.exe
+}
 
 # net
 alias hn="hostname"
@@ -108,6 +118,8 @@ alias snake="terminibbles -d 3 -q"
 alias matrix="cmatrix -ab -u 1"
 alias makeitso="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
 gain +4 synth whitenoise lowpass -1 100 lowpass -1 100 lowpass -1 100 gain +2"
+
+alias starwars="telnet towel.blinkenlights.nl"
 
 # ascii art
 alias tits="curl -sL z3bra.org/tits"

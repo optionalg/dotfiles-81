@@ -32,13 +32,12 @@ zle-keymap-select() {
 
 RPROMPT="%{$fg[cyan]%} %n@%m %{$reset_color%}"
 
-
 # superglobs
 setopt extendedglob
 unsetopt caseglob
 
 # ls colours
-test -x "$(whence -p dircolors)" && {
+hash dircolors 2> /dev/null && {
     eval "$(dircolors ~/.zsh/lscolours)"
     alias ls='ls -N -F --color=auto'
 } || {

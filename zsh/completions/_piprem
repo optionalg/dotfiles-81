@@ -1,0 +1,3 @@
+#compdef piprem
+
+_arguments "1: :($(pip list | cut -d\  -f 1))"
