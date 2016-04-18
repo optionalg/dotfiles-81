@@ -7,6 +7,7 @@ xsetroot -name background
 xsetroot -cursor_name left_ptr
 
 keys
+infobar
 urxvtd -q -o -f &
 
 test -f ~/.Xresources && xrdb -load ~/.Xresources
@@ -14,7 +15,7 @@ test -f ~/.Xresources && xrdb -load ~/.Xresources
 test $(hostname) = "flame" && {
     synergys
 } || {
-    synergyc 2>&1 > /dev/null || synergyc flame
+    synergyc flame
 }
 
 exec runfyre

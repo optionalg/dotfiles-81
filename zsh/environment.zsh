@@ -50,49 +50,31 @@ export IMGVIEW="mpv --really-quiet --input-unix-socket=/tmp/imagesocket --loop-f
 export VIDPLAY="mpv --really-quiet --input-unix-socket=/tmp/mpvsocket"
 export BROWSER="/usr/bin/google-chrome-stable"
 
-# media extensions
-test "$0" = "zsh" && {
-    alias -s c="$EDITOR"
-    alias -s md="$EDITOR"
-    alias -s txt="$EDITOR"
-    alias -s html="$EDITOR"
-
-    alias -s ff="lel"
-    alias -s gif="$IMGVIEW"
-    alias -s png="$IMGVIEW"
-    alias -s jpg="$IMGVIEW"
-    alias -s jpeg="$IMGVIEW"
-    alias -s webm="$IMGVIEW"
-
-    alias -s mp4="$VIDPLAY"
-    alias -s mkv="$VIDPLAY"
-    alias -s mp4="$VIDPLAY"
-}
-
 # applications
 alias i="$IMGVIEW"
 alias mpvt="$VIDPLAY"
 alias mpvi="$VIDPLAY --idle &!"
 alias chrome="dtach -A /tmp/chrome -z $BROWSER"
 
-type nvim 2>&1 > /dev/null && {
+hash nvim 2> /dev/null && {
     export EDITOR="nvim"
 } || {
-    type vim 2>&1 > /dev/null && {
+    hash vim 2> /dev/null && {
         export EDITOR="vim"
     } || {
         export EDITOR="vi"
     }
 }
 
+export PAGER="less"
+export MANPAGER="$PAGER"
+
 alias vi="$EDITOR"
 alias vim="$EDITOR"
-alias more="$PAGER"
 alias emacs="emacs -nw"
 
-export PAGER="less"
-export MANPAGER="less"
-alias  nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
-alias  lesscolor="nocolor | $PAGER"
+alias nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
+alias more="nocolor | $EDITOR -"
+alias lesscolor="nocolor | $PAGER"
 
-test -f ~/.iouprc && export IOUP_TOKEN="$(< ~/.iouprc)"
+test -f ~/.ssh/iouprc && export IOUP_TOKEN="$(< ~/.ssh/iouprc)"

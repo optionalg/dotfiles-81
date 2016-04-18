@@ -8,7 +8,8 @@ grep -wv 'watch\|ps\|sed' \""
 
 # permissions
 alias chmox="chmod +x"
-alias mine="s chown $(echo $USER):users" alias all="mine -R *"
+alias mine="s chown $(echo $USER):users"
+alias all="mine -R *"
 
 # operations
 alias mount="s mount"
@@ -18,7 +19,7 @@ alias mv="mv -f"
 alias cp="cp -rf"
 alias rm="rm -rf"
 alias mmv="noglob zmv -W"
-alias rsync="rsync -arvp --progress -h"
+alias rsync="rsync -av"
 
 alias l="ls"
 alias la="ls -A"
@@ -102,11 +103,21 @@ alias external="curl -s icanhazip.com"
 alias internal="ip a | grep -w \"inet\" | awk '/192/ {print \$2}' | cut -d'/' -f 1"
 
 # dtach / tmux
+alias dz="dtach -A /tmp/zsh -z zsh"
 alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
-alias mux="tmux attach || tmux new"
-alias dzsh="dtach -A /tmp/zsh -z zsh"
 alias steam="dtach -A /tmp/steam -z steam"
+
+# fonts
+alias lemon="printf '\e]710;%s\007' \"-benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*\""
+alias edges="printf '\e]710;%s\007' \"-artwiz-edges-*-*-*-*-*-*-*-*-*-*-*-*\""
+
+# ascii art
+alias tits="curl -sL z3bra.org/tits"
+alias unix="printf '%s\n' \"\$(curl -sL git.io/unix)\""
+alias taco="printf '%s\n' \"\$(curl -sL git.io/taco)\""
+alias pizza="printf '%s\n' \"\$(curl -sL git.io/pizza)\""
+alias nixers="curl -sL https://wildefyr.net/media/nixers"
 
 # misc.
 alias motd="cat /etc/motd"
@@ -116,14 +127,6 @@ alias metal="toilet -f term -w 200 -t --metal"
 alias gibberish="metal < /dev/urandom"
 alias snake="terminibbles -d 3 -q"
 alias matrix="cmatrix -ab -u 1"
-alias makeitso="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
+alias engage="sox -c 2 -n synth whitenoise band -n 100 24 band -n 300 100 \
 gain +4 synth whitenoise lowpass -1 100 lowpass -1 100 lowpass -1 100 gain +2"
-
 alias starwars="telnet towel.blinkenlights.nl"
-
-# ascii art
-alias tits="curl -sL z3bra.org/tits"
-alias unix="printf '%s\n' \"\$(curl -sL git.io/unix)\""
-alias taco="printf '%s\n' \"\$(curl -sL git.io/taco)\""
-alias pizza="printf '%s\n' \"\$(curl -sL git.io/pizza)\""
-alias nixers="curl -sL https://wildefyr.net/media/nixers"

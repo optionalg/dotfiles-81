@@ -36,7 +36,7 @@ mod1 + p
 # manual window management
 mod1 + g
     snap --middle
-mod1 + {q,w,e,r,a,s,t}
+mod1 + {q,w,e,r,a,s,b}
     position {--left,--quartar,--right,--fuller,--restore,--extend,--bottom}
 mod1 + f
     fullscreen

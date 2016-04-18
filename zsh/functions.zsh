@@ -116,14 +116,10 @@ ixpaste() {
 }
 
 # music
-alias shuffle="find $MUS -type f | sort -R | mpvc & 2>&1 > /dev/null"
+alias mps="mpsyt userpl wildefyri"
 
-mps() {
-    mpsyt userpl wildefyri "$@"
-}
-
-music() {
-    find $MUS -type f -iname "*$@*" | mpvc 2>&1 > /dev/null
+mus() {
+    find $MUS -type f -iname "*$@*" | sort -R | mpvc 2>&1 > /dev/null &!
 }
 
 # find shortcuts

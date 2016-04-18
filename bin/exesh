@@ -1,20 +1,25 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) CC
 # create a new script in pwd
 
 test ! -z $1 && {
     filename=$1
 } || {
-    printf '%s' "Please enter filename: "; while read -r filename; do
-        test -z $filename && {
-            printf '%s' "Please enter filename: "
+    printf '%s' ":"; while read -r filename; do
+        test -z "$filename" && {
+            printf '%s' ":"
             continue
         }
         break
     done
 }
 
-printf "#!/bin/sh\n#\n" > $filename
-chmod +x $filename
-$EDITOR $filename
+test -f "$filename" && {
+    test ! -x "$filename" && chmod +x "$filename"
+    $EDITOR "$filename"
+} || {
+    printf "#!/bin/sh\n#\n# wildefyr - 2016 (c) MIT\n#" > "$filename"
+    chmod +x "$filename"
+    $EDITOR "$filename"
+}

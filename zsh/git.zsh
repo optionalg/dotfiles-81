@@ -126,9 +126,9 @@ gg() {
 
 gl() {
     type ccze 2>&1 > /dev/null && {
-        git ls "$@" | tac - | ccze -A
+        git ls "$@" | tac - | sed 's_/_|_g; s_\\_|_g' | ccze -A
     } || {
-        git ls "$@" | tac -
+        git ls "$@" | tac - | sed 's_/_|_g; s_\\_|_g'
     }
 }
 

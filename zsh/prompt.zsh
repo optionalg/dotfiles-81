@@ -47,8 +47,17 @@ hash dircolors 2> /dev/null && {
 # load reporting
 REPORTTIME=60
 
-# fonts
-alias lemon="printf '\e]710;%s\007' \"-benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*\""
-alias edges="printf '\e]710;%s\007' \"-artwiz-edges-*-*-*-*-*-*-*-*-*-*-*-*\""
-alias anorexia="printf '\e]710;%s\007' \"-artwiz-anorexia-*-*-*-*-*-*-*-*-*-*-*-*\""
-alias cure="printf '\e]710;%s\007' \"-artwiz-cure-*-*-*-*-*-*-*-*-*-*-*-*\""
+# media extensions
+alias -s c="$EDITOR"
+alias -s md="$EDITOR"
+alias -s txt="$EDITOR"
+alias -s html="$EDITOR"
+alias -s ff="lel"
+alias -s gif="$IMGVIEW"
+alias -s png="$IMGVIEW"
+alias -s jpg="$IMGVIEW"
+alias -s jpeg="$IMGVIEW"
+alias -s webm="$IMGVIEW"
+alias -s mp4="$VIDPLAY"
+alias -s mkv="$VIDPLAY"
+alias -s mp4="$VIDPLAY"

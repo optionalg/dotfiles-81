@@ -7,7 +7,6 @@ type crux 2>&1 > /dev/null && {
     alias prtinst="s prt-get install"
     alias prtinsd="s prt-get depinst"
     alias prtunlock="s prt-get unlock"
-    alias prtupdate="s prt-get update"
 
     alias prtls="prt-get ls"
     alias prtcur="prt-get list"
@@ -22,6 +21,7 @@ type crux 2>&1 > /dev/null && {
     alias prtcache="prt-get cache"
     alias prtfsrch="prt-get fsearch"
     alias prtcount="prt-get listinst | wc -l"
+    alias prtisinst="prt-get isinst"
     alias prtlocked="prt-get listlocked"
 
     prtgo() {
@@ -34,7 +34,7 @@ type crux 2>&1 > /dev/null && {
             PORTPATH="$(prt-get info "$1" | awk '/Path:/ {print $2}')"
 
             test ! -d "$USRPORTS/$1" && {
-                cp "$PORTPATH/$1" "$USRPORTS/wildefyr"
+                cp "$PORTPATH/$1" "$USRPORTS"
                 prt-get cache
                 prt-get edit "$1"
             }
@@ -144,10 +144,8 @@ type crux 2>&1 > /dev/null && {
 
         prt-get cat "$1" | grep -q "version=git" && {
             test ! -d "$SOURCES/$1" && {
-                prt-get isinst "$1" && {
-                    prt-get update -fr "$1"
-                } || {
-                    prt-get install -fr "$1"
+                prt-get isinst "$1" || {
+                    sudo prt-get depinst -fr "$1"
                 }
             }
 
@@ -158,28 +156,16 @@ type crux 2>&1 > /dev/null && {
     }
 
     prtrebuild() {
-        s prt-get update $(prt-get quickdep "$@")
+        sudo prt-get update $(prt-get quickdep "$@")
     }
 
-    prtrepobuild() {
-        test -z "$@" && {
-            printf '%s\n' "Usage: prtrepobuild [repo]"
-            return 1
-        }
-
-        portdirectory="$(find $PORTS -maxdepth 1 -type d -name "$@")"
-
-        test ! -z "$portdirectory" && {
-            cd "$portdirectory"
-            find -type d -exec prt-get update -fr {} \;
-        } || {
-            printf '%s\n' "Port '$@' not found"
-            return 1
-        }
+    # for custom autocomplete
+    prtupdate() {
+        sudo prt-get update "$@"
     }
 
     prtupgrade() {
-        s ports -u || return 1
+        sudo ports -u || return 1
 
         printf '\n'
         prt-get diff
@@ -204,10 +190,10 @@ type crux 2>&1 > /dev/null && {
 
         # set permissions to current user
         ME=$(echo $USER)
-        s chown ${ME}:users -R $PORTS/* || return 1
+        sudo chown ${ME}:users -R $PORTS/* || return 1
 
         # upgrade packages marked
-        s prt-get sysup || return 1
+        sudo prt-get sysup || return 1
 
         unset -v ME
     }

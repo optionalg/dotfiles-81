@@ -232,7 +232,21 @@ nmap S 1z=
 nmap sn ]s
 nmap sp [s
 
-    " macros
+    " Mappings for custom functions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" make current file executable
+nmap <silent> <Leader>C :Chmox<CR>
+
+" gotta get down tonight
+nnoremap <silent> <Plug>(RotateLines) :<C-u>call <SID>RotateLines()<CR>
+nmap <Leader>r <Plug>(RotateLines)
+
+" correct default help to custom help function
+cabbrev help H
+cabbrev h H
+
+    " Macros
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let @m="0ilet @a='A'"
@@ -453,8 +467,6 @@ endfunction
 
 command! Chmox call Chmox()
 
-nmap <silent> <Leader>C :Chmox<CR>
-
 function! s:RotateString(string)
     let split_string = split(a:string, '\zs')
     return join(split_string[-1:] + split_string[:-2], '')
@@ -502,9 +514,6 @@ function! s:RotateLines()
     endtry
 endfunction
 
-nnoremap <silent> <Plug>(RotateLines) :<C-u>call <SID>RotateLines()<CR>
-nmap <Leader>r <Plug>(RotateLines)
-
 " open help in own buffer without split
 function! FullScreenHelp(helpfile)
     enew
@@ -514,5 +523,3 @@ function! FullScreenHelp(helpfile)
 endfunction
 
 command! -nargs=1 -complete=help H call FullScreenHelp(<f-args>)
-cabbrev help H
-cabbrev h H
