@@ -79,6 +79,10 @@ alias szt="clear; sz && t -h --du --sort=size"
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
+# apps
+alias todo="$EDITOR ~/.todo"
+alias hacks="haxor-news"
+
 # games
 alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winecfg"
 alias steamtricks="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winetricks"

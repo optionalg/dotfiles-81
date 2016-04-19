@@ -34,21 +34,24 @@ draw() {
 }
 
 dateFormat=$(date '+%d %b %T')
-globalvolume=$(amixer get Master 2> /dev/null | sed -n 's_^.*\[\([0-9]\+\)%.*$_\1_p')
-globalvolume=$(draw $globalvolume $SIZE)
-cputemp=$(cpu t)
-cputemp=$(draw $cputemp $SIZE)
+cputemp=$(draw $(cpu t) $SIZE)
+
+ps a | grep -v grep | grep -wq "mpv\|.*$SOCKET" && {
+    volume=$(mpvc -f "%volume%")
+} || {
+    volume=$(amixer get Master 2> /dev/null | sed -n 's_^.*\[\([0-9]\+\)%.*$_\1_p')
+}
+
+volume=$(draw $volume $SIZE)
 
 string="${string}%{l}"
-
 string="${string}${ACTIVE}  ${dateFormat}"
-
 string="${string}%{r}"
 
 string="${string}${whiteSpace}${whiteSpace}${ACTIVE}\
 %{A4:amixer -c 0 set Master 2db+ unmute -q:}\
 %{A5:amixer -c 0 set Master 2db- unmute -q:}\
-${globalvolume}  ${cputemp}\
+${volume}  ${cputemp}\
 %{A}%{A}  "
 
 printf '%s\n' "${string}"
