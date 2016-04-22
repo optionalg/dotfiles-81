@@ -16,11 +16,11 @@ COLS=3
 BW=1
 
 # best to keep these as multiples of two
-TGAP=12
+TGAP=36
 IGAP=12
 VGAP=12
 XGAP=12
-BGAP=36
+BGAP=12
 
 # mouse automatically gets moved to the middle of the window
 MOUSE="true"
