@@ -1,15 +1,9 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) wtfpl
+# wildefyr - 2016 (c) CC
 # link load with extra tweaks for wmutils
 
-alias xsel="xsel -l /dev/null"
-
-. fyrerc
-
-URL=$@
-
-# conversion layer to get URL to the raw pastes
+# conversion layer to get the paste's raw location
 rawp() {
     case "$URL" in
         *pbin.in/*)
@@ -27,57 +21,64 @@ rawp() {
 openBrowser() {
     # chrome appears to have automatic focus on new tab
     test ! -z $(wid chrome) && {
-        setborder inactive $PFW
-        google-chrome-stable --new-tab $URL 2> /dev/null
-        setborder active $(wid chrome)
+        chwb -s $BW -c "$INACTIVE" $PFW
+        google-chrome $URL 2>&1 > /dev/null
+        chwb -s $BW -c "$ACTIVE" $(wid chrome)
     } || {
         windows -s 2
-        google-chrome-stable --new-tab $URL 2> /dev/null
+        google-chrome $URL 2>&1 > /dev/null
     }
 }
 
-# sync clipboards
-printf '%s\n' "$URL" | xsel -pi
-printf '%s\n' "$URL" | xsel -si
-printf '%s\n' "$URL" | xsel -bi
+. fyrerc
 
-case "$URL" in
-    *.gifv|*.webm)
-        exec mpv "$URL" --really-quiet --loop-file &
-        ;;
-    *.jp*g|*.png|*.webm|*.gif|*gfycat.com/*)
-        mediad "$URL"
-        ;;
-    *imgur.com/a/?????*)
-        openBrowser
-        ;;
-    *imgur.com/???????*)
-        URL=$(printf '%s\n' "${URL}.png")
-        mediad "$URL"
-        ;;
-    *.mkv|*.mp4|*.ogv|*youtu.be/*|*youtube.com/watch*|\
-    *.googlevideo.com/videoplayback*)
-        exec mpv "$URL" --really-quiet &
-        ;;
-    *twitch.tv/*)
-        type livestreamer 2>&1 > /dev/null && {
-            livestreamer "$URL" source -Q
-        } || {
-            mpv "$URL"
-        }
-        ;;
-    gopher://*)
-        urxvt -e cgo "$URL"
-        ;;
-    *.txt|*ix.io/*|*p.iotek.org/*|*sprunge.us/*|*bpaste.net/*|\
-    *pastebin.com/raw*|*pbin.in/raw*)
-        urxvt -e zsh -i -c "curl -s '$URL' | $EDITOR -"
-        ;;
-    *paste.lisp.org/*|*pastebin.com/*|*pbin.in/*)
-        rawp
-        urxvt -e zsh -i -c "curl -s '$URL' | $EDITOR -"
-        ;;
-    *)
-        openBrowser
-        ;;
-esac
+for arg in "$@"; do
+    URL="$arg"
+
+    # sync clipboards
+    alias xsel="xsel -l /dev/null"
+    printf '%s\n' "$URL" | xsel -pi
+    printf '%s\n' "$URL" | xsel -si
+    printf '%s\n' "$URL" | xsel -bi
+
+    case "$URL" in
+        *imgur.com/*)
+            # fuck you imgur albums
+            URL=$(curl -s "$URL" | \
+                sed -nE 's/^.*<link rel="image_src"[[:space:]]+href="([^"]+)".*$/\1/p')
+
+            mpv "$URL" --really-quiet --loop-file
+            ;;
+        *.gifv|*.webm|*.jp*g|*.png|*.webm|*.gif)
+            mpv "$URL" --really-quiet --loop-file
+            ;;
+        *.mkv|*.mp4|*.ogv|*youtu.be/*|*youtube.com/watch*|\
+        *.googlevideo.com/videoplayback*)
+            mpv "$URL" --really-quiet
+            ;;
+        *twitch.tv/*)
+            type livestreamer 2>&1 > /dev/null && {
+                livestreamer "$URL" source -Q
+            } || {
+                mpv "$URL" --really-quiet
+            }
+            ;;
+        *.txt|*ix.io/*|*p.iotek.org/*|*sprunge.us/*|*bpaste.net/*|\
+        *pastebin.com/raw*|*pbin.in/raw*)
+            urxvt -e zsh -c "curl -s $URL | $EDITOR -"
+            ;;
+        *paste.lisp.org/*|*pastebin.com/*|*pbin.in/*)
+            rawp
+            urxvt -e zsh -c "curl -s $URL | $EDITOR -"
+            ;;
+        mailto:*)
+            urxvt -e mutt -- "$URL"
+            ;;
+        gopher://*)
+            urxvt -e cgo "$URL"
+            ;;
+        *)
+            openBrowser
+            ;;
+    esac
+done

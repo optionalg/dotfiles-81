@@ -1,13 +1,6 @@
 #!/bin/sh
 
-alias xsel="xsel -l /dev/null"
-
-file="$1"
-
-test ! -f "$file" && {
-    printf '%s\n' "File doesn't exist!"
-    exit 1
+test -f "$@" && {
+    ioup "$@" | xsel -i
+    xsel -o | xsel -bi
 }
-
-ioup "$file" | xsel -i
-xsel -o | xsel -bi

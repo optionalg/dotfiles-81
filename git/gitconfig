@@ -1,5 +1,6 @@
 [core]
 	filemode = true
+	excludesfile = ~/.gitignore
 [user]
 	email = me@wildefyr.net
 	name = Laurence Willetts

@@ -1,53 +1,34 @@
 #!/bin/sh
 #
+# wildefyr - 2016 (c) MIT
+# with thanks to:
+# arianon - arianon at openmailbox dot org
 # onodera - onodera at openmailbox dot org
-# refactored by arianon - arianon at openmailbox dot org
-# further refactoring by wildefyr - wildefur at gmail dot com
-# creates a port template
+#
+# create a new crux port
 
-ARGS="$@"
-DEFAULT="wildefyr"
-MAINTAINER="wildefyr, me at wildefyr dot net"
-PORTSDIR=${PORTSDIR:-/usr/ports}
-
-usage() {
-    cat << USAGE
-Usage: $(basename $0) [name] [directory]
-USAGE
-
-    test -z $1 || exit $1
-}
+PORTS=${PORTS:-/usr/ports}
+USRPORT=${USRPORT:-wildefyr}
+MAINTAINER=${MAINTAINER:-"wildefyr, me at wildefyr dot net"}
 
 color() {
-    f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
-    f4='[34m'; f5='[35m'; f6='[36m'; f7='[37m'
-    b0='[40m'; b1='[41m'; b2='[42m'; b4='[44m'
-    b4='[44m'; b5='[45m'; b6='[46m'; b7='[47m'
-    B='[1m'; R='[0m'; I='[7m'
+    printf '%s\n' "[7m[40m${@}[0m"
+}
 
-    cat << COLOR
-$f0$B$I$b6>$I$b7 $@ $I$b7$R
-COLOR
+testPort() {
+    test -d $PORTS/$USRPORT/$NAME && {
+        test -f $NAME/Pkgfile && {
+            prt-get edit $NAME
+            verifyBuild
+            exit
+        } || {
+            rm -rf $NAME
+        }
+    }
 }
 
 createPort() {
-    test -d $PORTSDIR/$directory && {
-        cd $PORTSDIR/$directory
-        test -d $name && {
-            test -f $name/Pkgfile && {
-                prt-get edit $name
-                buildVerify
-                exit
-            }
-        } || {
-            rm -rf $name
-            mkdir $name
-        }
-        cd $name
-    } || {
-        printf '%s\n' "Not a valid directory."
-        exit 1
-    }
+    mkdir $PORTS/$USRPORT/$NAME && cd $PORTS/$USRPORT/$NAME || exit 1
 }
 
 getPortInfo() {
@@ -68,7 +49,7 @@ getPortInfo() {
                 printf '%s' "Git Source: "
                 continue
             }
-            test "$(echo "$gitsource" | grep -E '(https?|git)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]')" || {
+            test "$(printf '%s\n' "$gitsource" | grep -E '(https?|git)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]')" || {
                 color "Git Source does not have a valid URL."
                 printf '%s' "Git Source: "
                 continue
@@ -100,11 +81,11 @@ getPortInfo() {
             printf '%s' "Description: "
             continue
         }
-        test -z "$(echo "$description" | grep -o "^[A-Z]")" && {
+        test -z "$(printf '%s\n' "$description" | grep -o "^[A-Z]")" && {
             description=$(printf '%s' "$description" | sed 's_^\(.\)_\U\1_')
             break
         }
-        test -z "$(echo "$description" | grep -o "\.$")" && {
+        test -z "$(printf '%s\n' "$description" | grep -o "\.$")" && {
             description=$(printf '%s' "${description}.")
             break
         }
@@ -119,7 +100,7 @@ getPortInfo() {
             printf '%s' "URL: "
             continue
         }
-        test "$(echo "$url" | grep -E '(https?|git|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]')" || {
+        test "$(printf '%s\n' "$url" | grep -E '(https?|git|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]')" || {
             color "URL is not valid."
             printf '%s' "URL: "
             continue
@@ -127,8 +108,8 @@ getPortInfo() {
         break
     done
 
-    printf '%s' "Depends on: "; while read -r deps; do
-        test -n "$(echo "$deps" | grep -o ",")" && {
+    printf '%s' "Depends on: "; while read -r dependancies; do
+        test -n "$(printf '%s\n' "$deps" | grep -o ",")" && {
             color "Dependencies should only be separated by a space."
             printf '%s' "Dependencies: "
             continue
@@ -136,8 +117,15 @@ getPortInfo() {
         break
     done
 
-    test "$version" = "git" && deps="  git $deps" || deps="  $deps"
-    test -z "$deps" && deps=""
+    test ! -z "$dependancies" && {
+        test "$version" = "git" && {
+            dependancies="  git $dependancies"
+        } || {
+            dependancies="  $dependancies"
+        }
+    } || {
+        dependancies=""
+    }
 }
 
 cdpkg() {
@@ -166,9 +154,9 @@ createPkgfile() {
 # Description: $description
 # URL:         $url
 # Maintainer:  $MAINTAINER
-# Depends on:$deps
+# Depends on:${dependencies}
 
-name=$name
+name=$NAME
 version=$version
 release=1
 source=($source)
@@ -181,48 +169,49 @@ $(cdpkg)
 EOTEMPLATE
 }
 
-buildVerify() {
+verifyBuild() {
+    prtverify $PORTS/$USRPORT/$NAME | grep -v "file not found"
+
     printf '%s' "Build package now? [Y/n]: "; read -r confirm
     test "$confirm" != "n" && {
-        test "$(prt-get listinst | grep $name)" = "$name" && {
-            sudo prt-get update $name -fr
+        test "$(prt-get listinst | grep $NAME)" = "$NAME" && {
+            sudo prt-get update $NAME -fr
         } || {
-            sudo prt-get depinst $name
+            sudo prt-get depinst $NAME
         }
-        prtverify $PORTSDIR/$directory/$name
     }
 }
 
-main() {
-    # take first arg as name
-    case $1 in
-        h|-h|help|--help) usage 0 ;;
-        *)
-            test ! -z $1 && {
-                name=$1
-            } || {
-                printf '%s' "Name: "; read -r name
-            }
-    esac
-
-    # take second arg as port repo
-    test ! -z $2 && {
-        directory=$2
-    } || {
-        test ! -z $DEFAULT && {
-            directory=$DEFAULT
+# take first argument as name
+case $1 in
+    h|-h|help|--help)
+        printf '%s\n' "Usage: $(basename $0) [name] [directory]" >&2
+        exit
+        ;;
+    *)
+        test ! -z $1 && {
+            NAME=$1
         } || {
-            find $PORTSDIR -maxdepth 1 -type d | cut -d/ -f 4 | sort
-            printf '\n%s' "Directory: "; read -r directory
+            printf '%s' "Name: "; read -r NAME
         }
-    }
+esac
 
-    createPort
-    getPortInfo
-    createPkgfile
-    prt-get cache
-    prt-get edit $name
-    buildVerify
+# take second argument as port repository
+test ! -z $2 && {
+    USRPORT=$2
+} || {
+    test -z $USRPORT && {
+        color "select port repository:"
+        find $PORTS -maxdepth 1 -type d | cut -d/ -f 4 | sort
+        printf '\n%s' "Port repository: "; read -r USRPORT
+    }
 }
 
-main $ARGS
+testPort
+getPortInfo
+createPort
+
+createPkgfile
+prt-get cache
+prt-get edit $NAME
+verifyBuild

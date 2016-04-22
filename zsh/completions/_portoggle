@@ -1,0 +1,3 @@
+#compdef portoggle
+
+_arguments "1: :($(ls $PORTS -1))"

@@ -80,7 +80,7 @@ alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
 # apps
-alias todo="$EDITOR ~/.todo"
+alias todo="$VISUAL ~/.todo"
 alias hacks="haxor-news"
 
 # games

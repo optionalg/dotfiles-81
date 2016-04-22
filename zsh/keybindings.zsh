@@ -83,3 +83,12 @@ goHome() {
 
 zle -N goHome
 bindboth "^o" goHome
+
+goBack() {
+    clear
+    cd -
+    zle redisplay
+}
+
+zle -N goBack
+bindboth "^b" goBack

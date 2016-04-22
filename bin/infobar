@@ -30,7 +30,7 @@ barw=$((barw - 2*BW))
 barh=$((barh - BW))
 bar_bg='#040404'
 bar_fg='#D7D7D7'
-bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources)
+bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources | cut -d',' -f 1)
 
 runTaskbar | lemonbar -d -g ${barw}x${barh}+${barx}+${bary} -B${bar_bg} \
                       -F${bar_fg} -f${bar_font} -n "infobar" -a 15 | /bin/sh &

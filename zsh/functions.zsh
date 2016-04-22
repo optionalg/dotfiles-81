@@ -31,11 +31,10 @@ zshrc() {
     RWD=$PWD
 
     cd ~/.zsh
-    $EDITOR *
+    $EDITOR $(find -maxdepth 1 -type f | sort)
 
     . ~/.zshrc
-
-    test "$PWD" != "$RWD" && cd $RWD
+    cd $RWD
 
     unset -v RWD
 }

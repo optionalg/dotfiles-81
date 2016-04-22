@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# wildefyr - 2016 (c) MIT
+
+export terminal=$(tty)
+
+case $1 in
+    rev)
+        REVCMD="tac -"
+        ;;
+    *)
+        REVCMD="cat -"
+        ;;
+esac
+
+ioup -l | $REVCMD | while read -r line; do
+    col1=$(printf '%s\n' "$line" | awk '{print $1}')
+    col2=$(printf '%s\n' "$line" | awk '{print $2}')
+
+    URL=$(printf '%s\n' "http://pub.iotek.org/${col1}")
+    col2=$(printf '%s\n' "$col2" | rev | cut -d'.' -f 1 | rev)
+
+    case "$URL" in
+        *.webm|*.jp*g|*.png|*.webm|*.gif)
+            mpv "$URL" --really-quiet --loop-file
+            ;;
+        *)
+            case "$col2" in
+                mp4) mpv "$URL" --really-quiet --loop-file      ;;
+                *)   urxvt -e zsh -c "curl -s $URL | $EDITOR -" ;;
+            esac
+            ;;
+    esac
+
+    printf '%s' "Delete ${col1}? [N/y]: "
+    read -r confirm < $terminal
+
+    confirm=$(printf '%s\n' "$confirm" | tr '[A-Z]' '[a-z]')
+    test "$confirm" = "y" && ioup -r $col1
+done
+
+unset -v terminal

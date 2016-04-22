@@ -222,17 +222,13 @@ nnoremap <C-w>v <C-w>s
 set splitright
 set splitbelow
 
-" insert common snippets
-nmap <Leader>'\ awildefyr - 2016 (c)
-nmap <Leader>'} awildefyr, me at wildefyr dot net<ESC>
-
 " transcribing shortcuts
 nmap <Leader>a :read !mpvc -f \%time\%<CR>0i[<ESC>$xa]<ESC>
 nmap S 1z=
 nmap sn ]s
 nmap sp [s
 
-    " Mappings for custom functions
+    " Mappings for Custom Functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " make current file executable
@@ -243,8 +239,10 @@ nnoremap <silent> <Plug>(RotateLines) :<C-u>call <SID>RotateLines()<CR>
 nmap <Leader>r <Plug>(RotateLines)
 
 " correct default help to custom help function
-cabbrev help H
 cabbrev h H
+cabbrev help H
+
+nmap <Leader>I :call <SID>SynStack()<CR>
 
     " Macros
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -523,3 +521,11 @@ function! FullScreenHelp(helpfile)
 endfunction
 
 command! -nargs=1 -complete=help H call FullScreenHelp(<f-args>)
+
+" information about current highlighting
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc

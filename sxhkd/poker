@@ -103,9 +103,9 @@ mod2 + u
 mod2 + y
     mpvc -k -q
 mod2 + l
-    mpvc -r 1 -P -q
+    mpvc -j 1 -P -q
 mod2 + h
-    mpvc -r -1 -P -q
+    mpvc -j -1 -P -q
 mod2 + k
     mpvc --seek +5 -q
 mod2 + j

@@ -42,13 +42,13 @@ export XDG_RUNTIME_DIR="/tmp/runtime-wildefyr"
 
 export BIN="$DOTS/bin"
 export BUL="$HOME/.builds"
-export DWN="$HOME/files/downloads"
+export DWN="$HOME/downloads"
 export MUS="$HOME/files/music"
 export IMG="$HOME/files/pictures"
 
 export IMGVIEW="mpv --really-quiet --input-unix-socket=/tmp/imagesocket --loop-file"
 export VIDPLAY="mpv --really-quiet --input-unix-socket=/tmp/mpvsocket"
-export BROWSER="/usr/bin/google-chrome-stable"
+export BROWSER="/usr/bin/google-chrome"
 
 # applications
 alias i="$IMGVIEW"
@@ -57,11 +57,14 @@ alias mpvi="$VIDPLAY --idle &!"
 alias chrome="dtach -A /tmp/chrome -z $BROWSER"
 
 hash nvim 2> /dev/null && {
+    export VISUAL="nvim"
     export EDITOR="nvim"
 } || {
     hash vim 2> /dev/null && {
+        export VISUAL="vim"
         export EDITOR="vim"
     } || {
+        export VISUAL="vi"
         export EDITOR="vi"
     }
 }
@@ -69,12 +72,12 @@ hash nvim 2> /dev/null && {
 export PAGER="less"
 export MANPAGER="$PAGER"
 
-alias vi="$EDITOR"
-alias vim="$EDITOR"
+alias vi="$VISUAL"
+alias vim="$VISUAL"
 alias emacs="emacs -nw"
 
 alias nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
-alias more="nocolor | $EDITOR -"
+alias more="nocolor | $VISUAL -"
 alias lesscolor="nocolor | $PAGER"
 
 test -f ~/.ssh/iouprc && export IOUP_TOKEN="$(< ~/.ssh/iouprc)"
