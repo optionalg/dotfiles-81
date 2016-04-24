@@ -5,7 +5,7 @@
 
 . fyrerc
 
-test $SW -ge 1920 && {
+test "$(hostname)" = "flame" && {
     SIZE=${SIZE-35}
 } || {
     SIZE=${SIZE-30}

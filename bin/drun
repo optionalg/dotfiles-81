@@ -34,3 +34,5 @@ bar_font=$(awk '/\.font/ {print $3}' < ~/.Xresources | cut -d',' -f 1)
 sort -u < $CACHE | dmenu -f -x $barx -y $bary -w $barw -h $barh -l 0 \
 -fn $bar_font -nf '#D7D7D7' -sf '#B23450' -nb '#03070B' -sb '#040404' | \
 ${SHELL:-"/bin/zsh"}
+
+rm -f $CACHE

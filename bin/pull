@@ -2,36 +2,35 @@
 #
 # I'm mad and this is the only way to smother my rage
 
-file=$1
-
-test ! -z $file && {
-    test -f $file && {
-        case $file in
-            *.tar.bz2) tar xvjf "$file"   ;;
-            *.tar.gz)  tar xvf "$file"   ;;
-            *.tar.xz)  tar xvf "$file"   ;;
-            *.bz2)     bzip2 "$file"      ;;
-            *.rar)     unrar e "$file"    ;;
-            *.gz)      gunzip "$file"     ;;
-            *.tar)     tar xvf "$file"    ;;
-            *.tbz2)    tar xvjf "$file"   ;;
-            *.tgz)     tar xvzf "$file"   ;;
-            *.zip)     7z x "$file"       ;;
-            *.Z)       uncompress "$file" ;;
-            *.7z)      7z x "$file"       ;;
-            *)
-                printf '%s\n' "Unrecognized archival format."
-                exit 3
-                ;;
-        esac
-
-        rm -f "$file"
-    } || {
-        printf '%s\n' "'$file' is not a valid file."
-        exit 2
-    }
-} || {
+test $# -eq 0 && {
     printf '%s\n' "Please provide a file to extract."
     exit 1
 }
 
+FILE=$1
+
+test -f $FILE && {
+    case $FILE in
+        *.tar.bz2) tar xjf "$FILE"    ;;
+        *.tar.gz)  tar xf "$FILE"     ;;
+        *.tar.xz)  tar xf "$FILE"     ;;
+        *.bz2)     bzip2 "$FILE"      ;;
+        *.rar)     unrar e "$FILE"    ;;
+        *.gz)      gunzip "$FILE"     ;;
+        *.tar)     tar xf "$FILE"     ;;
+        *.tbz2)    tar xjf "$FILE"    ;;
+        *.tgz)     tar xzf "$FILE"    ;;
+        *.zip)     7z x "$FILE"       ;;
+        *.Z)       uncompress "$FILE" ;;
+        *.7z)      7z x "$FILE"       ;;
+        *)
+            printf '%s\n' "Unrecognized archival format."
+            exit 3
+            ;;
+    esac
+
+    test $? -eq 0 && rm -f "$FILE"
+} || {
+    printf '%s\n' "'$FILE' is not a valid file."
+    exit 2
+}

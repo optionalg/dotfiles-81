@@ -23,6 +23,8 @@ alias rsync="rsync -av"
 
 alias l="ls"
 alias la="ls -A"
+alias lr="ls -R"
+alias lra="ls -RA"
 
 # normal ls colouring generally sucks in listview
 type ccze 2>&1 > /dev/null && {
@@ -68,20 +70,14 @@ type ccze 2>&1 > /dev/null && {
     alias llxa="ls -lhXA"
 }
 
-alias t="tree"
-alias ta="tree -a"
-alias td="tree -dl"
-
 alias sz="du -hs"
 alias sza="clear; sz && sz * | sort -hr"
-alias szt="clear; sz && t -h --du --sort=size"
 
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
 # apps
 alias todo="$VISUAL ~/.todo"
-alias hacks="haxor-news"
 
 # games
 alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winecfg"

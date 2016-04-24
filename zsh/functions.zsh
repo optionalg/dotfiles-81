@@ -1,3 +1,6 @@
+    # zsh/dots
+################################################################################
+
 chpwd() {
     clear
 
@@ -39,9 +42,77 @@ zshrc() {
     unset -v RWD
 }
 
-vimrc() {
-    $EDITOR ~/.vim/vimrc
+pulldots() {
+    RWD=$PWD
+    cd $DOTS
+
+    git pull --rebase && {
+        szsh
+    } || {
+        git stash
+        git pull
+        git stash pop
+    }
+
+    cd $RWD
+    unset -v RWD
 }
+
+pushdots() {
+    RWD=$PWD
+    cd $DOTS
+
+    git add .
+    git commit -m "$(date '+%T %D': $@)"
+    git push origin master
+
+    cd $RWD
+    unset -v RWD
+}
+
+    # programming
+################################################################################
+
+findexec() {
+    find . -maxdepth 1 -type f -executable | sort
+}
+
+editexec() {
+    $EDITOR $(findexec) "$@"
+}
+
+findfile() {
+    case "$1" in
+        "-a")
+            type ccze 2>&1 > /dev/null && {
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\.git" | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file" | ccze -A
+                done
+            } || {
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\.git" | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file"
+                done
+            }
+            ;;
+        *)
+            type ccze 2>&1 > /dev/null && {
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\." | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file" | ccze -A
+                done
+            } || {
+                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\." | sort -k2)
+                printf '%s\n' "$files" | while read -r file; do
+                    file "$file"
+                done
+            }
+            ;;
+    esac
+}
+    # user functions
+################################################################################
 
 :h() {
     test ! -z "$1" && {
@@ -49,11 +120,6 @@ vimrc() {
     }
 }
 
-updatedots() {
-    RWD=$PWD
-    cd $DOTS
-    git pull --rebase && {szsh; cd $RWD; }
-}
 
 mem() {
     type ccze 2>&1 > /dev/null && {
@@ -121,47 +187,7 @@ mus() {
     find $MUS -type f -iname "*$@*" | sort -R | mpvc 2>&1 > /dev/null &!
 }
 
-# find shortcuts
-findexec() {
-    find . -maxdepth 1 -type f -executable | sort
-}
-
-editexec() {
-    $EDITOR $(findexec) "$@"
-}
-
-findfile() {
-    case "$1" in
-        "-a")
-            type ccze 2>&1 > /dev/null && {
-                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\.git" | sort -k2)
-                printf '%s\n' "$files" | while read -r file; do
-                    file "$file" | ccze -A
-                done
-            } || {
-                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\.git" | sort -k2)
-                printf '%s\n' "$files" | while read -r file; do
-                    file "$file"
-                done
-            }
-            ;;
-        *)
-            type ccze 2>&1 > /dev/null && {
-                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\." | sort -k2)
-                printf '%s\n' "$files" | while read -r file; do
-                    file "$file" | ccze -A
-                done
-            } || {
-                files=$(find . -maxdepth 1 | sed '1d' | grep -v "\./\." | sort -k2)
-                printf '%s\n' "$files" | while read -r file; do
-                    file "$file"
-                done
-            }
-            ;;
-    esac
-}
-
-# misc
 pdf() {
     mupdf "$@" &!
 }
+

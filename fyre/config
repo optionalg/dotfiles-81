@@ -20,5 +20,5 @@ WORKFLOW="groups"
 TERMINAL="urxvtc"
 
 BLUR=0
-WALL="$HOME/files/pictures/backs/fuji.jpg"
-BACK="hsetroot -fill $WALL -gamma 0.5"
+WALL="$HOME/files/pictures/backs/suburbanleafs.jpg"
+BACK="hsetroot -fill $WALL -gamma 0.8"

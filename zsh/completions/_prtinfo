@@ -1,0 +1,3 @@
+#compdef prtinfo
+
+_arguments "1: :($(prt-get list))"

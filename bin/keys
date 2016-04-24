@@ -9,19 +9,21 @@ xcapectrl() {
 
 poker() {
     xmodmap $HOME/.bindings/poker
-    xcapectrl
 }
 
 chromebook() {
     xmodmap $HOME/.bindings/chromebook
-    xcapectrl
 }
 
 case $1 in
-    poker)      poker      ;;
-    chromebook) chromebook ;;
+    poker)
+        poker
+        ;;
+    chromebook)
+        chromebook
+        ;;
     *)
-        test "$(hostname)" = "fyr-chromebook" && {
+        test "$(hostname)" = "feotus" && {
             chromebook
         } || {
             poker
@@ -29,6 +31,7 @@ case $1 in
         ;;
 esac
 
+xcapectrl
 pgrep sxhkd 2>&1 > /dev/null && pkill sxhkd
 sxhkd -f 50 &
 

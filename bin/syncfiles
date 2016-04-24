@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# wildefyr - 2016 (c) MIT
+# sync files from main machine to others
+
+machine=$1
+
+# clean up packages
+find /builds/packages -mtime +14 -exec rm {} \;
+
+# test machine is up
+ssh -q "$machine" exit && {
+    rsync -arv $HOME/.ssh "$machine":~/
+    rsync -arv /builds/packages "$machine":/builds
+}
