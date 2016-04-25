@@ -11,124 +11,141 @@ if empty(glob('$HOME/.vim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin('$HOME/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'                                 " fuzzyFile
-Plug 'junegunn/vim-easy-align'                          " align Text
-Plug 'junegunn/vim-pseudocl'                            " improved vimfu?
-Plug 'junegunn/vim-oblique'                             " improved / search
-Plug 'tpope/vim-surround'                               " surround text objects
-Plug 'tpope/vim-commentary'                             " comments made Easier
-Plug 'tpope/vim-repeat'                                 " repeat plugin commands
-Plug 'scrooloose/syntastic'                             " syntax checker
-Plug 'ervandew/supertab'                                " tab through completions
-Plug 'beloglazov/vim-online-thesaurus'                  " thesaurus
-Plug 'rbgrouleff/bclose.vim'                            " close buffers
-Plug 'rstacruz/vim-closer'                              " autocomplete brackets
-Plug 'wellle/targets.vim'                               " more text objects
-Plug 'Wildefyr/vim-fat-finger'                          " autocorrect
-Plug 'benekastah/neomake'                               " async make
-Plug 'baskerville/vim-sxhkdrc'                          " baskerbae
-
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim'                         " the future
-endif
-
-call plug#end()
-
-    " vim-plug
 nmap <Leader>Vu :PlugUpdate<CR>
 nmap <Leader>Vi :PlugUpgrade<CR>
 nmap <Leader>Vc :PlugClean<CR>
 nmap <Leader>Vs :PlugStatus<CR>
+let g:plug_retries = 0
+let g:plug_window = "tabnew"
 
-    " vim-easy-align
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-let g:easy_align_delimiters = {
-\ '>': { 'pattern': '>>\|=>\|>' },
-\ '/': {
-\     'pattern':         '//\+\|/\*\|\*/',
-\     'delimiter_align': 'l',
-\     'ignore_groups':   ['!Comment'] },
-\ ']': {
-\     'pattern':       '[[\]]',
-\     'left_margin':   0,
-\     'right_margin':  0,
-\     'stick_to_left': 0
-\   },
-\ ')': {
-\     'pattern':       '[()]',
-\     'left_margin':   0,
-\     'right_margin':  0,
-\     'stick_to_left': 0
-\   },
-\ 'd': {
-\     'pattern':      ' \(\S\+\s*[;=]\)\@=',
-\     'left_margin':  0,
-\     'right_margin': 0
-\   },
-\ ';': {
-\     'pattern':      ';',
-\     'left_margin':  1,
-\     'right_margin': 0
-\   }
-\ }
+call plug#begin('$HOME/.vim/plugged')
 
-    " fzf
-nmap <Leader>f :FZF -m <CR>
-nmap <Leader>F :FZF -m ~/<CR>
-nmap <Leader>b :FZF -m /builds/<CR>
-nmap <Leader>l :Buffers<CR>
-nmap <Leader>m :Marks<CR>
-nmap <Leader>/ :BLines<CR>
+    " usability
+Plug 'tpope/vim-repeat'
+Plug 'wellle/targets.vim'
+Plug 'tpope/vim-commentary'
 
-    " vim-oblique
-let g:oblique#incsearch_highlight_all = 1
-let g:oblique#clear_highlight = 1
+Plug 'tpope/vim-surround'
+    vmap <Leader>s S
+    nmap <Leader>sl yss
+    nmap <Leader>sw ysiw
+    nmap <Leader>sW ysiW
+    nmap <Leader>sap ysap
+    nmap <Leader>sip ysip
 
-    " vim-surround
-vmap s S
-nmap sl yss
-nmap sw ysiw
-nmap sW ysiW
-nmap sap ysap
-nmap sip ysip
+Plug 'justinmk/vim-sneak'
+    nmap s <Plug>Sneak_s
+    xmap s <Plug>Sneak_s
+    let g:sneak#streak = 0
+    let g:sneak#prompt = '/'
+    let g:sneak#use_ic_scs = 1
+    let g:sneak#absolute_dir = 1
+    let g:sneak#textobject_z = 1
+    hi link SneakPluginTarget Search
+    hi link SneakPluginScope  Comment
 
-    " syntastic
-nmap <Leader>e :Errors<CR>
-let g:syntastic_check_on_wq = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_loc_list_height = 5
-let g:syntastic_auto_jump = 0
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_cursor_column = 0
-let g:syntastic_error_symbol = ">>"
-let g:syntastic_warning_symbol = "!!"
-let g:syntastic_style_warning_symbol = "??"
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_python_checkers = ['python']
-let g:syntastic_c_compiler = 'gcc'
-let g:syntastic_c_compiler_options = '-std=c11'
-let g:syntastic_cpp_compiler = 'g++'
-let g:syntastic_cpp_compiler_options = '-std=c++14'
-let g_syntastic_shell = "/bin/sh"
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+    nmap <Leader>f :FZF -m <CR>
+    nmap <Leader>F :FZF -m ~/<CR>
+    nmap <Leader>b :FZF -m /builds/<CR>
+    nmap <Leader>l :Buffers<CR>
+    nmap <Leader>m :Marks<CR>
+    nmap <Leader>/ :BLines<CR>
 
-    " supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
+Plug 'junegunn/vim-pseudocl'
+Plug 'junegunn/vim-oblique'
+    let g:oblique#clear_highlight = 1
+    let g:oblique#incsearch_highlight_all = 0
 
-    " vim-online-thesaurus
-let g:online_thesaurus_map_keys = 0
-nnoremap zT :OnlineThesaurusCurrentWord<CR>
+Plug 'junegunn/vim-easy-align'
+    nmap ga <Plug>(EasyAlign)
+    xmap ga <Plug>(EasyAlign)
+    let g:easy_align_delimiters = {
+    \ '>': { 'pattern': '>>\|=>\|>' },
+    \ '/': {
+    \     'pattern':         '//\+\|/\*\|\*/',
+    \     'delimiter_align': 'l',
+    \     'ignore_groups':   ['!Comment'] },
+    \ ']': {
+    \     'pattern':       '[[\]]',
+    \     'left_margin':   0,
+    \     'right_margin':  0,
+    \     'stick_to_left': 0
+    \   },
+    \ ')': {
+    \     'pattern':       '[()]',
+    \     'left_margin':   0,
+    \     'right_margin':  0,
+    \     'stick_to_left': 0
+    \   },
+    \ 'd': {
+    \     'pattern':      ' \(\S\+\s*[;=]\)\@=',
+    \     'left_margin':  0,
+    \     'right_margin': 0
+    \   },
+    \ ';': {
+    \     'pattern':      ';',
+    \     'left_margin':  1,
+    \     'right_margin': 0
+    \   }
+    \ }
 
-    " vimpager
-let g:vimpager_use_gvim = 0
-let g:vimpager_less_mode = 0
-let g:vimpager_passthrough = 0
 
-    " vim-closer
-imap <C-j> <CR>
+    " build checkers
+Plug 'benekastah/neomake'
+
+Plug 'scrooloose/syntastic'
+    nmap <Leader>e :Errors<CR>
+    let g:syntastic_check_on_wq = 0
+    let g:syntastic_check_on_open = 0
+    let g:syntastic_auto_loc_list = 0
+    let g:syntastic_loc_list_height = 5
+    let g:syntastic_auto_jump = 0
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_cursor_column = 0
+    let g:syntastic_error_symbol = ">>"
+    let g:syntastic_warning_symbol = "!!"
+    let g:syntastic_style_warning_symbol = "??"
+    let g:syntastic_aggregate_errors = 1
+    let g:syntastic_python_checkers = ['python']
+    let g:syntastic_c_compiler = 'gcc'
+    let g:syntastic_c_compiler_options = '-std=c11'
+    let g:syntastic_cpp_compiler = 'g++'
+    let g:syntastic_cpp_compiler_options = '-std=c++14'
+    let g_syntastic_shell = "/bin/sh"
+
+    " auto-complete
+Plug 'ervandew/supertab'
+    let g:SuperTabDefaultCompletionType = "<c-p>"
+
+Plug 'rstacruz/vim-closer'
+    imap <C-j> <CR>
+
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim'
+
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_smart_case = 1
+    let g:deoplete#enable_ignore_case = 0
+    let g:deoplete#auto_complete_start_length = 1
+    inoremap <expr><C-h>
+    \ deoplete#mappings#smart_close_popup()."\<C-h>"
+
+endif
+
+    " miscellaneous
+Plug 'rbgrouleff/bclose.vim'
+Plug 'Wildefyr/vim-fat-finger'
+
+Plug 'beloglazov/vim-online-thesaurus'
+    let g:online_thesaurus_map_keys = 0
+    nnoremap zT :OnlineThesaurusCurrentWord<CR>
+
+    " custom syntax
+Plug 'baskerville/vim-sxhkdrc'
+
+call plug#end()
 
     " Remapping Keys
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -392,20 +409,6 @@ if has('nvim')
     " settings
     set list
     set breakindent
-
-    " deoplete
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_smart_case = 1
-    let g:deoplete#enable_ignore_case = 0
-    let g:deoplete#auto_complete_start_length = 1
-    inoremap <expr><C-h>
-    \ deoplete#mappings#smart_close_popup()."\<C-h>"
-
-    " sync neovim instances using viminfo
-    augroup nvimrc_aucmd
-        autocmd!
-        autocmd CursorHold,FocusGained,FocusLost * rshada|wshada
-    augroup END
 
     " jump to insert mode automatically
     autocmd BufEnter * if &buftype == "terminal" | startinsert | endif

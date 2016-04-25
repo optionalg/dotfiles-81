@@ -2,10 +2,6 @@
 alias s="sudo"
 alias se="sudo -e"
 
-alias sys="watch -n 1 -p \"df -h | grep '/dev/' | sort -h && printf '\n' && \
-free -h && printf '\n' && ps xgf | sed '1d; s/--type.*//' | \
-grep -wv 'watch\|ps\|sed' \""
-
 # permissions
 alias chmox="chmod +x"
 alias mine="s chown $(echo $USER):users"
@@ -14,6 +10,8 @@ alias all="mine -R *"
 # operations
 alias mount="s mount"
 alias umount="s umount"
+
+alias cat="cat -t4"
 
 alias mv="mv -f"
 alias cp="cp -rf"
@@ -76,8 +74,10 @@ alias sza="clear; sz && sz * | sort -hr"
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
 
+alias markdown="cmark"
+
 # apps
-alias todo="$VISUAL ~/.todo"
+alias todo="$VISUAL ~/.todo.md"
 
 # games
 alias steamcfg="WINEDEBUG=-all WINEARCH=win32 WINEPREFIX=~/.wine-steam winecfg"

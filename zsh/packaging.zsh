@@ -2,26 +2,6 @@ type crux 2>&1 > /dev/null && {
     export PORTS="/usr/ports"
     export SOURCES="$(grep "PKGMK_SOURCE_DIR" /etc/pkgmk.conf | cut -d'"' -f 2)"
 
-    alias prtrem="s prt-get remove"
-    alias prtlock="s prt-get lock"
-    alias prtinst="s prt-get install"
-    alias prtinsd="s prt-get depinst"
-    alias prtunlock="s prt-get unlock"
-
-    alias prtls="prt-get ls"
-    alias prtcur="prt-get list"
-    alias prtpath="prt-get path"
-    alias prtdiff="prt-get diff"
-    alias prtread="prt-get readme"
-    alias prtsrch="prt-get dsearch"
-    alias prtlist="prt-get listinst"
-    alias prtorph="prt-get listorphans"
-    alias prtcache="prt-get cache"
-    alias prtfsrch="prt-get fsearch"
-    alias prtcount="prt-get listinst | wc -l"
-    alias prtisinst="prt-get isinst"
-    alias prtlocked="prt-get listlocked"
-
     alias portsync="s ports -u"
 
     portlist() {
@@ -60,6 +40,28 @@ type crux 2>&1 > /dev/null && {
             return 1
         }
     }
+
+
+    alias prtrem="s prt-get remove"
+    alias prtlock="s prt-get lock"
+    alias prtinst="s prt-get install"
+    alias prtinsd="s prt-get depinst"
+    alias prtunlock="s prt-get unlock"
+
+    alias prtls="prt-get ls"
+    alias prtcur="prt-get list"
+    alias prtpath="prt-get path"
+    alias prtdiff="prt-get diff"
+    alias prtread="prt-get readme"
+    alias prtsrch="prt-get dsearch"
+    alias prtlist="prt-get listinst"
+    alias prtorph="prt-get listorphans"
+    alias prtdups="prt-get dup"
+    alias prtcache="prt-get cache"
+    alias prtfsrch="prt-get fsearch"
+    alias prtcount="prt-get listinst | wc -l"
+    alias prtisinst="prt-get isinst"
+    alias prtlocked="prt-get listlocked"
 
     prtgo() {
         prt-get path "$@" && cd $(prtpath "$@")
@@ -114,6 +116,7 @@ type crux 2>&1 > /dev/null && {
 
     prtedit() {
         prt-get edit "$@"
+        prtverify $(prt-get path "$1")
     }
 
     prtdeps() {
@@ -157,12 +160,6 @@ type crux 2>&1 > /dev/null && {
             printf '%s\n' "Package '$@' not found"
             return 1
         }
-    }
-
-    prtdups() {
-        for package in $(prt-get list); do
-            prtdup $package
-        done
     }
 
     # cd into a source directory if it exists

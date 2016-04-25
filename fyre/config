@@ -10,7 +10,7 @@ XGAP=12
 BGAP=12
 
 MOUSE="false"
-SLOPPY="false"
+SLOPPY="true"
 
 ACTIVE="D7D7D7"
 WARNING="B23450"
@@ -20,5 +20,7 @@ WORKFLOW="groups"
 TERMINAL="urxvtc"
 
 BLUR=0
-WALL="$HOME/files/pictures/backs/suburbanleafs.jpg"
-BACK="hsetroot -fill $WALL -gamma 0.8"
+WALL="$HOME/files/pictures/backs/rollingclouds.jpg"
+BACK="hsetroot -fill $WALL -gamma 0.5"
+
+SYNCONF=${SYNCONF:-$HOME/.synergy.conf}

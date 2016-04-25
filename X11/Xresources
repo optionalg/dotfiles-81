@@ -4,35 +4,40 @@
 /* basics */
 *.modifier : mod3
 
-/* font */
-*.font     : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*, \
-             -lucy-tewi-*-*-*-*-*-*-*-*-*-*-*-*
-*.boldFont : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*, \
-             -lucy-tewi-*-*-*-*-*-*-*-*-*-*-*-*
+/* fonts */
 
-/* bell */
-*.urgentOnBell : 1
-*.visualBell   : 0
+*.font     : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*
+*.boldFont : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*
 
-/* padding */
-*.internalBorder : 10
-*.externalBorder : 0
-*.saveLines      : 16384
-*.scrollBar      : 0
+URxvt.font     : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*, \
+                 -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1, \
+                 -lucy-tewi-*-*-*-*-*-*-*-*-*-*-*-*
 
-/* blinking cursor */
+URxvt.boldFont : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*, \
+                 -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1, \
+                 -lucy-tewi-*-*-*-*-*-*-*-*-*-*-*-*
+
+/* general settings */
 *.cursorBlink     : 0
 *.cursorUnderline : 0
 *.pointerBlank    : 1
+*.urgentOnBell    : 1
+*.visualBell      : 0
+*.saveLines       : 16384
 
-/* urxvt extensions */
+/* URxvt general settings */
+URxvt.internalBorder : 10
+URxvt.externalBorder : 0
+URxvt.scrollBar      : 0
+
+/* URxvt extensions */
 URxvt.perl-ext-common        : default,clipboard,url-select
 URxvt.keysym.M-e             : perl:url-select:select_next
 URxvt.url-select.launcher    : load
 URxvt.url-select.underline   : true
 URxvt.keysym.M-y             : perl:clipboard:copy
 
-/* transparency */
+/* URxvt transparency */
 URxvt.transparent : False
 Urxvt.depth       : 32
 URxvt.shading     : 20

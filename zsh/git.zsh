@@ -57,11 +57,19 @@ cgrep() {
 
 alias ga="git add"
 alias gs="git status -sb"
-alias gco="git commit -m"
+alias amend="git commit --amend"
+alias uncommit="git reset --mixed HEAD~"
+alias unstage="git reset -q HEAD --"
+alias discard="git checkout --"
 
-unstage() {
-    git reset --soft HEAD~
-    git reset HEAD --
+alias nuclear="git reset --hard HEAD && git clean -d -f"
+
+gco() {
+    test -z "$@" && {
+        git commit
+    } || {
+        git commit -m "$@"
+    }
 }
 
 # pushing

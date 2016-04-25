@@ -49,9 +49,9 @@ pulldots() {
     git pull --rebase && {
         szsh
     } || {
-        git stash
-        git pull
-        git stash pop
+        git stash && \
+            git pull && \
+            git stash pop
     }
 
     cd $RWD
@@ -62,9 +62,9 @@ pushdots() {
     RWD=$PWD
     cd $DOTS
 
-    git add .
-    git commit -m "$(date '+%T %D': $@)"
-    git push origin master
+    git add . && \
+        git commit -m "$(date '+%T %D': $@)" && \
+        git push origin master
 
     cd $RWD
     unset -v RWD
@@ -116,7 +116,7 @@ findfile() {
 
 :h() {
     test ! -z "$1" && {
-        $EDITOR +"help $1" +only +'map q ZQ'
+        $VISUAL +"help $1" +only +'map q ZQ'
     }
 }
 
@@ -129,14 +129,6 @@ mem() {
     }
 }
 
-dlog() {
-    type ccze 2>&1 > /dev/null && {
-        dmesg | tail -n 30 | ccze -A
-    } || {
-        dmesg | tail -n 30
-    }
-}
-
 disks() {
     type ccze 2>&1 > /dev/null && {
         df -h | grep "/dev/" | sort -h | ccze -A
@@ -145,22 +137,31 @@ disks() {
     }
 }
 
+
+dlog() {
+    type ccze 2>&1 > /dev/null && {
+        dmesg | tail -n 30 | width | ccze -A
+    } || {
+        dmesg | tail -n 30 | width
+    }
+}
+
 psusr() {
     type ccze 2>&1 > /dev/null && {
-        ps xgf "$@" | sed '1d; s/--type.*//' | ccze -A
+        ps xgf "$@" | sed '1d; s/--type.*//' | width | ccze -A
     } || {
-        ps xgf "$@" | sed '1d; s/--type.*//'
+        ps xgf "$@" | sed '1d; s/--type.*//' | width
     }
 }
 
 # pasting
+alias xsel="xsel -l /dev/null"
+
 out() {
     PASTE="/tmp/paste"
     test -f "$PASTE" && cat "$PASTE"
     unset -v PASTE
 }
-
-alias xsel="xsel -l /dev/null"
 
 iopaste() {
     test ! -z $DISPLAY && {
@@ -190,4 +191,3 @@ mus() {
 pdf() {
     mupdf "$@" &!
 }
-
