@@ -20,7 +20,7 @@ chpwd() {
     test -z "$(ls -1)" && {
         printf '%s\n\n' "${f5}Directory is empty!${R}"
     } || {
-        ls --color=auto -F -N
+        ls -F --color=auto
         printf '\n'
     }
 

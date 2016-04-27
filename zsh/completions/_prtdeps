@@ -1,3 +1,5 @@
 #compdef prtdeps
 
-_arguments "1: :($(prt-get listinst))"
+type prt-get 2>&1 > /dev/null && {
+    _arguments "1: :($(prt-get listinst))"
+}

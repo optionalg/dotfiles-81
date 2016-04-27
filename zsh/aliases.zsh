@@ -24,9 +24,9 @@ alias lra="ls -RA"
 
 # what ls are we dealing with 'ere pal?
 type busybox 2>&1 > /dev/null && {
-    lscommand="ls -N"
+    lscommand="ls -F"
 } || {
-    lscommand="ls -N -F"
+    lscommand="ls -F -N"
 }
 
 # normal ls colouring generally sucks in listview

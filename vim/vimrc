@@ -105,21 +105,23 @@ Plug 'benekastah/neomake'
     " auto-complete
 Plug 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "<c-p>"
-    let g:SuperTabContextDefaultCompletionType = "<c-p>"
+    let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
 if has('nvim')
-    function! DoRemote(arg)
-      UpdateRemotePlugins
-    endfunction
+    if has('python3')
+        function! DoRemote(arg)
+          UpdateRemotePlugins
+        endfunction
 
-    Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+        Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_smart_case = 1
-    let g:deoplete#enable_ignore_case = 0
-    let g:deoplete#auto_complete_start_length = 1
-    inoremap <expr><C-h>
-    \ deoplete#mappings#smart_close_popup()."\<C-h>"
+        let g:deoplete#enable_at_startup = 1
+        let g:deoplete#enable_smart_case = 1
+        let g:deoplete#enable_ignore_case = 0
+        let g:deoplete#auto_complete_start_length = 1
+        inoremap <expr><C-h>
+        \ deoplete#mappings#smart_close_popup()."\<C-h>"
+    endif
 endif
 
     " miscellaneous

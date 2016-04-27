@@ -1,3 +1,5 @@
 #compdef piprem
 
-_arguments "1: :($(pip list | cut -d\  -f 1))"
+type pip 2>&1 > /dev/null && {
+    _arguments "1: :($(pip list | cut -d\  -f 1))"
+}
