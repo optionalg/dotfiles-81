@@ -38,9 +38,9 @@ hi StatusLine   ctermfg=6    ctermbg=NONE cterm=NONE
 hi StatusLineNC ctermfg=0    ctermbg=NONE cterm=NONE
 
 hi Pmenu        ctermfg=7    ctermbg=0    cterm=NONE
-" hi PmenuSel
-" hi PmenuSbar
-" hi WildMenu
+hi PmenuSel     ctermfg=5    ctermbg=NONE cterm=NONE
+hi PmenuSbar    ctermfg=6    ctermbg=NONE cterm=NONE
+hi WildMenu     ctermbg=0    ctermbg=7    cterm=NONE
 
 hi SpellBad     ctermfg=0    ctermbg=5    cterm=UNDERLINE
 " hi SpellCap

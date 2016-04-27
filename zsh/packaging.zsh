@@ -225,33 +225,32 @@ type crux 2>&1 > /dev/null && {
 
         unset -v ME
     }
-} || {
-    # systemd distros
-    type hostnamectl 2>&1 > /dev/null && {
-        OS=$(hostnamectl | grep "Operating System:")
+}
+# systemd distros
+type hostnamectl 2>&1 > /dev/null && {
+    OS=$(hostnamectl | grep "Operating System:")
 
-        # debian / ubuntu
-        printf '%s\n' "$OS" | grep -q "Debian\|Ubuntu" && {
-            alias aptins="s apt-get install"
-            alias aptrem="s apt-get remove"
-            alias aptupdate="s apt-get update"
-            alias aptupgrade="s apt-get upgrade"
-            alias aptclean="s apt-get autoremove"
-            alias aptsrch="apt-cache search"
-            alias aptinfo="apt-cache showpkg"
-        }
+    # debian / ubuntu
+    printf '%s\n' "$OS" | grep -q "Debian\|Ubuntu" && {
+        alias aptins="s apt-get install"
+        alias aptrem="s apt-get remove"
+        alias aptupdate="s apt-get update"
+        alias aptupgrade="s apt-get upgrade"
+        alias aptclean="s apt-get autoremove"
+        alias aptsrch="apt-cache search"
+        alias aptinfo="apt-cache showpkg"
+    }
 
-        # arch
-        printf '%s\n' "$OS" | grep -q "Arch Linux" && {
-            alias pacins="s pacman -S"
-            alias pacrem="s pacman -Rs"
-            alias pacupgrade="s pacman -Syu"
-            alias paclist="pacman -Q"
-            alias pacinfo="pacman -Qi"
-            alias pacsrch="pacman -Ss"
-            alias paccount="pacman -Q | wc -l"
-            alias pacorphans="pacman -Qdt"
-        }
+    # arch
+    printf '%s\n' "$OS" | grep -q "Arch Linux" && {
+        alias pacins="s pacman -S"
+        alias pacrem="s pacman -Rs"
+        alias pacupgrade="s pacman -Syu"
+        alias paclist="pacman -Q"
+        alias pacinfo="pacman -Qi"
+        alias pacsrch="pacman -Ss"
+        alias paccount="pacman -Q | wc -l"
+        alias pacorphans="pacman -Qdt"
     }
 }
 
@@ -271,9 +270,16 @@ type npm 2>&1 > /dev/null && {
     }
 }
 
-# fuck pip seriously
+# python
 type pip 2>&1 > /dev/null && {
-    type crux 2>&1 > /dev/null && alias pip="pip --cert /etc/ssl/cert.pem"
+    # prefer pip3 by default
+    type pip3 2>&1 > /dev/null && {
+        pipversion="pip3"
+    } || {
+        pipversion="pip2"
+    }
+
+    alias pip="$pipversion"
     alias pipins="s pip install"
     alias piprem="s pip uninstall"
     alias pipupdate="s pip install --upgrade"
@@ -282,9 +288,9 @@ type pip 2>&1 > /dev/null && {
     alias pipsrch="pip search"
 
     pipupgrade() {
-        pip list | while read -r line; do
+        $pipversion list | while read -r line; do
             package=$(printf '%s\n' "$line" | cut -d\  -f 1)
-            s pip install --upgrade $package
+            s $pipversion install --upgrade $package
         done
 
         unset $package

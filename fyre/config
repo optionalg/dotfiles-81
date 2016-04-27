@@ -17,7 +17,6 @@ WARNING="B23450"
 INACTIVE="040404"
 
 WORKFLOW="groups"
-TERMINAL="urxvtc"
 
 BLUR=0
 WALL="$HOME/files/pictures/backs/rollingclouds.jpg"

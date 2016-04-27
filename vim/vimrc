@@ -26,12 +26,11 @@ Plug 'wellle/targets.vim'
 Plug 'tpope/vim-commentary'
 
 Plug 'tpope/vim-surround'
-    vmap <Leader>s S
-    nmap <Leader>sl yss
-    nmap <Leader>sw ysiw
-    nmap <Leader>sW ysiW
-    nmap <Leader>sap ysap
-    nmap <Leader>sip ysip
+    nmap Sl yss
+    nmap Sw ysiw
+    nmap SW ysiW
+    nmap Sap ysap
+    nmap Sip ysip
 
 Plug 'justinmk/vim-sneak'
     nmap s <Plug>Sneak_s
@@ -39,7 +38,7 @@ Plug 'justinmk/vim-sneak'
     let g:sneak#streak = 0
     let g:sneak#prompt = '/'
     let g:sneak#use_ic_scs = 1
-    let g:sneak#absolute_dir = 1
+    let g:sneak#absolute_dir = 0
     let g:sneak#textobject_z = 1
     hi link SneakPluginTarget Search
     hi link SneakPluginScope  Comment
@@ -50,13 +49,12 @@ Plug 'junegunn/fzf.vim'
     nmap <Leader>F :FZF -m ~/<CR>
     nmap <Leader>b :FZF -m /builds/<CR>
     nmap <Leader>l :Buffers<CR>
-    nmap <Leader>m :Marks<CR>
-    nmap <Leader>/ :BLines<CR>
 
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/vim-oblique'
     let g:oblique#clear_highlight = 1
-    let g:oblique#incsearch_highlight_all = 0
+    let g:oblique#incsearch_highlight_all = 1
+    let g:oblique#prefix = ""
 
 Plug 'junegunn/vim-easy-align'
     nmap ga <Plug>(EasyAlign)
@@ -91,39 +89,30 @@ Plug 'junegunn/vim-easy-align'
     \   }
     \ }
 
-
     " build checkers
 Plug 'benekastah/neomake'
-
-Plug 'scrooloose/syntastic'
-    nmap <Leader>e :Errors<CR>
-    let g:syntastic_check_on_wq = 0
-    let g:syntastic_check_on_open = 0
-    let g:syntastic_auto_loc_list = 0
-    let g:syntastic_loc_list_height = 5
-    let g:syntastic_auto_jump = 0
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_cursor_column = 0
-    let g:syntastic_error_symbol = ">>"
-    let g:syntastic_warning_symbol = "!!"
-    let g:syntastic_style_warning_symbol = "??"
-    let g:syntastic_aggregate_errors = 1
-    let g:syntastic_python_checkers = ['python']
-    let g:syntastic_c_compiler = 'gcc'
-    let g:syntastic_c_compiler_options = '-std=c11'
-    let g:syntastic_cpp_compiler = 'g++'
-    let g:syntastic_cpp_compiler_options = '-std=c++14'
-    let g_syntastic_shell = "/bin/sh"
+    let g:neomake_open_list = 1
+    let g:neomake_place_signs = 1
+    let g:neomake_error_sign = {
+        \ 'text': 'E>',
+        \ 'texthl': 'Error',
+    \ }
+    let g:neomake_warning_sign = {
+        \ 'text': 'W>',
+        \ 'texthl': 'TermCursorNC',
+    \ }
 
     " auto-complete
 Plug 'ervandew/supertab'
     let g:SuperTabDefaultCompletionType = "<c-p>"
-
-Plug 'rstacruz/vim-closer'
-    imap <C-j> <CR>
+    let g:SuperTabContextDefaultCompletionType = "<c-p>"
 
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim'
+    function! DoRemote(arg)
+      UpdateRemotePlugins
+    endfunction
+
+    Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#enable_smart_case = 1
@@ -131,7 +120,6 @@ if has('nvim')
     let g:deoplete#auto_complete_start_length = 1
     inoremap <expr><C-h>
     \ deoplete#mappings#smart_close_popup()."\<C-h>"
-
 endif
 
     " miscellaneous
@@ -154,7 +142,6 @@ nnoremap K <nop>
 nnoremap <C-u> <nop>
 
 map <Space> <Leader>
-
 nmap <Leader>c :noh<CR>
 
 " edit and source vimrc on save
@@ -164,17 +151,17 @@ augroup VimReload
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
-" closing vim
-nmap <Leader>q :Bclose!<CR>
-nmap <C-q> :qa!<CR>
-nmap <Leader>x :xa!<CR>
+" saving and closing
 nmap <Leader>w :w!<CR>
 nmap <Leader>W :wa!<CR>
+nmap <Leader>x :xa!<CR>
+nmap <Leader>q :Bclose!<CR>
+nmap <C-q> :qa!<CR>
 nmap <C-s> :silent w! !sudo tee % > /dev/null<CR>
 
 " motions
-nnoremap <C-j> <C-f>
-nnoremap <C-k> <C-b>
+nnoremap <C-j> }
+nnoremap <C-k> {
 nmap <Leader><Space> %
 vmap <Leader><Space> %
 
@@ -241,9 +228,18 @@ set splitbelow
 
 " transcribing shortcuts
 nmap <Leader>a :read !mpvc -f \%time\%<CR>0i[<ESC>$xa]<ESC>
-nmap S 1z=
+nmap <Leader>s 1z=
 nmap sn ]s
 nmap sp [s
+
+" auto expansion
+inoremap (<C-j> (<CR>)<ESC>O<TAB>
+inoremap {<C-j> {<CR>}<ESC>O<TAB>
+inoremap [<C-j> [<CR>]<ESC>O<TAB>
+inoremap {; {<CR>};<ESC>O<TAB>
+inoremap {, {<CR>},<ESC>O<TAB>
+inoremap [; [<CR>];<ESC>O<TAB>
+inoremap [, [<CR>],<ESC>O<TAB>
 
     " Mappings for Custom Functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -300,7 +296,6 @@ set fillchars=vert:\ ,
 
 set hidden
 set showmatch
-
 set lazyredraw
 
 " use marker folding by default
@@ -342,7 +337,10 @@ set wildmode=longest:full,full
 set wildignore+=*.o,*~,*.pyc,*/.git/*
 set wildignore+=*.gif,*.png,*.jp*
 
-" indentation and 80 characters per line
+" completion menu
+set completeopt=menu,preview
+
+" defaults
 set tw=80
 set ts=4 sw=4 sts=4
 set smarttab expandtab
@@ -353,30 +351,31 @@ filetype plugin indent on
 " disable annoying comment on newline
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" create marks based on filetype
-autocmd BufLeave *.sh,*.zsh         normal! mS
-autocmd BufLeave *.css,*.less,*scss normal! mC
-autocmd BufLeave *.html             normal! mH
-autocmd BufLeave *.js               normal! mJ
-autocmd BufLeave *.php              normal! mP
-autocmd BufLeave vimrc,*.vim        normal! mV
+" time for the cool shit
+autocmd! FileType sh setlocal
+    \ makeprg=sh\ %\
 
-" custom indent options
-autocmd FileType md     set spell
-autocmd FileType txt    setlocal tw=0 spell noexpandtab wrap linebreak
-autocmd FileType css    setlocal ts=4 sw=4 sts=4
-autocmd FileType html   setlocal ts=2 sw=2 sts=2
-autocmd FileType ruby   setlocal ts=2 sw=2 sts=2
-autocmd FileType python setlocal ts=4 sw=4 sts=4
-autocmd FileType c      setlocal ts=8 sw=8 sts=8 noexpandtab " kernel style
+autocmd! BufNewFile,BufRead *.md setlocal FileType=md
+autocmd! FileType md setlocal
+    \ spell
+    \ makeprg=markdown\ %\ >/tmp/%<.html
+autocmd! BufWritePost *.md silent!
+    \ make &
+    \ windows -s 2
+    \ google-chrome --new-window /tmp/%:r.html &
 
-" misc
-autocmd BufNewFile,BufRead *fstab      setlocal filetype=fstab tw=0
-autocmd BufNewFile,BufRead *Pkgfile    setlocal filetype=sh noet
-autocmd BufNewFile,BufRead *.gitconfig setlocal filetype=gitconfig noet
-" fuck zsh
-autocmd BufNewFile,BufRead *.zsh       setlocal filetype=sh
-autocmd BufNewFile,BufRead *.zprofile  setlocal filetype=sh
+autocmd! FileType c      setlocal ts=8 sw=8 sts=8 noexpandtab
+autocmd! FileType txt    setlocal tw=0 spell noexpandtab wrap linebreak
+autocmd! FileType css    setlocal ts=4 sw=4 sts=4
+autocmd! FileType html   setlocal ts=2 sw=2 sts=2
+autocmd! FileType ruby   setlocal ts=2 sw=2 sts=2
+autocmd! FileType python setlocal ts=4 sw=4 sts=4
+
+" filetype maps
+autocmd! BufNewFile,BufRead *fstab           setlocal filetype=fstab tw=0
+autocmd! BufNewFile,BufRead *Pkgfile         setlocal filetype=sh noet
+autocmd! BufNewFile,BufRead *.gitconfig      setlocal filetype=gitconfig noet
+autocmd! BufNewFile,BufRead *.zsh,*.zprofile setlocal filetype=sh
 
 set history=1000
 
@@ -410,16 +409,20 @@ if has('nvim')
     set list
     set breakindent
 
-    " jump to insert mode automatically
-    autocmd BufEnter * if &buftype == "terminal" | startinsert | endif
-
     " keybindings
-    tnoremap <C-e> <C-\><C-n>
+    nmap <Leader>dd :term<CR>
+    nmap <Leader>dv :split<CR>:term<CR>
+    nmap <Leader>ds :vsplit<CR>:term<CR>
 
-    nnoremap <m-j> <c-w>j
-    nnoremap <m-k> <c-w>k
-    nnoremap <m-h> <c-w>h
-    nnoremap <m-l> <c-w>l
+    tnoremap <C-e> <C-\><C-n>
+    tnoremap <m-j> <c-\><c-n><c-w>j
+    tnoremap <m-k> <c-\><c-n><c-w>k
+    tnoremap <m-h> <c-\><c-n><c-w>h
+    tnoremap <m-l> <c-\><c-n><c-w>l
+    nnoremap <m-j> <c-\><c-n><c-w>j
+    nnoremap <m-k> <c-\><c-n><c-w>k
+    nnoremap <m-h> <c-\><c-n><c-w>h
+    nnoremap <m-l> <c-\><c-n><c-w>l
     vnoremap <m-j> <c-\><c-n><c-w>j
     vnoremap <m-k> <c-\><c-n><c-w>k
     vnoremap <m-h> <c-\><c-n><c-w>h
@@ -428,24 +431,19 @@ if has('nvim')
     inoremap <m-k> <c-\><c-n><c-w>k
     inoremap <m-h> <c-\><c-n><c-w>h
     inoremap <m-l> <c-\><c-n><c-w>l
-    cnoremap <m-j> <c-\><c-n><c-w>j
-    cnoremap <m-k> <c-\><c-n><c-w>k
-    cnoremap <m-h> <c-\><c-n><c-w>h
-    cnoremap <m-l> <c-\><c-n><c-w>l
-    tnoremap <m-j> <c-\><c-n><c-w>j
-    tnoremap <m-k> <c-\><c-n><c-w>k
-    tnoremap <m-h> <c-\><c-n><c-w>h
-    tnoremap <m-l> <c-\><c-n><c-w>l
 
-    nmap <Leader>dd :term<CR>
-    nmap <Leader>dv :split<CR>:term<CR>
-    nmap <Leader>ds :vsplit<CR>:term<CR>
+    " jump to insert mode automatically
+    autocmd BufEnter *
+    \ if &buftype == "terminal" |
+    \ startinsert |
+    \ endif
 
-    " functions
+    " close terminal buffer immediately
+    " autocmd TermClose * silent! bd!
+
     function! QuickTerminal()
         20new
         terminal
-        file quickterm
     endfunction
 
     nnoremap <silent> <Leader>tt :call QuickTerminal()<CR>
@@ -531,4 +529,4 @@ function! <SID>SynStack()
         return
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+endfunction

@@ -6,19 +6,13 @@ xset +fp ~/.local/share/fonts
 xsetroot -name background
 xsetroot -cursor_name left_ptr
 
+xrandr --output HDMI-0 --primary
+xrandr --output DVI-I-0 --right-of HDMI-0
+
 keys
 infobar
 urxvtd -q -o -f &
-
 test -f ~/.Xresources && xrdb -load ~/.Xresources
-
-test $(hostname) = "flame" && {
-    synergys
-} || {
-    synergyc flame
-}
-
-xrandr --output HDMI-0 --primary
-xrandr --output DVI-I-0 --right-of HDMI-0
+test "$(hostname)" = "flame" && synergys || synergyc flame
 
 exec runfyre

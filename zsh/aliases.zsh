@@ -11,8 +11,6 @@ alias all="mine -R *"
 alias mount="s mount"
 alias umount="s umount"
 
-alias cat="cat -t4"
-
 alias mv="mv -f"
 alias cp="cp -rf"
 alias rm="rm -rf"
@@ -73,8 +71,6 @@ alias sza="clear; sz && sz * | sort -hr"
 
 alias szsh="source ~/.zshrc"
 alias sxrdb="xrdb ~/.Xresources"
-
-alias markdown="cmark"
 
 # apps
 alias todo="$VISUAL ~/.todo.md"
