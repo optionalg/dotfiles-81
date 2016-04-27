@@ -39,9 +39,9 @@ unsetopt caseglob
 # ls colours
 hash dircolors 2> /dev/null && {
     eval "$(dircolors ~/.zsh/lscolours)"
-    alias ls='ls -N -F --color=auto'
+    alias ls="$lscommand --color=auto"
 } || {
-    alias ls='ls -N -F'
+    alias ls="$lscommand"
 }
 
 # load reporting

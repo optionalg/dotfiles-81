@@ -22,6 +22,13 @@ alias la="ls -A"
 alias lr="ls -R"
 alias lra="ls -RA"
 
+# what ls are we dealing with 'ere pal?
+type busybox 2>&1 > /dev/null && {
+    lscommand="ls -N"
+} || {
+    lscommand="ls -N -F"
+}
+
 # normal ls colouring generally sucks in listview
 type ccze 2>&1 > /dev/null && {
     ll() {

@@ -41,7 +41,6 @@ type crux 2>&1 > /dev/null && {
         }
     }
 
-
     alias prtrem="s prt-get remove"
     alias prtlock="s prt-get lock"
     alias prtinst="s prt-get install"
@@ -226,6 +225,21 @@ type crux 2>&1 > /dev/null && {
         unset -v ME
     }
 }
+
+# alpine
+type apk 2>&1 > /dev/null && {
+    apkinfo="apk info"
+    apksrch="apk search"
+
+    apkins="s apk add"
+    apkrem="s apk del"
+
+    apkupg() {
+        sudo apk update
+        sudo apk upgrade
+    }
+}
+
 # systemd distros
 type hostnamectl 2>&1 > /dev/null && {
     OS=$(hostnamectl | grep "Operating System:")
@@ -279,13 +293,13 @@ type pip 2>&1 > /dev/null && {
         pipversion="pip2"
     }
 
-    alias pip="$pipversion"
-    alias pipins="s pip install"
-    alias piprem="s pip uninstall"
-    alias pipupdate="s pip install --upgrade"
-    alias pipinfo="pip show"
-    alias piplist="pip list"
-    alias pipsrch="pip search"
+    alias pipinfo="$pipversion show"
+    alias piplist="$pipversion list"
+    alias pipsrch="$pipversion search"
+
+    alias pipins="s $pipversion install"
+    alias piprem="s $pipversion uninstall"
+    alias pipupdate="s $pipversion install --upgrade"
 
     pipupgrade() {
         $pipversion list | while read -r line; do

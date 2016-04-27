@@ -8,7 +8,6 @@ cd $MINIMAL || {
     git clone git@github.com:wildefyr/minimal-dotfiles .minimal-dotfiles
 }
 
-find $MINIMAL -maxdepth 1 -type d -mtime +1 -exec rm -rf {} \;
 rsync -arq $DOTS/bin $DOTS/git $DOTS/vim $DOTS/zsh $DOTS/tmuxinator $MINIMAL
 
 cd "$MINIMAL"
