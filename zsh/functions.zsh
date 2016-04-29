@@ -46,13 +46,11 @@ pulldots() {
     RWD=$PWD
     cd $DOTS
 
-    git pull --rebase && {
-        szsh
-    } || {
-        git stash && \
-            git pull && \
-            git stash pop
+    git pull --rebase || {
+        git stash && git pull && git stash pop
     }
+
+    szsh
 
     cd $RWD
     unset -v RWD
