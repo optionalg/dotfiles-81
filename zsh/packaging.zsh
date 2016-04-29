@@ -228,11 +228,11 @@ type crux 2>&1 > /dev/null && {
 
 # alpine
 type apk 2>&1 > /dev/null && {
-    apkinfo="apk info"
-    apksrch="apk search"
+    alias apkinfo="apk info"
+    alias apksrch="apk search"
 
-    apkins="s apk add"
-    apkrem="s apk del"
+    alias apkins="s apk add"
+    alias apkrem="s apk del"
 
     apkupg() {
         sudo apk update
