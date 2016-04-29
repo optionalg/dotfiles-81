@@ -29,7 +29,7 @@ bary=$((0))
 barw=$((minW))
 barh=$((24 - BW))
 
-bar_font=$(awk '/URxvt.font/ {print $3}' < ~/.Xresources | cut -d',' -f 1)
+bar_font=$(awk '/lemon/ {print $3}' < ~/.Xresources | head -n 1 | cut -d',' -f 1)
 
 sort -u < $CACHE | dmenu -f -x $barx -y $bary -w $barw -h $barh -l 0 \
 -fn $bar_font -nf '#D7D7D7' -sf '#B23450' -nb '#03070B' -sb '#040404' | \

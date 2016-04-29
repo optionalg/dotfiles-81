@@ -62,10 +62,6 @@ type crux 2>&1 > /dev/null && {
     alias prtisinst="prt-get isinst"
     alias prtlocked="prt-get listlocked"
 
-    prtgo() {
-        prt-get path "$@" && cd $(prtpath "$@")
-    }
-
     prtcat() {
         test -z $1 && {
             printf '%s\n' "Usage: prtcat [package] <file>"
@@ -161,8 +157,12 @@ type crux 2>&1 > /dev/null && {
         }
     }
 
+    prtfile() {
+        prt-get path "$@" && cd $(prtpath "$@")
+    }
+
     # cd into a source directory if it exists
-    prtsource() {
+    prtgo() {
         test -z "$@" && {
             printf '%s\n' "Usage: prtsource [package]"
             return 1
@@ -182,7 +182,7 @@ type crux 2>&1 > /dev/null && {
     }
 
     prtrebuild() {
-        sudo prt-get update $(prt-get quickdep "$@")
+        sudo prt-get update -fr $(prt-get quickdep "$@")
     }
 
     prtupdate() {

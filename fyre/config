@@ -10,7 +10,7 @@ XGAP=12
 BGAP=12
 
 MOUSE="false"
-SLOPPY="true"
+SLOPPY="false"
 
 ACTIVE="D7D7D7"
 WARNING="B23450"

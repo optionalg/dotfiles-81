@@ -357,14 +357,14 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd! FileType sh setlocal
     \ makeprg=sh\ %\
 
-autocmd! BufNewFile,BufRead *.md setlocal FileType=md
-autocmd! FileType md setlocal
+autocmd! BufNewFile,BufRead *.md setlocal
     \ spell
     \ makeprg=markdown\ %\ >/tmp/%<.html
 autocmd! BufWritePost *.md silent!
     \ make &
-    \ windows -s 2
-    \ google-chrome --new-window /tmp/%:r.html &
+    \ windows -s 2 &
+    \ $BROWSER /tmp/%:r.html &
+    \ chwb -s $BW -c '040404' $PFW & chwb -s $BW -c 'D7D7D7'  $(wid chrome)
 
 autocmd! FileType c      setlocal ts=8 sw=8 sts=8 noexpandtab
 autocmd! FileType txt    setlocal tw=0 spell noexpandtab wrap linebreak

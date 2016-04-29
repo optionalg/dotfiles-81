@@ -9,11 +9,11 @@
 *.font     : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*
 *.boldFont : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*
 
-URxvt.font     : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*, \
+URxvt.font     : -fuyuki-tangerine-*-*-*-*-*-*-*-*-*-*-*-*, \
                  -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1, \
                  -lucy-tewi-*-*-*-*-*-*-*-*-*-*-*-*
 
-URxvt.boldFont : -benis-lemon-*-*-*-*-*-*-*-*-*-*-*-*, \
+URxvt.boldFont : -fuyuki-tangerine-*-*-*-*-*-*-*-*-*-*-*-*, \
                  -wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1, \
                  -lucy-tewi-*-*-*-*-*-*-*-*-*-*-*-*
 
