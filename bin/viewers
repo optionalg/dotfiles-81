@@ -1,0 +1,13 @@
+#!/bin/sh
+
+while true :; do
+    clear
+
+    wild="$(curl -sL https://tmi.twitch.tv/group/user/wildefyr/chatters)"
+    logic="$(curl -sL https://tmi.twitch.tv/group/user/logicmidair/chatters)"
+
+    printf '%s\n' "$wild" | jq '"\(.chatter_count) viewers", .chatters.viewers' | \
+    sed 's/"//g; s/\[//g; s/\]//g; s/  //g'
+
+    sleep 30
+done
