@@ -1,0 +1,20 @@
+#!/bin/sh
+
+intCheck() {
+    test $1 -ne 0 2> /dev/null
+    test $? -ne 2 || {
+         printf '%s\n' "'$1' is not an integer." >&2
+         exit 1
+    }
+
+    GAME="$(($1 - 1))"
+}
+
+test "$1" && intCheck "$1"
+
+RESPONSE="$(curl -sL http://pug.xzanth.com/api/queue_list)"
+
+printf '%s\n' "$RESPONSE" | \
+jq -e -r "(.[$GAME] | .current_players, .max_players, .queue_name,
+if .players | length > 0 then .players | join(\",\") else null end,
+.games[].status // null, (.games[].users | join(\",\")) // null)"
