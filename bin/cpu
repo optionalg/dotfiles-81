@@ -12,12 +12,11 @@ t: Print tempreture of cpu.
 n: Number of running processes.
 EOF
 
-    test "$#" -eq 0 || exit $1
+    test $# -eq 0 || exit $1
 }
 
-cpuperc () {
-    LINE=$(ps -eo pcpu |grep -vE '^\s*(0.0|%CPU)' |tr '\n' '+'|sed 's/+$//')
-
+cpuperc() {
+    LINE=$(ps -eo pcpu | grep -vE '^\s*(0.0|%CPU)' | tr '\n' '+' | sed 's/+$//')
     printf '%s\n' "$(echo $LINE | bc)"
 }
 
@@ -26,7 +25,7 @@ cpunumb() {
 }
 
 cputemp() {
-    sensors | cut -d':' -f 2 | sed '3!d;s/+//;s/\..*//;s/\ //g'
+    printf '%s\n' "$(sensors | cut -d':' -f 2 | sed '3!d;s/+//;s/\..*//;s/\ //g')"
 }
 
 main() {

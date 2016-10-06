@@ -4,9 +4,9 @@
 # dirty oneliner for uploading stuff to my server
 
 FILES="$@"
-SERVER="https://wildefyr.net/media"
+SERVER="https://fyrious.ninja/media"
 
-rsync -avr ${FILES} server:/builds/wildefyr.net/media -h --progress
+rsync -avr ${FILES} server:/builds/fyrious.ninja/media -h --progress
 
 printf '%s\n' "${SERVER}/${@}" | xsel -i
 xsel -o | xsel -bi

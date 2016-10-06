@@ -23,11 +23,14 @@ case $1 in
         chromebook
         ;;
     *)
-        test "$(hostname)" = "feotus" && {
-            chromebook
-        } || {
-            poker
-        }
+        case "$(hostname)" in
+            "flame")
+                poker
+                ;;
+            "feotus")
+                chromebook
+                ;;
+        esac
         ;;
 esac
 

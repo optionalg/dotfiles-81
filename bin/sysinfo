@@ -2,13 +2,17 @@
 #
 # wildefyr - 2016 (c) CC
 # a fairly nice info script
-# thanks sshbio, xero, z3bra for providing some of the code
+# thanks sshbio, xero, z3bra for providing ideas
 
 FULL=${FULL-▪}
 EMPTY=${EMPTY-▬}
 
 TEMP=/sys/class/thermal/thermal_zone0/temp
-BATTERY=/sys/class/power_supply/BAT1
+BATTERY=$(find /sys/class/power_supply -maxdepth 1 -type l -name "BAT*")
+
+test $(printf '%s\n' "$BATTERY" | wc -l) -ne 1 && {
+    unset -v BATTERY
+}
 
 f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
 f4='[34m'; f5='[35m'; f6='[36m'; f7='[37m'
@@ -20,6 +24,12 @@ getSystem() {
     type crux 2>&1 > /dev/null && {
         SYS="$(crux)"
         PACK="$(pkginfo -i | wc -l)"
+        return
+    }
+
+    type apk 2>&1 > /dev/null && {
+        SYS="Alpine Linux $(cat /etc/alpine-release)"
+        PACK=$(apk info | wc -l)
     }
 
     type hostnamectl 2>&1 > /dev/null && {
@@ -28,11 +38,13 @@ getSystem() {
         printf '%s\n' "$OS" | grep -q "Debian\|Ubuntu" && {
             SYS="DEBIAN version $(cat /etc/debian_version)"
             PACK=$(dpkg-query -f '${binary:Package}\n' -W | wc -l)
+            return
         }
 
         printf '%s\n' "$OS" | grep -q "Arch Linux" && {
             SYS="$(printf '%s\n' "$OS" | cut -d ':' -f 2 | cut -c 2-)"
             PACK=$(pacman -Q | wc -l)
+            return
         }
     }
 }
@@ -58,7 +70,11 @@ workOutLineSize() {
         test $i -gt $SIZE && SIZE=$i
     done
 
+    # add a space at the end
     SIZE=$((SIZE + 1))
+
+    TERMSIZE=$(stty size < /dev/tty | cut -d\  -f 2)
+    test $SIZE -ge $TERMSIZE && SIZE=$((TERMSIZE - 2))
 
     # get the extra characters each line needs
     LINE1EXTRA=$(printf '%*s' "$((SIZE - LINE1))" | sed 's/ / /')
@@ -72,16 +88,17 @@ draw() {
     size=$2
     color=$3
 
-    inc=$(( perc * size / 100 ))
+    inc=$((perc * size / 100))
 
-    for v in $(seq 0 $((size - 1))); do
-        test $v -le $inc && {
+    for i in $(seq 0 $((size - 1))); do
+        test $i -le $inc && {
             out="${out}${FULL}"
         } || {
             out="${color}${out}${R}${f7}${EMPTY}${R}"
         }
     done
 
+    test $perc -eq 100 && out="${color}${out}"
     printf '%s' "$out"
 }
 
@@ -104,10 +121,7 @@ temperature() {
 }
 
 battery() {
-    b_full=$(sed '1q' $BATTERY/*_full)
-    b_now=$(sed '1q' $BATTERY/*_now)
-    charge=$(printf '%s' "$((100 * $b_now / $b_full))")
-
+    charge=$(sed '1q' $BATTERY/capacity)
     printf "${f6}BAT${R} %s" "$(draw $charge $SIZE $f4)"
 }
 
@@ -123,9 +137,9 @@ fyr
 
 printf '\n'
 
-printf '%s\n' "$f7$B$I$b0█$I$b0 $USER@$HOST $LINE1EXTRA$R"
-printf '%s\n' "$f7$B$I$b0█$I$b0 $SYS - $PACK Packages $LINE3EXTRA$R"
-printf '%s\n' "$f7$B$I$b0█$I$b0 $KERN - $TIME $LINE2EXTRA$R"
+printf '%s\n' "$f6█$b7$f0 $USER@$HOST $LINE1EXTRA$R"
+printf '%s\n' "$f6█$b7$f0 $SYS - $PACK Packages $LINE3EXTRA$R"
+printf '%s\n' "$f6█$b7$f0 $KERN - $TIME $LINE2EXTRA$R"
 
 test ! -z "$MPV" && printf '%s\n' "$f7$B$I$b0█$I$b0 $MPV $LINE4EXTRA$R"
 
