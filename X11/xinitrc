@@ -13,6 +13,14 @@ keys
 infobar
 urxvtd -q -o -f &
 test -f ~/.Xresources && xrdb -load ~/.Xresources
-test "$(hostname)" = "flame" && synergys || synergyc flame
+
+case "$(hostname)" in
+    "flame")
+        synergys
+        ;;
+    "feotus")
+        synergyc flame
+        ;;
+esac
 
 exec runfyre

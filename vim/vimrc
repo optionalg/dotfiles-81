@@ -26,22 +26,11 @@ Plug 'wellle/targets.vim'
 Plug 'tpope/vim-commentary'
 
 Plug 'tpope/vim-surround'
-    nmap Sl yss
-    nmap Sw ysiw
-    nmap SW ysiW
-    nmap Sap ysap
-    nmap Sip ysip
-
-Plug 'justinmk/vim-sneak'
-    nmap s <Plug>Sneak_s
-    xmap s <Plug>Sneak_s
-    let g:sneak#streak = 0
-    let g:sneak#prompt = '/'
-    let g:sneak#use_ic_scs = 1
-    let g:sneak#absolute_dir = 0
-    let g:sneak#textobject_z = 1
-    hi link SneakPluginTarget Search
-    hi link SneakPluginScope  Comment
+    nmap sl yss
+    nmap sw ysiw
+    nmap sW ysiW
+    nmap sap ysap
+    nmap sip ysip
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'

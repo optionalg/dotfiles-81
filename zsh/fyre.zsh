@@ -5,7 +5,7 @@ type fyrerc 2>&1 > /dev/null && {
         alias quit="power --exit"
         alias lock="power --lock"
         alias reboot="power --reboot"
-        alias poweroff="power --power"
+        alias poweroff="power --poweroff"
         alias editfyre="$VISUAL $CONFIGDIR/config"
     }
 }

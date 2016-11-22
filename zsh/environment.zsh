@@ -76,7 +76,7 @@ alias vi="$VISUAL"
 alias vim="$VISUAL"
 alias emacs="emacs -nw"
 
-alias width="cut -c1-$(stty size </dev/tty | cut -d\  -f 2)"
+alias width="cut -c1-$(stty size < /dev/tty | cut -d\  -f 2)"
 alias nocolor="sed 's/\x1B\[[0-9;]*[JKmsu]//g'"
 
 alias more="nocolor | $VISUAL -"

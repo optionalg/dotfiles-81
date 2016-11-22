@@ -106,6 +106,7 @@ alias external="curl -s icanhazip.com"
 alias internal="ip a | grep -w \"inet\" | awk '/192/ {print \$2}' | cut -d'/' -f 1"
 
 # dtach / tmux
+alias x="xinit"
 alias dz="dtach -A /tmp/zsh -z zsh"
 alias irc="dtach -A /tmp/irc -z weechat"
 alias gog="dtach -A /tmp/gogs -z /builds/gogs/gogs"
