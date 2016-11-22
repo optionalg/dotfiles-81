@@ -75,8 +75,8 @@ ffmpegCut() {
     }
 
     ffmpeg -hide_banner -loglevel panic \
-           -i "$FILE" -ss "$TIME" -t "$DURATION" \
-           -acodec copy -vcodec copy "$CUTS/$NAME"
+           -ss "$TIME" -i "$FILE" -t "$DURATION" \
+           -c copy -map 0 "$CUTS/$NAME"
 }
 
 main() {
