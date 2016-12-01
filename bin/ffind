@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# wildefyr - 2016 (c) MIT
+# dirty script to find bitrates of video streams
+
+INPUTPATH="$@"
+
+DIR="oldcuts"
+test ! -d $DIR && mkdir "$PWD/$DIR"
+
+find "$INPUTPATH" -type f | while read -r video; do
+    bitrate=$(ffprobe -v error -show_entries stream=bit_rate \
+    -of default=noprint_wrappers=1 "$video" | head -1 | cut -d'=' -f 2)
+    bitrateKB=$((bitrate / 1024 / 1024))
+
+
+    test "$bitrateKB" -le 12 && cp "$video" "$PWD/$DIR"
+done
