@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# wildefyr - 2016 (c) MIT
+#
+
+URL="https://api.steampowered.com/IGameServersService/GetServerList/v1/?format=json&filter=\gamedir\midair&key=5EA798E8F6E7031C63824E15D403F64B"
+OUTPUT=$(curl -sL "$URL" | jq -r '.response.servers')
+LENGTH=$(printf '%s' "$OUTPUT" | jq '. | length')
+
+for i in $(seq 1 $LENGTH); do
+    i=$((i - 1))
+    SERVER=$(printf '%s' "$OUTPUT" | jq ".[$i]")
+
+    MAP=$(printf '%s' "$SERVER" | jq -r '.map')
+    NAME=$(printf '%s' "$SERVER" | jq -r '.name')
+    PLAYERS=$(printf '%s' "$SERVER" | jq -r '.players')
+    MAXPLAYERS=$(printf '%s' "$SERVER" | jq -r '.max_players')
+
+    test -z "$FINAL" && {
+    FINAL="$PLAYERS/$MAXPLAYERS | $MAP | $NAME"
+    } || {
+    FINAL="$FINAL
+$PLAYERS/$MAXPLAYERS | $MAP | $NAME"
+    }
+done
+
+printf '%s\n' "$FINAL"

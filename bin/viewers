@@ -1,31 +1,21 @@
 #!/bin/sh
 
-app="$(curl -sL https://tmi.twitch.tv/group/user/applicationone/chatters)"
+clear
+
 wild="$(curl -sL https://tmi.twitch.tv/group/user/wildefyr/chatters)"
-logic="$(curl -sL https://tmi.twitch.tv/group/user/logicmidair/chatters)"
-sword="$(curl -sL https://tmi.twitch.tv/group/user/t1swordf1sh/chatters)"
-midair="$(curl -sL https://tmi.twitch.tv/group/user/playmidair/chatters)"
 
-printf '%s\n' "$wild" | jq -r '"\(.chatter_count) chatters on wildefyr!"'
-printf '%s' "$wild" | jq '.chatters.moderators, .chatters.viewers' | \
-sed 's/"//g; s/\ //g' | tr -d '\n'
-printf '\n\n'
+viewers=$(printf '%s\n' "$wild" | jq -r '.chatter_count' | sed 's/"//g; s/\ //g')
+viewers=$(($viewers - 1))
 
-printf '%s\n' "$logic" | jq -r '"\(.chatter_count) chatters on logicmidair!"'
-printf '%s' "$logic" | jq '.chatters.moderators, .chatters.viewers' | \
-sed 's/"//g; s/\ //g' | tr -d '\n'
-printf '\n\n'
+test "$viewers" -eq 0 && {
+    sleep 10
+    continue
+}
 
-printf '%s\n' "$sword" | jq -r '"\(.chatter_count) chatters on t1swordf1sh!"'
-printf '%s' "$sword" | jq '.chatters.moderators, .chatters.viewers' | \
-sed 's/"//g; s/\ //g' | tr -d '\n'
-printf '\n\n'
+printf '\n'
 
-printf '%s\n' "$app" | jq -r '"\(.chatter_count) chatters on applicationone!"'
-printf '%s' "$app" | jq '.chatters.moderators, .chatters.viewers' | \
-sed 's/"//g; s/\ //g' | tr -d '\n'
-printf '\n\n'
+printf '%s\n' "$viewers on wildefyr!"
+printf '%s' "$wild" | jq '.chatters.viewers' | sed '1d; $d' | \
+    tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n'
 
-printf '%s\n' "$midair" | jq -r '"\(.chatter_count) chatters on playmidair!"'
-printf '%s' "$midair" | jq '.chatters.moderators, .chatters.viewers' | \
-sed 's/"//g; s/\ //g' | tr -d '\n'
+printf '\n'

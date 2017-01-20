@@ -5,8 +5,8 @@
 
 INPUTPATH="$@"
 
-DIR="oldcuts"
-test ! -d $DIR && mkdir "$PWD/$DIR"
+LIST="$PWD/cutlist.txt"
+test -f "$LIST" && rm "$LIST"
 
 find "$INPUTPATH" -type f | while read -r video; do
     bitrate=$(ffprobe -v error -show_entries stream=bit_rate \
@@ -14,5 +14,5 @@ find "$INPUTPATH" -type f | while read -r video; do
     bitrateKB=$((bitrate / 1024 / 1024))
 
 
-    test "$bitrateKB" -le 12 && cp "$video" "$PWD/$DIR"
+    test "$bitrateKB" -le 12 && printf '%s\n' "$video" >> "$LIST"
 done
