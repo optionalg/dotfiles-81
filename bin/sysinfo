@@ -7,13 +7,6 @@
 FULL=${FULL-▪}
 EMPTY=${EMPTY-▬}
 
-TEMP=/sys/class/thermal/thermal_zone0/temp
-BATTERY=$(find /sys/class/power_supply -maxdepth 1 -type l -name "BAT*")
-
-test $(printf '%s\n' "$BATTERY" | wc -l) -ne 1 && {
-    unset -v BATTERY
-}
-
 f0='[30m'; f1='[31m'; f2='[32m'; f3='[33m'
 f4='[34m'; f5='[35m'; f6='[36m'; f7='[37m'
 b0='[40m'; b1='[41m'; b2='[42m'; b4='[44m'
@@ -21,18 +14,18 @@ b4='[44m'; b5='[45m'; b6='[46m'; b7='[47m'
 B='[1m'; R='[0m'; I='[7m'
 
 getSystem() {
-    type crux 2>&1 > /dev/null && {
+    hash crux 2> /dev/null && {
         SYS="$(crux)"
         PACK="$(pkginfo -i | wc -l)"
         return
     }
 
-    type apk 2>&1 > /dev/null && {
+    hash apk 2> /dev/null && {
         SYS="Alpine Linux $(cat /etc/alpine-release)"
         PACK=$(apk info | wc -l)
     }
 
-    type hostnamectl 2>&1 > /dev/null && {
+    hash hostnamectl 2> /dev/null && {
         OS=$(hostnamectl | grep "Operating System:")
 
         printf '%s\n' "$OS" | grep -q "Debian\|Ubuntu" && {
@@ -46,6 +39,11 @@ getSystem() {
             PACK=$(pacman -Q | wc -l)
             return
         }
+    }
+
+    hash pacman 2> /dev/null && {
+        SYS="MSYS 2"
+        PACK=$(pacman -Q | wc -l)
     }
 }
 
@@ -115,14 +113,22 @@ cpu() {
     printf "${f6}CPU${R} %s" "$(draw $cpu $SIZE $f3)"
 }
 
+
 temperature() {
-    temp="$(($(cat $TEMP) / 1000))"
-    printf "${f6}TMP${R} %s" "$(draw $temp $SIZE $f5)"
+    TEMP=/sys/class/thermal/thermal_zone0/temp
+    test -f $TEMP && {
+        temp="$(($(cat $TEMP) / 1000))"
+        printf "${f6}TMP${R} %s" "$(draw $temp $SIZE $f5)"
+    }
 }
 
 battery() {
-    charge=$(sed '1q' $BATTERY/capacity)
-    printf "${f6}BAT${R} %s" "$(draw $charge $SIZE $f4)"
+    BATTERYFILE=/sys/class/power_supply
+    test -f /sys/class/power_supply && {
+        BATTERY=$(find $BATTERYFILE -maxdepth 1 -type l -name "BAT*")
+        charge=$(sed '1q' $BATTERY/capacity)
+        printf "${f6}BAT${R} %s" "$(draw $charge $SIZE $f4)"
+    }
 }
 
 getSystem
@@ -133,7 +139,7 @@ workOutLineSize
 clear=$(tput sgr0)
 clear
 
-fyr
+fyr 3d
 
 printf '\n'
 

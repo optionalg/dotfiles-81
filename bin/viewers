@@ -1,21 +1,55 @@
 #!/bin/sh
+#
+# fyr 2017 (c) MIT
 
-clear
-
-wild="$(curl -sL https://tmi.twitch.tv/group/user/wildefyr/chatters)"
-
-viewers=$(printf '%s\n' "$wild" | jq -r '.chatter_count' | sed 's/"//g; s/\ //g')
-viewers=$(($viewers - 1))
-
-test "$viewers" -eq 0 && {
-    sleep 10
-    continue
+test $# -eq 0 && {
+    STREAMER="wildefyr"
+} || {
+    STREAMER="$1"
 }
 
-printf '\n'
+STREAMERURL="$(curl -sL https://tmi.twitch.tv/group/user/$STREAMER/chatters)"
 
-printf '%s\n' "$viewers on wildefyr!"
-printf '%s' "$wild" | jq '.chatters.viewers' | sed '1d; $d' | \
-    tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n'
+test "$STREAMERURL" != "\"\"" && {
+    MODERATORS=$(printf '%s\n' "$STREAMERURL" | jq -r '.chatters.moderators | length')
+    printf '%s' "Moderators: "
+    printf '%s\n' "$STREAMERURL" | jq -r '.chatters.moderators' | sed '1d; $d' | \
+    tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n' | cut -d' ' -f 3- | tr '\n' ' '
+    printf '\n'
 
-printf '\n'
+    STAFF=$(printf '%s\n' "$STREAMERURL" | jq -r '.chatters.staff | length')
+    test $STAFF -gt 0 && {
+        printf '%s' "Staff: "
+        printf '%s\n' "$STREAMERURL" | jq -r '.chatters.staff' | sed '1d; $d' | \
+        tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n' | cut -d' ' -f 3- | tr '\n' ' '
+        printf '\n'
+    }
+
+    ADMINS=$(printf '%s\n' "$STREAMERURL" | jq -r '.chatters.admins | length')
+    test $ADMINS -gt 0 && {
+        printf '%s' "Admins: "
+        printf '%s\n' "$STREAMERURL" | jq -r '.chatters.admins' | sed '1d; $d' | \
+        tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n' | cut -d' ' -f 3- | tr '\n' ' '
+        printf '\n'
+    }
+
+    GLOBAL_MODS=$(printf '%s\n' "$STREAMERURL" | jq -r '.chatters.global_mods |
+    length')
+    test $GLOBAL_MODS -gt 0 && {
+        printf '%s' "Global Mods: "
+        printf '%s\n' "$STREAMERURL" | jq -r '.chatters.global_mods' | sed '1d; $d' | \
+        tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n' | cut -d' ' -f 3- | tr '\n' ' '
+        printf '\n'
+    }
+
+    VIEWERS=$(printf '%s\n' "$STREAMERURL" | jq -r '.chatters.viewers | length')
+    test $VIEWERS -gt 0 && {
+        printf '\n%s\n' "$VIEWERS viewers + $MODERATORS moderators." 
+        printf '%s' "Viewers: "
+        printf '%s\n' "$STREAMERURL" | jq -r '.chatters.viewers' | sed '1d; $d' | \
+        tr '\n' '\f' | sed 's/"//g' | tr '\f' '\n' | cut -d' ' -f 3- | tr '\n' ' '
+        printf '\n'
+    } || {
+        printf '\n%s\n' "no normies."
+    }
+}

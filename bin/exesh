@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) CC
+# fyr 2017 (c) CC
 # create a new script in pwd
 
 test ! -z $1 && {
@@ -19,7 +19,7 @@ test -f "$filename" && {
     test ! -x "$filename" && chmod +x "$filename"
     $EDITOR "$filename"
 } || {
-    printf "#!/bin/sh\n#\n# wildefyr - 2016 (c) MIT\n#" > "$filename"
+    printf "#!/bin/sh\n#\n# fyr 2017 (c) MIT" > "$filename"
     chmod +x "$filename"
     $EDITOR "$filename"
 }

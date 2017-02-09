@@ -1,7 +1,6 @@
 #!/bin/sh
 #
-# wildefyr - 2016 (c) MIT
-#
+# fyr 2017 (c) MIT
 
 URL="https://api.steampowered.com/IGameServersService/GetServerList/v1/?format=json&filter=\gamedir\midair&key=5EA798E8F6E7031C63824E15D403F64B"
 OUTPUT=$(curl -sL "$URL" | jq -r '.response.servers')
@@ -17,11 +16,10 @@ for i in $(seq 1 $LENGTH); do
     MAXPLAYERS=$(printf '%s' "$SERVER" | jq -r '.max_players')
 
     test -z "$FINAL" && {
-    FINAL="$PLAYERS/$MAXPLAYERS | $MAP | $NAME"
+    FINAL=$(printf "$PLAYERS/$MAXPLAYERS \t $MAP \t $NAME \n")
     } || {
-    FINAL="$FINAL
-$PLAYERS/$MAXPLAYERS | $MAP | $NAME"
+    FINAL=$(printf "$FINAL \n$PLAYERS/$MAXPLAYERS \t $MAP \t $NAME \n")
     }
 done
 
-printf '%s\n' "$FINAL"
+printf '%s\n\n' "$FINAL"
