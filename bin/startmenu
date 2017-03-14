@@ -15,6 +15,7 @@ while read -r action; do
     case "$action" in
         e|exit)     exit                         ;;
         f|mosh)     mosh fyrious.ninja           ;;
+        t|feot)     mosh feotus                  ;;
         x|xinit)    xinit                        ;;
         s|shell)    zsh                          ;;
         m|music)    zsh -c 'cd D:/Music; zsh -i' ;;
