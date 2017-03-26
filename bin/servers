@@ -2,7 +2,8 @@
 #
 # fyr 2017 (c) MIT
 
-URL="https://api.steampowered.com/IGameServersService/GetServerList/v1/?format=json&filter=\gamedir\midair&key=5EA798E8F6E7031C63824E15D403F64B"
+test -f ~/.ssh/steamkey && KEY="$(< ~/.ssh/steamkey)"
+URL="https://api.steampowered.com/IGameServersService/GetServerList/v1/?format=json&filter=\gamedir\midair&key=$KEY"
 OUTPUT=$(curl -sL "$URL" | jq -r '.response.servers')
 LENGTH=$(printf '%s' "$OUTPUT" | jq '. | length')
 
@@ -14,12 +15,14 @@ for i in $(seq 1 $LENGTH); do
     NAME=$(printf '%s' "$SERVER" | jq -r '.name')
     PLAYERS=$(printf '%s' "$SERVER" | jq -r '.players')
     MAXPLAYERS=$(printf '%s' "$SERVER" | jq -r '.max_players')
+    IP=$(printf '%s' "$SERVER" | jq -r '.addr')
 
-    test -z "$FINAL" && {
-    FINAL=$(printf "$PLAYERS/$MAXPLAYERS \t $MAP \t $NAME \n")
+    test -z "$FINAL" && { 
+        FINAL=$(printf "$PLAYERS/$MAXPLAYERS|$MAP|$NAME|$IP")
     } || {
-    FINAL=$(printf "$FINAL \n$PLAYERS/$MAXPLAYERS \t $MAP \t $NAME \n")
+        FINAL=$(printf "$FINAL \n$PLAYERS/$MAXPLAYERS|$MAP|$NAME|$IP \n")
     }
+        
 done
 
-printf '%s\n\n' "$FINAL"
+printf '%s' "$FINAL" | column -t -s "|"
