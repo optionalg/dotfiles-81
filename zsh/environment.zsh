@@ -32,8 +32,8 @@ done
 unset EXECPATH
 
 # compiling
-export CC="/usr/bin/gcc"
-export CXX="/usr/bin/g++"
+# export CC="/usr/bin/gcc"
+# export CXX="/usr/bin/g++"
 export GOPATH="/builds/go"
 
 # misc.

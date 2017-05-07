@@ -114,6 +114,17 @@ if has('nvim')
 endif
 
     " miscellaneous
+Plug 'dbmrq/vim-ditto'
+    au FileType markdown,text,tex DittoOn
+
+    nmap <Leader>di <Plug>ToggleDitto
+    nmap =d <Plug>DittoNext
+    nmap -d <Plug>DittoPrev
+    nmap +d <Plug>DittoGood
+    nmap _d <Plug>DittoBad
+    nmap ]d <Plug>DittoMore
+    nmap [d <Plug>DittoLess
+
 Plug 'rbgrouleff/bclose.vim'
 Plug 'Wildefyr/vim-fat-finger'
 

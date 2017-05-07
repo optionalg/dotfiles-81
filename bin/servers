@@ -4,8 +4,15 @@
 
 test -f ~/.ssh/steamkey && KEY="$(cat ~/.ssh/steamkey)"
 URL="https://api.steampowered.com/IGameServersService/GetServerList/v1/?format=json&filter=\gamedir\midair&key=$KEY"
-OUTPUT=$(curl -sL "$URL" | jq -r '.response.servers')
+
+OUTPUT=$(curl -sL "$URL" | jq -r '(.response.servers)')
+# OUTPUT=$(curl -sL "$URL" | jq -r '(.response.servers | length),
+#                                   (.response.servers[] | 
+#                                    .players, .max_players, .map, .name, .addr)')
 LENGTH=$(printf '%s' "$OUTPUT" | jq '. | length')
+
+# printf '%s' "$OUTPUT"
+# exit
 
 for i in $(seq 1 $LENGTH); do
     i=$((i - 1))

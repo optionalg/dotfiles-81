@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# fyr 2017 (c) MIT
+# script to create cfg file with date used as name
+
+MIDAIRBIN="A:/Games/steamapps/common/Midair/Midair/Binaries"
+EXECFILE="$MIDAIRBIN/rec.cfg"
+
+printf '%s\n' "demorec $(date +%F)_" > "$EXECFILE"

@@ -252,7 +252,8 @@ type hostnamectl 2>&1 > /dev/null && {
         alias aptupgrade="s apt-get upgrade"
         alias aptclean="s apt-get autoremove"
         alias aptsrch="apt-cache search"
-        alias aptinfo="apt-cache showpkg"
+        alias aptinfo="apt-cache show"
+        alias aptdeps="apt-cache showpkg"
     }
 
     # arch
