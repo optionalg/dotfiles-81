@@ -2,7 +2,7 @@
 	filemode = true
 	excludesfile = ~/.gitignore
 [user]
-	email = me@wildefyr.net
+	email = wildefur@gmail.com
 	name = Laurence Willetts
 [push]
 	default = simple
@@ -13,4 +13,4 @@
 	graph = log --graph --pretty=format:\
 "%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
 [credential "https://github.com"]
-	username = wildefyr
+	username = lwilletts
